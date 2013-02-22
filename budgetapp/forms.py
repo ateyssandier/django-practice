@@ -44,10 +44,11 @@ class AddPurchaseForm(forms.Form):
 
 
 class NavigationForm(forms.Form):
-    standard_month = forms.ChoiceField(widget=forms.RadioSelect, choices=MONTHS)
+    standard_month = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio_switches', 'onClick': "getReport('standard')"}), choices=MONTHS, label=None)
     standard_year = forms.ChoiceField(widget=forms.RadioSelect, choices=YEARS)
     custom_month  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': ('mm'), 'maxlength':2, 'class':'month'}),)
     custom_day  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': ('dd'), 'maxlength':2, 'class':'day'}),)
     custom_year  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': ('yyyy'), 'maxlength':4, 'class':'year'}),)
+
 
 
