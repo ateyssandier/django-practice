@@ -111,7 +111,7 @@ def index(request):
     transaction_list = Purchases.objects.all().order_by('-date')[:10]
     addCategoryForm = AddCategoryForm()
     inputPaycheck = AddPaycheckForm()
-    navForm = NavigationForm()
+    navForm = NavigationForm(auto_id='%s')
     addPurchase = AddPurchaseForm(auto_id='%s_1')
     t = loader.get_template('../templates/index.html')
     c = RequestContext(request, {
