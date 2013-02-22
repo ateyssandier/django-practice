@@ -1,17 +1,15 @@
 <div class="generate_report">
-    {{ navigation_form }}
-
-
     <form method="post" action="" enctype="application/x-www-form-urlencoded" name="report_form">
         <p class="thelabel">
             Choose a monthly report
         </p>
         <p class="switch">
+            {{ navigation_form.standard_month }}
         {% for i in months %}
-            &nbsp;&nbsp;<input onclick="getReport('standard')" type="radio" class="radio_switches" id="{{ i  }}" name="{{ i }}" value="{{ i }}">
-            <label for="months{{   i }}" id="cb-{{ i }}" class="cb-enable"><span>{{ i }}</span></label>
+            &nbsp;&nbsp;<label for="months{{   i }}" id="cb-{{ i }}" class="cb-enable"><span>{{ i }}</span></label>
         {% endfor %}
-        </p><br>
+        </p>
+        <br>
         <p class="switch">&nbsp;&nbsp;<input onclick="getReport('standard')" type="radio" class="radio_switches" id="years1" name="years" value="2010">
         {% for i in years %}
             <label id="cb-{{ i }}" for="years{{ i }}" class="cb-enable"><span>{{ i }}</span></label>
@@ -28,3 +26,4 @@
         <a class="button" onclick="getReport('custom')" href="javascript:void(0)"><span>Go!</span></a>
     </form>
 </div>
+
