@@ -1,0 +1,68 @@
+<div class="input_receipt" id="input_receipt" style="height:100px">
+    <form method="post"  action="{% url addpurchase %}" enctype="application/x-www-form-urlencoded" id="receipt_form">
+        <div class="product_table" id="product_table" style="display:inline; float:left; margin-left:30px;">
+            <div id="label_div">
+
+            </div>
+            <div id="product_div_1" class="product_div">
+                <span id="date_span_1" style="display:inline; float:left;">
+                    <label for="month_1" class="product_label"><span>Date</span></label>
+                    <div style="  height:50px;">
+                        {{ add_purchase.month }} / {{ add_purchase.day }} / {{ add_purchase.year }}
+                    </div>
+                </span>
+                <span id="description_span_1" style="display:inline; float:left; margin-left:10px">
+                    <label for="description_1" class="product_label"><span>Item Description</span></label>
+                    <div style="  height:50px">
+                        {{ add_purchase.description }}
+                    </div>
+                </span>
+                <span id="category_span_1" style="display:inline; float:left; margin-left:10px">
+                    <label for="category_1" class="product_label"><span>Category</span></label>
+                    <div style="  height:50px">
+                        {{ add_purchase.category }}
+                        <ul id="category_dropdown" class="sf-menu category_dropdown">
+                            <li class="current category_dropdown">
+                                <a class="category_dropdown main_dropdown" href="#a"><span class="category_content">Choose a category</span></a>
+                                <ul class="category_dropdown">
+                                {% for superCategory, subCategories in category_dict.items %}
+                                    <li class="supercategory_li category_dropdown">
+                                        <a class="category_dropdown supercategory"  href="#ab"><span class="category_content">{{ superCategory }}</span></a>
+                                        <ul class="category_dropdown">
+                                            {%  for subcategory in subCategories %}
+                                                <li class="subcategory_li"><a class="category_dropdown subcategory" href="#">{{ subcategory }}</a></li>
+                                            {%  endfor %}
+                                                <li class="subcategory_li"><a class="category_dropdown subcategory" href="#">Add Category</a></li>
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+                <span id="cost_span_1" style="display:inline; float:left; margin-left:10px">
+                    <label for="cost1" class="product_label"><span>Cost</span></label>
+                    <div style=" height:50px">
+                        {{ add_purchase.cost }}
+                    </div>
+                </span>
+                <span class="addremove_td" id="add_span" style="display:inline; float:left; margin-left:10px">
+                    <label for="add_1" class="product_label"><span>&nbsp;</span></label>
+                    <div style="  height:50px">
+                        <a name="add_1" onclick="addProduct()" href="javascript:void(0);" id="add_1"><img src="{{ STATIC_URL }}images/plus.jpg"></a>&nbsp;&nbsp;
+                        <a name="remove_1" onclick="removeProduct(this.id)" href="javascript:void(0);" id="remove_1"><img src="{{ STATIC_URL }}images/minus.jpg"></a>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+    </form>
+</div>
+<div>
+    <a class="button" onclick="addReceipt()" href="javascript:void(0)"><span>Add Receipt</span></a><br>
+    <br>
+    <span id="addreceiptresult"></span>
+</div>

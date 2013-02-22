@@ -1,0 +1,384 @@
+body {
+  font-family: Helvetica;
+  overflow: scroll;
+  padding-right: 0px;
+  width: 10000px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 50px;
+}
+#finalSummaryDiv {
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 30pt;
+}
+.income {
+  color: green;
+}
+.expenses {
+  color: red;
+}
+.allreports {
+  display: none;
+}
+.purchases_table {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+}
+#paychecks_table td {
+  width: 100px;
+  padding: 5px 20px;
+}
+.purchases_table tfoot th.deductions {
+  color: red;
+}
+.purchases_table td.deductions {
+  color: red;
+}
+.purchases_table td.date {
+  border-right: 1px solid black;
+  width: 20px;
+  padding: 0px 25px;
+  text-align: center;
+}
+.purchases_table tfoot th.total_deducts {
+  color: red;
+  border-left: 1px solid black;
+}
+.purchases_table td.total_deducts {
+  color: red;
+  border-left: 1px solid black;
+}
+.purchases_table tfoot th.net,
+.purchases_table td.net {
+  color: green;
+  border-left: 3px solid black;
+}
+.purchases_table td.gross,
+.purchases_table thead th.gross,
+.purchases_table tfoot th.gross {
+  border-right: 4px solid black;
+}
+.purchases_table thead th {
+  padding: 5px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background-image: url('/static/less/images/bluegrad.gif');
+  background-repeat: repeat-x;
+  background-position: bottom left;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 3px solid black;
+}
+.purchases_table tfoot tr {
+  padding-top: 10px;
+  background-color: #d5E9F8;
+}
+.purchases_table tfoot th {
+  border-top: 2px solid black;
+  padding-top: 5px;
+}
+.purchases_table tfoot tr:hover {
+  background-color: #d5E9F8;
+}
+.purchases_table thead tr:hover {
+  background-color: white;
+}
+.purchases_table tr:hover {
+  background-color: #e7e9f9;
+}
+.purchases_table td {
+  padding: 5px 55px;
+  border-color: #eeeeee;
+  border-style: solid;
+  border-width: 1px;
+}
+.purchases_table td.category {
+  width: 20px;
+  padding-left: 15px;
+  padding-right: 30px;
+}
+.generate_report {
+  display: block;
+  width: 100%;
+  border-top: solid #ff0000;
+  padding-top: 50px;
+  border-bottom: solid #ff0000;
+  padding-bottom: 100px;
+  border-width: 10px;
+}
+.generate_report input {
+  font-size: 30px;
+}
+.generate_report .thelabel {
+  font-weight: bold;
+  color: #0099c6;
+  font-size: 30px;
+}
+.date_td {
+  width: 120px;
+}
+.addremove_td img {
+  border-style: none;
+  width: 30px;
+  height: 30px;
+}
+.deduct_td {
+  color: red;
+  border-color: black;
+}
+.month,
+.day {
+  width: 60px;
+}
+.year {
+  width: 100px;
+}
+.input_paycheck {
+  font-size: 30px;
+  border-top: solid #ff0000;
+  border-width: 10px;
+  padding-top: 50px;
+}
+.input_paycheck label {
+  font-weight: bold;
+  color: #0099c6;
+  font-size: 20px;
+}
+.input_paycheck input {
+  font-size: 30px;
+  width: 100px;
+}
+.input_receipt {
+  font-size: 30px;
+  display: block;
+  border-top: solid #ff0000;
+  border-width: 10px;
+  padding-top: 50px;
+}
+.input_receipt label {
+  font-weight: bold;
+  color: #0099c6;
+  font-size: 20px;
+  text-align: center;
+}
+.input_receipt input {
+  font-size: 30px;
+}
+.product_table .addremove_td {
+  border-left: 0px;
+  font-size: 15px;
+}
+.product_table label {
+  border-style: hidden;
+  color: red;
+}
+.paycheck_table {
+  display: inline;
+}
+#sub_net_chart_div {
+  border-color: green;
+  border-style: solid;
+  border-width: 10px;
+  width: 400px;
+  height: 300px;
+  display: none;
+  position: absolute;
+  z-index: 2;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  font-family: Helvetica;
+  padding: 0px;
+  font-size: 9;
+  text-align: center;
+}
+#addlabelpopup {
+  border-color: green;
+  border-style: solid;
+  border-width: 10px;
+  width: 300px;
+  height: 100px;
+  background-color: #FFFFFF;
+  display: none;
+  position: absolute;
+  z-index: 2;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  font-family: Helvetica;
+  padding: 20px;
+  font-size: 9;
+}
+#addlabelpopup a {
+  color: red;
+}
+#background_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #000000;
+  opacity: .3;
+  -moz-opacity: .3;
+  filter: alpha(opacity=30);
+  border: 1px solid #cecece;
+  z-index: 1;
+  display: none;
+}
+a.button {
+  display: block;
+  float: left;
+  -moz-border-radius: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  font-size: 15px;
+  text-decoration: none;
+  background-color: red;
+  color: red;
+}
+a.button span {
+  line-height: 35px;
+  display: block;
+  font-weight: bold;
+  padding: 0 20px;
+  color: white;
+  text-decoration: none;
+}
+a.button:hover {
+  background-color: #fff;
+  color: white;
+}
+a.button:hover span {
+  color: red;
+}
+span.tooltip {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  padding: 15px 0 0 0;
+  width: 200px;
+  color: #993300;
+  text-align: center;
+  opacity: 0.90;
+}
+/* General dropdown styles */
+.dropdown {
+  padding: 0px;
+  margin-top: 5px;
+}
+.dropdown dd,
+.dropdown dt,
+.dropdown ul {
+  margin: 0px;
+  padding: 0px;
+}
+.dropdown dd {
+  position: relative;
+  display: inline;
+}
+.dropdown a {
+  font-size: 20px;
+  color: #0099C6;
+  text-decoration: none;
+}
+/* DT styles for sliding doors */
+.dropdown dt a {
+  background: #dddddd url('/static/less/images/arrow.png') no-repeat scroll right center;
+  display: block;
+  padding-right: 20px;
+  border: 1px solid #0099C6;
+  width: 200px;
+}
+.dropdown dt a span {
+  cursor: pointer;
+  display: block;
+  padding: 5px;
+}
+/* UL styles */
+.dropdown dd ul {
+  background: #dddddd none repeat scroll 0 0;
+  display: none;
+  list-style: none;
+  padding: 5px 0px;
+  position: absolute;
+  left: 0px;
+  top: 2px;
+  width: auto;
+  min-width: 200px;
+  border: 1px solid #0099C6;
+}
+.dropdown dd ul li span.value {
+  display: none;
+}
+.dropdown dd ul li a {
+  padding: 5px;
+  display: block;
+}
+.dropdown dd ul li a.hover {
+  padding: 5px;
+  display: block;
+  background-color: #0099C6;
+  color: #e4dfcb;
+}
+/* SUBUL styles */
+.dropdown dd ul li ul.submenu {
+  background: #dddddd none repeat scroll 0 0;
+  display: none;
+  list-style: none;
+  padding: 0px 0px;
+  position: absolute;
+  left: 200px;
+  top: 0px;
+  width: auto;
+  min-width: 200px;
+  border: 1px solid #0099C6;
+}
+.dropdown dd ul li ul.submenu li span.value {
+  display: none;
+}
+.dropdown dd ul li ul.submenu li a {
+  padding: 5px;
+  display: block;
+}
+.dropdown dd ul li ul.submenu li a:hover {
+  padding: 5px;
+  display: block;
+  background-color: #0099C6;
+  color: #e4dfcb;
+}
+/* Used for the Switch effect: */
+.cb-enable,
+.cb-enable span {
+  display: block;
+  float: left;
+  -moz-border-radius: 20px;
+  border-style: solid;
+  border-width: 1px;
+  color: black;
+  font-size: 15px;
+}
+.cb-enable span {
+  line-height: 40px;
+  display: block;
+  font-weight: bold;
+  padding: 0 20px;
+  color: red;
+}
+.cb-enable.selected span {
+  color: #fff;
+  background-color: #ff0000;
+}
+.cb-enable:hover span {
+  color: #fff;
+  background-color: #ff0000;
+}
+.switch label {
+  cursor: pointer;
+}
+.radio_switches {
+  display: none;
+}

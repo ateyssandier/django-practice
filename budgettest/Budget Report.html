@@ -1,0 +1,492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0028)http://192.168.0.101/budget/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Budget Report</title>
+<link rel="stylesheet" type="text/css" href="./Budget Report_files/style.css">
+<script src="./Budget Report_files/jquery.min.js" type="text/JavaScript"></script>
+
+<script type="text/javascript"></script>
+
+<script src="./Budget Report_files/jsapi" type="text/JavaScript"></script>
+
+<script src="./Budget Report_files/budget.js" type="text/JavaScript"></script>
+
+
+<style>.a-b-c{position:relative;display:-moz-inline-box;display:inline-block}* html .a-b-c,*:first-child+html .a-b-c{display:inline}.a-d-e{margin:2px;border:0;padding:0;font-family:Arial,sans-serif;color:#000;background:#ddd url(//ssl.gstatic.com/editor/button-bg.png) repeat-x top left;text-decoration:none;list-style:none;vertical-align:middle;cursor:default;outline:none}.a-d-e-f-g,.a-d-e-h-g{border-style:solid;border-color:#aaa;vertical-align:top}.a-d-e-f-g{margin:0;border-width:1px 0;padding:0}.a-d-e-h-g{-moz-box-orient:vertical;margin:0 -1px;border-width:0 1px;padding:3px 4px;white-space:nowrap}* html .a-d-e-h-g{left:-1px}* html .a-d-e-i .a-d-e-f-g{left:-1px}* html .a-d-e-i .a-d-e-h-g{right:auto}*:first-child+html .a-d-e-h-g{left:-1px}*:first-child+html .a-d-e-i .a-d-e-h-g{left:1px}::root .a-d-e,::root .a-d-e-f-g{line-height:0}::root .a-d-e-h-g{line-height:normal}.a-d-e-j{background-image:none!important;opacity:.3;-moz-opacity:.3;filter:alpha(opacity=30)}.a-d-e-j .a-d-e-f-g,.a-d-e-j .a-d-e-h-g{color:#333!important;border-color:#999!important}* html .a-d-e-j,*:first-child+html .a-d-e-j{margin:2px 1px!important;padding:0 1px!important}.a-d-e-k .a-d-e-f-g,.a-d-e-k .a-d-e-h-g{border-color:#9cf #69e #69e #7af!important}.a-d-e-l,.a-d-e-m{background-color:#bbb;background-position:bottom left}.a-d-e-n .a-d-e-f-g,.a-d-e-n .a-d-e-h-g{border-color:orange}.a-d-e-o-p,.a-d-e-o-p .a-d-e-f-g,.a-d-e-o-p .a-d-e-h-g{margin-right:0}.a-d-e-o-q,.a-d-e-o-q .a-d-e-f-g{margin-left:0}.a-d-e-o-q .a-d-e-h-g{margin-left:0;border-left:1px solid #fff}.a-d-e-o-q.a-d-e-m .a-d-e-h-g{border-left:1px solid #ddd}* html .a-d-e-o-q .a-d-e-h-g,*:first-child+html .a-d-e-o-q .a-d-e-h-g{left:0}.a-r-e{position:relative;margin:2px;border:1px solid #000;padding:2px 6px;font:normal 13px "Trebuchet MS",Tahoma,Arial,sans-serif;color:#fff;background-color:#8c2425;cursor:pointer;outline:none}.a-r-e-j{border-color:#888;color:#888;background-color:#ccc;cursor:default}.a-r-e-k{border-color:#8c2425;color:#8c2425;background-color:#eaa4a5}.a-r-e-l,.a-r-e-s,.a-r-e-m{border-color:#5b4169;color:#5b4169;background-color:#d1a8ea}.a-r-e-n{border-color:#5b4169}.a-r-e-o-p{margin-right:0}.a-r-e-o-q{margin-left:0;border-left:none}.a-e{color:#036;border-color:#036;background-color:#69c}.a-e-j{border-color:#333;color:#333;background-color:#999}.a-e-k{color:#369;border-color:#369;background-color:#9cf}.a-e-l{color:#69c;border-color:#69c}</style><link href="./Budget Report_files/table.css" rel="stylesheet" type="text/css"><link href="./Budget Report_files/tooltip.css" rel="stylesheet" type="text/css"></head><style type="text/css"></style>
+<body onload="startCurrent()">
+<h3>
+	report budget
+</h3>
+<br>
+<script type="text/javascript" src="./Budget Report_files/jquery.dataTables.js"></script><script type="text/javascript" src="./Budget Report_files/jsapi"></script> <script type="text/javascript">
+    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+      google.load('visualization', '1', {packages:['table']});
+
+      </script><script src="./Budget Report_files/saved_resource" type="text/javascript"></script><script src="./Budget Report_files/format+en,default,corechart.I.js" type="text/javascript"></script><script src="./Budget Report_files/saved_resource(1)" type="text/javascript"></script><script src="./Budget Report_files/table.js" type="text/javascript"></script><div id="addlabelpopup">
+<form method="post" action="./Budget Report_files/Budget Report.html" enctype="application/x-www-form-urlencoded" name="addcategory_form">
+<div style="  height:50px">
+Add new category under '<span id="supercategoryspan"></span>'</div>
+<input type="text" name="categoryName" size="20" maxlength="255" id="categoryName"><input type="button" name="add_category" value="Add" onclick="addNewCategory()" id="add_category" selected="true"><br>
+<span id="addlabelresult"></span><br>
+<a name="closeCategoryPopup" onclick="closeCategoryPopup()" href="javascript:void(0);" id="closeCategoryPopup">close</a>
+</form></div>
+<div id="background_overlay" style="display: none;">
+1</div>
+<div class="input_paycheck">
+<form method="post" action="./Budget Report_files/Budget Report.html" enctype="application/x-www-form-urlencoded" name="addpaycheck_form">
+<div style="display:inline; float:left">
+<label for="month"><span>Date</span></label>
+<br>
+<input type="text" name="month" value="mm" size="1" maxlength="2" id="month">/<input type="text" name="day" value="dd" size="1" maxlength="2" id="day">/<input type="text" name="year" value="yyyy" size="2" maxlength="4" id="year"></div>
+<div style="display:inline; float:left; margin-left:30px">
+<label for="gross"><span>Gross Pay</span></label>
+<br>
+$<input type="text" name="gross" size="5" maxlength="8" id="gross"></div>
+<div style="display:inline; float:left; margin-left:30px">
+<label for="tax"><span>Tax</span></label>
+<br>
+<span class="deduct_td">-$</span><input type="text" name="tax" size="4" maxlength="8" id="tax"></div>
+<div style="display:inline; float:left; margin-left:30px">
+<label for="k401"><span>401k</span></label>
+<br>
+<span class="deduct_td">-$</span><input type="text" name="k401" size="4" maxlength="8" id="k401"></div>
+<div style="display:inline; float:left; margin-left:30px">
+<label for="healthcare"><span>Healthcare</span></label>
+<br>
+<span class="deduct_td">-$</span><input type="text" name="healthcare" size="4" maxlength="8" id="healthcare"></div>
+<div style="display:inline; float:left; margin-left:30px">
+<label for="fica"><span>FICA</span></label>
+<br>
+<span class="deduct_td">-$</span><input type="text" name="fica" size="4" maxlength="8" id="fica"></div>
+</form></div>
+<br>
+<br>
+<br>
+<br>
+<a class="button" onclick="addPaycheck()" href="javascript:void(0);"><span>Add Paycheck</span></a><br>
+<br>
+<span id="addpaycheckresult"></span><br>
+<br>
+<br>
+<div class="input_receipt" id="input_receipt" style="height:100px">
+    <form method="post" action="./Budget Report_files/Budget Report.html" enctype="application/x-www-form-urlencoded" name="receipt_form">
+        <div class="product_table" name="product_table" id="product_table" style="display:inline; float:left; margin-left:30px;">
+            <span id="date_span" style="display:inline; float:left;">
+                <label for="month1">
+                        <span>Date</span>
+                </label>
+                <div style="  height:50px;">
+                    <input type="text" name="month1" value="mm" size="1" maxlength="2" id="month1">/<input type="text" name="day1" value="dd" size="1" maxlength="2" id="day1">/<input type="text" name="year1" value="yyyy" size="2" maxlength="4" id="year1">
+                </div>
+            </span>
+            <span id="description_span" style="display:inline; float:left; margin-left:10px">
+                <label for="itemDescription1"><span>Item Description</span></label>
+                <div style="  height:50px">
+                    <input type="text" name="itemDescription1" size="30" maxlength="255" id="itemDescription1">
+                </div>
+            </span>
+            <span id="category_span" style="display:inline; float:left; margin-left:10px">
+                <label for="category1"><span>Category</span></label>
+                <div style="  height:50px;">
+                    <dl class="dropdown" id="category1" name="category1">
+                        <dt>
+                            <a id="aid" onclick="launchSelect(this);" href="javascript:void(0);"><span id="finalcatname">Select Category</span></a>
+                        </dt>
+                    <dd>
+                        <ul id="superul" style="display: none;">
+                           <li>
+                              <a id="supermenu1" href="javascript:void(0);">Bills and Utilities</a>
+                              <ul id="submenu1" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">electric<span class="value">electric</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">heat<span class="value">heat</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">home insurance<span class="value">home insurance</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">internet<span class="value">internet</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">mobile phone<span class="value">mobile phone</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">television<span class="value">television</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Bills and Utilities&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu2" href="javascript:void(0);">Car</a>
+                              <ul id="submenu2" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">auto insurance<span class="value">auto insurance</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">auto payment<span class="value">auto payment</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">gas<span class="value">gas</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">maintenance<span class="value">maintenance</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">parking<span class="value">parking</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">tolls<span class="value">tolls</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Car&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu3" href="javascript:void(0);">Clothing</a>
+                              <ul id="submenu3" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">clothing<span class="value">clothing</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Clothing&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu4" href="javascript:void(0);">Entertainment</a>
+                              <ul id="submenu4" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">alcohol &amp; bars<span class="value">alcohol &amp; bars</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">entertainment<span class="value">entertainment</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Entertainment&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu5" href="javascript:void(0);">Food</a>
+                              <ul id="submenu5" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">coffee<span class="value">coffee</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">groceries<span class="value">groceries</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">restaurants<span class="value">restaurants</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Food&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu6" href="javascript:void(0);">Health</a>
+                              <ul id="submenu6" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">doctor<span class="value">doctor</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">eyecare<span class="value">eyecare</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">gym<span class="value">gym</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">pharmacy<span class="value">pharmacy</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Health&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu7" href="javascript:void(0);">Home</a>
+                              <ul id="submenu7" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">furnishings<span class="value">furnishings</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">home improvement<span class="value">home improvement</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Home&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu8" href="javascript:void(0);">Personal Care</a>
+                              <ul id="submenu8" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">general<span class="value">general</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">hair<span class="value">hair</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">makeup<span class="value">makeup</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">skincare<span class="value">skincare</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Personal Care&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu9" href="javascript:void(0);">Public Transportation</a>
+                              <ul id="submenu9" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">public transportation<span class="value">public transportation</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Public Transportation&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu10" href="javascript:void(0);">Rent</a>
+                              <ul id="submenu10" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">rent<span class="value">rent</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Rent&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu11" href="javascript:void(0);">Shopping</a>
+                              <ul id="submenu11" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">electronics<span class="value">electronics</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">gift<span class="value">gift</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">miscellaneous<span class="value">miscellaneous</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">sewing<span class="value">sewing</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Shopping&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu12" href="javascript:void(0);">Student Loans</a>
+                              <ul id="submenu12" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">student loan<span class="value">student loan</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Student Loans&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu13" href="javascript:void(0);">Taxes</a>
+                              <ul id="submenu13" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">taxes<span class="value">taxes</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Taxes&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu14" href="javascript:void(0);">Travel</a>
+                              <ul id="submenu14" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">air travel<span class="value">air travel</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">hotel<span class="value">hotel</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Travel&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           <li>
+                              <a id="supermenu15" href="javascript:void(0);">Unknown</a>
+                              <ul id="submenu15" class="submenu" style="display: none;">
+                                    <li>
+                                        <a href="javascript:void(0);">unknown<span class="value">unknown</span></a>
+                                    </li>
+                                    <li>
+                                       <a style="border-top: 1px solid #0099C6;" href="javascript:void(0);" onclick="showAddCategoryPanel(&quot;Unknown&quot;);">Add New</a>
+                                   </li>
+                               </ul>
+                           </li>
+                        </ul>
+    </dd>
+</dl>
+</div>
+</span>
+
+<span id="cost_span" style="display:inline; float:left; margin-left:10px">
+    <label for="cost1"><span>Cost</span></label>
+    <div style="  height:50px">
+        $<input type="text" name="cost1" size="3" maxlength="7" id="cost1">
+    </div>
+</span>
+
+<span class="addremove_td" id="add_span" style="display:inline; float:left; margin-left:10px">
+    <label for="add1"><span>&nbsp;</span></label>
+    <div style="  height:50px">
+        <a name="add1" onclick="addProduct()" href="javascript:void(0);" id="add1"><img src="../static/images/plus.jpg"></a>&nbsp;&nbsp;
+        <a name="remove1" onclick="removeProduct(this.id)" href="javascript:void(0);" id="remove1"><img src="../static/images/minus.jpg"></a>
+    </div>
+</span>
+</div>
+
+
+<br>
+<br>
+<br>
+</form></div>
+<div>
+<a class="button" onclick="addReceipt()" href="javascript:void(0)"><span>Add Receipt</span></a><br>
+<br>
+<span id="addreceiptresult"></span></div>
+<br>
+<br>
+<br>
+<div class="generate_report">
+<form method="post" action="./Budget Report_files/Budget Report.html" enctype="application/x-www-form-urlencoded" name="report_form">
+<p class="thelabel">
+	Choose a monthly report
+</p>
+<p class="switch">
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months1" name="months" value="1" checked="">
+<label for="months1" class="cb-enable"><span>January</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months2" name="months" value="2">
+<label for="months2" class="cb-enable"><span>February</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months3" name="months" value="3">
+<label for="months3" class="cb-enable selected"><span>March</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months4" name="months" value="4">
+<label for="months4" class="cb-enable"><span>April</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months5" name="months" value="5">
+<label for="months5" class="cb-enable"><span>May</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months6" name="months" value="6">
+<label for="months6" class="cb-enable"><span>June</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months7" name="months" value="7">
+<label for="months7" class="cb-enable"><span>July</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months8" name="months" value="8">
+<label for="months8" class="cb-enable"><span>August</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months9" name="months" value="9">
+<label for="months9" class="cb-enable"><span>September</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months10" name="months" value="10">
+<label for="months10" class="cb-enable"><span>October</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months11" name="months" value="11">
+<label for="months11" class="cb-enable"><span>November</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="months12" name="months" value="12">
+<label for="months12" class="cb-enable"><span>December</span></label>
+</p><br>
+<p class="switch">&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="years1" name="years" value="2010">
+<label for="years1" class="cb-enable"><span>2010</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="years2" name="years" value="2011">
+<label for="years2" class="cb-enable"><span>2011</span></label>
+&nbsp;&nbsp;<input onclick="getReport(&#39;standard&#39;)" type="radio" class="radio_switches" id="years3" name="years" value="2012">
+<label for="years3" class="cb-enable selected"><span>2012</span></label>
+</p><br>
+<br>
+<p class="thelabel">
+	Or, define your own custom date
+</p>
+<input type="text" name="Date" value="mm" size="1" maxlength="2" id="frommonth">/<input type="text" name="Date" value="dd" size="1" maxlength="2" id="fromday">/<input type="text" name="Date" value="yyyy" size="2" maxlength="4" id="fromyear"> to <input type="text" name="Date" value="mm" size="1" maxlength="2" id="tomonth">/<input type="text" name="Date" value="dd" size="1" maxlength="2" id="today">/<input type="text" name="Date" value="yyyy" size="2" maxlength="4" id="toyear"><br>
+<br>
+<a class="button" onclick="getReport(&#39;custom&#39;)" href="javascript:void(0)"><span>Go!</span></a></form></div>
+<div id="reportResult" style=""><h3>Report for 2012-3-1 to 2012-3-31 </h3></div>
+<div id="finalSummaryDiv">INCOME:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="income">$4501.88</span><br>EXPENSES:&nbsp;&nbsp;<span class="expenses">$4329.73</span><br>SAVINGS:&nbsp;&nbsp;&nbsp;&nbsp;<span class="income">$172.15</span></div>
+<br>
+<br>
+<br>
+<div class="allreports" id="allreports" style="display: block;">
+<br>
+<div class="superChart" id="super_chart_div" style="position: relative;"><div style="position: relative; width: 600px; height: 450px;" dir="ltr"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="600" height="450" style="overflow: hidden;"><defs id="defs"></defs><rect x="0" y="0" width="600" height="450" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text text-anchor="start" x="115" y="63.05" font-family="Arial" font-size="13" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">General Expenses</text></g><g><rect x="365" y="86" width="121" height="278" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><rect x="365" y="86" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="97.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Bills and Utilities</text></g><rect x="365" y="86" width="13" height="13" stroke="none" stroke-width="0" fill="#3366cc"></rect></g><g><rect x="365" y="107" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="118.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Car</text></g><rect x="365" y="107" width="13" height="13" stroke="none" stroke-width="0" fill="#dc3912"></rect></g><g><rect x="365" y="128" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="139.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Clothing</text></g><rect x="365" y="128" width="13" height="13" stroke="none" stroke-width="0" fill="#ff9900"></rect></g><g><rect x="365" y="149" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="160.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Entertainment</text></g><rect x="365" y="149" width="13" height="13" stroke="none" stroke-width="0" fill="#109618"></rect></g><g><rect x="365" y="170" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="181.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Food</text></g><rect x="365" y="170" width="13" height="13" stroke="none" stroke-width="0" fill="#990099"></rect></g><g><rect x="365" y="191" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="202.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Health</text></g><rect x="365" y="191" width="13" height="13" stroke="none" stroke-width="0" fill="#0099c6"></rect></g><g><rect x="365" y="212" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="223.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Home</text></g><rect x="365" y="212" width="13" height="13" stroke="none" stroke-width="0" fill="#dd4477"></rect></g><g><rect x="365" y="233" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="244.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Personal Care</text></g><rect x="365" y="233" width="13" height="13" stroke="none" stroke-width="0" fill="#66aa00"></rect></g><g><rect x="365" y="254" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="265.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Public Transpor...</text><rect x="383" y="254" width="103" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><rect x="365" y="254" width="13" height="13" stroke="none" stroke-width="0" fill="#b82e2e"></rect></g><g><rect x="365" y="275" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="286.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Rent</text></g><rect x="365" y="275" width="13" height="13" stroke="none" stroke-width="0" fill="#316395"></rect></g><g><rect x="365" y="296" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="307.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Shopping</text></g><rect x="365" y="296" width="13" height="13" stroke="none" stroke-width="0" fill="#994499"></rect></g><g><rect x="365" y="317" width="121" height="13" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="383" y="328.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#222222">Student Loans</text></g><rect x="365" y="317" width="13" height="13" stroke="none" stroke-width="0" fill="#22aa99"></rect></g><path d="M378,364L372,351L365,364Z" stroke="none" stroke-width="0" fill="#cccccc"></path><g><text text-anchor="middle" x="392" y="362.05" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#0011cc">1/2</text></g><path d="M406,351L419,351L413,364Z" stroke="none" stroke-width="0" fill="#0011cc"></path></g><g><path d="M230,225L230,111A114,114,0,0,1,271.77836640455143,118.93130480407025L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#3366cc"></path><text text-anchor="start" x="237.75511724155007" y="138.65819489612636" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#ffffff">6%</text></g><g><path d="M230,225L271.78,118.93A114,114,0,0,1,336.7850961277371,185.0883069140139L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#dc3912"></path><text text-anchor="start" x="270.63416978659103" y="171.4439965518161" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#ffffff">13.3%</text></g><g><path d="M230,225L336.79,185.09A114,114,0,0,1,339.2316827628431,192.3742512607357L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#ff9900"></path></g><g><path d="M230,225L339.23,192.37A114,114,0,0,1,343.0209690562714,210.09159453256825L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#109618"></path></g><g><path d="M230,225L343.02,210.09A114,114,0,0,1,308.3513061385089,307.8074442691577L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#990099"></path><text text-anchor="start" x="298.57673537040233" y="258.4934920214825" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#ffffff">15%</text></g><g><path d="M230,225L308.35,307.81A114,114,0,0,1,305.0196825123842,310.83733008278557L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#0099c6"></path></g><g><path d="M230,225L305.02,310.84A114,114,0,0,1,273.9856008136809,330.17255783263766L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#dd4477"></path></g><g><path d="M230,225L273.99,330.17A114,114,0,0,1,243.86468308795708,338.1537474539422L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#66aa00"></path></g><g><path d="M230,225L243.86,338.15A114,114,0,0,1,242.32200122763103,338.3321149795867L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#b82e2e"></path></g><g><path d="M230,225L203.51,114.12A114,114,0,0,1,230,111L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#e67300"></path></g><g><path d="M230,225L191.61,117.66A114,114,0,0,1,203.5099751361066,114.12043207736464L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#6633cc"></path></g><g><path d="M230,225L168.37,129.09A114,114,0,0,1,191.60732830814777,117.65940767649151L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#22aa99"></path></g><g><path d="M230,225L138.34,157.22A114,114,0,0,1,168.373954257185,129.09259420615905L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#994499"></path></g><g><path d="M230,225L242.32,338.33A114,114,0,0,1,138.33953541973156,157.2182972113465L230,225A0,0,0,0,0,230,225" stroke="#ffffff" stroke-width="1" fill="#316395"></path><text text-anchor="start" x="140.68473470344543" y="270.2070078037832" font-family="Arial" font-size="13" stroke="none" stroke-width="0" fill="#ffffff">36.9%</text></g><g></g></svg></div></div><div style="display: none; position: absolute; top: 460px; left: 610px; white-space: nowrap; font-family: Arial; font-size: 13px;">0/0</div><div></div></div>
+<br>
+<div class="superChart" id="sub_chart_div" style="margin-top:-20px">
+</div>
+<br>
+<div class="superChart" id="bd_chart_div" style="margin-top:-20px">
+</div>
+<span class="subChart" id="sub_net_chart_div" style="display: none;">
+</span>
+<div class="caption" id="piechartsummary" style="width:200px; height:150px; margin-left:50px; margin-top:-75px;"><div style="position: relative;"><div style="position: relative; overflow: auto; width: 200px; height: 150px;"><table class="google-visualization-table-table" cellspacing="0" style="width: 200px;"><tbody><tr class="google-visualization-table-tr-head"><td class="google-visualization-table-th-webkit google-visualization-table-sorthdr"><span class="google-visualization-table-sortind">&#8195;</span></td><td class="google-visualization-table-th-webkit google-visualization-table-sorthdr">Total<span class="google-visualization-table-sortind">&#8195;</span></td></tr><tr class="google-visualization-table-tr-even"><td class="google-visualization-table-td">Gross Paycheck</td><td class="google-visualization-table-td google-visualization-table-td-number">$4,501.88</td></tr><tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-td">Takehome Pay</td><td class="google-visualization-table-td google-visualization-table-td-number">$4,501.88</td></tr><tr class="google-visualization-table-tr-even"><td class="google-visualization-table-td">Total Expenses</td><td class="google-visualization-table-td google-visualization-table-td-number">($4,329.73)</td></tr><tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-td">Savings</td><td class="google-visualization-table-td google-visualization-table-td-number">$172.15</td></tr></tbody></table></div></div></div>
+<br>
+<div class="" id="purchasesTable2" style=""><div id="purchases_table_wrapper" class="dataTables_wrapper" role="grid"><div class="dataTables_filter" id="purchases_table_filter"><label>Search: <input type="text" aria-controls="purchases_table"></label></div><table cellpadding="0" cellspacing="0" border="0" class="purchases_table dataTable" id="purchases_table"><thead><tr role="row"><th class="sorting" role="columnheader" tabindex="0" aria-controls="purchases_table" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">Date</th><th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="purchases_table" rowspan="1" colspan="1" aria-sort="descending" aria-label="Description: activate to sort column ascending">Description</th><th class="category sorting" role="columnheader" tabindex="0" aria-controls="purchases_table" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending">Category</th><th class="category sorting" role="columnheader" tabindex="0" aria-controls="purchases_table" rowspan="1" colspan="1" aria-label="Sub-category: activate to sort column ascending">Sub-category</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="purchases_table" rowspan="1" colspan="1" aria-label="Cost: activate to sort column ascending">Cost</th></tr></thead><tfoot><tr><th style="text-align:right" colspan="4" rowspan="1">Total:</th><th rowspan="1" colspan="1">$4329.73</th></tr></tfoot><tbody role="alert" aria-live="polite" aria-relevant="all"><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">Yuca Bar &amp; Restaurant</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$19.00</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-10.00</td></tr><tr class="odd"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-2.00</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-10.00</td></tr><tr class="odd"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-10.00</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-105.00</td></tr><tr class="odd"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-5.00</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-10.00</td></tr><tr class="odd"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-10.00</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Travel Reward</td><td class="category ">Travel</td><td class="category ">air travel</td><td class=" ">$-10.00</td></tr><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">Total Performance</td><td class="category ">Health</td><td class="category ">gym</td><td class=" ">$29.00</td></tr><tr class="even"><td class=" ">2012-03-06</td><td class="  sorting_1">Top of the Hub</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$30.68</td></tr><tr class="odd"><td class=" ">2012-03-09</td><td class="  sorting_1">Tmobile</td><td class="category ">Bills and Utilities</td><td class="category ">mobile phone</td><td class=" ">$53.00</td></tr><tr class="even"><td class=" ">2012-03-06</td><td class="  sorting_1">Target</td><td class="category ">Shopping</td><td class="category ">miscellaneous</td><td class=" ">$80.71</td></tr><tr class="odd"><td class=" ">2012-03-06</td><td class="  sorting_1">Target</td><td class="category ">Shopping</td><td class="category ">miscellaneous</td><td class=" ">$-13.80</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Target</td><td class="category ">Home</td><td class="category ">furnishings</td><td class=" ">$165.70</td></tr><tr class="odd"><td class=" ">2012-03-19</td><td class="  sorting_1">Target</td><td class="category ">Shopping</td><td class="category ">miscellaneous</td><td class=" ">$27.59</td></tr><tr class="even"><td class=" ">2012-03-19</td><td class="  sorting_1">Target</td><td class="category ">Shopping</td><td class="category ">miscellaneous</td><td class=" ">$37.98</td></tr><tr class="odd"><td class=" ">2012-03-08</td><td class="  sorting_1">Stop &amp; Shop</td><td class="category ">Food</td><td class="category ">groceries</td><td class=" ">$42.22</td></tr><tr class="even"><td class=" ">2012-03-01</td><td class="  sorting_1">Stop &amp; Shop</td><td class="category ">Food</td><td class="category ">groceries</td><td class=" ">$57.49</td></tr><tr class="odd"><td class=" ">2012-03-22</td><td class="  sorting_1">Stop &amp; Shop</td><td class="category ">Food</td><td class="category ">groceries</td><td class=" ">$46.44</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Stone Flower - Pink trenchcoat</td><td class="category ">Clothing</td><td class="category ">clothing</td><td class=" ">$49.50</td></tr><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">Starbucks</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$6.21</td></tr><tr class="even"><td class=" ">2012-03-10</td><td class="  sorting_1">Starbucks</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.40</td></tr><tr class="odd"><td class=" ">2012-03-09</td><td class="  sorting_1">Starbucks</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$4.84</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Starbucks</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.76</td></tr><tr class="odd"><td class=" ">2012-03-05</td><td class="  sorting_1">Starbucks</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.51</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Star Market</td><td class="category ">Food</td><td class="category ">groceries</td><td class=" ">$68.43</td></tr><tr class="odd"><td class=" ">2012-03-20</td><td class="  sorting_1">Somerville Xtra Fuels</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$40.01</td></tr><tr class="even"><td class=" ">2012-03-26</td><td class="  sorting_1">Somerville Xtra Fuels</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$40.00</td></tr><tr class="odd"><td class=" ">2012-03-26</td><td class="  sorting_1">Somerville City Club</td><td class="category ">Car</td><td class="category ">parking</td><td class=" ">$2.00</td></tr><tr class="even"><td class=" ">2012-03-19</td><td class="  sorting_1">Salon Cu</td><td class="category ">Personal Care</td><td class="category ">hair</td><td class=" ">$43.00</td></tr><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">Sallie Mae</td><td class="category ">Student Loans</td><td class="category ">student loan</td><td class=" ">$84.82</td></tr><tr class="even"><td class=" ">2012-03-12</td><td class="  sorting_1">Sallie Mae</td><td class="category ">Student Loans</td><td class="category ">student loan</td><td class=" ">$82.28</td></tr><tr class="odd"><td class=" ">2012-03-05</td><td class="  sorting_1">Redbones Barbecue</td><td class="category ">Entertainment</td><td class="category ">alcohol &amp; bars</td><td class=" ">$16.91</td></tr><tr class="even"><td class=" ">2012-03-09</td><td class="  sorting_1">Online Banking Transfer</td><td class="category ">Car</td><td class="category ">auto payment</td><td class=" ">$171.78</td></tr><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">Odessa Restaurant</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$21.00</td></tr><tr class="even"><td class=" ">2012-03-09</td><td class="  sorting_1">NSTAR - Electric</td><td class="category ">Bills and Utilities</td><td class="category ">electric</td><td class=" ">$29.23</td></tr><tr class="odd"><td class=" ">2012-03-05</td><td class="  sorting_1">North St Grill</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$19.05</td></tr><tr class="even"><td class=" ">2012-03-19</td><td class="  sorting_1">North St Grill</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$25.00</td></tr><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">National Grid</td><td class="category ">Bills and Utilities</td><td class="category ">heat</td><td class=" ">$139.49</td></tr><tr class="even"><td class=" ">2012-03-13</td><td class="  sorting_1">Mikes Pastry</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$40.00</td></tr><tr class="odd"><td class=" ">2012-03-19</td><td class="  sorting_1">MBTA</td><td class="category ">Public Transportation</td><td class="category ">public transportation</td><td class=" ">$10.00</td></tr><tr class="even"><td class=" ">2012-03-06</td><td class="  sorting_1">Max Brenner</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$10.00</td></tr><tr class="odd"><td class=" ">2012-03-10</td><td class="  sorting_1">Masspike Ma</td><td class="category ">Car</td><td class="category ">tolls</td><td class=" ">$13.15</td></tr><tr class="even"><td class=" ">2012-03-20</td><td class="  sorting_1">Masspike</td><td class="category ">Car</td><td class="category ">tolls</td><td class=" ">$11.31</td></tr><tr class="odd"><td class=" ">2012-03-19</td><td class="  sorting_1">Marshalls</td><td class="category ">Home</td><td class="category ">furnishings</td><td class=" ">$36.98</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Liberty Mutual</td><td class="category ">Car</td><td class="category ">auto insurance</td><td class=" ">$74.67</td></tr><tr class="odd"><td class=" ">2012-03-05</td><td class="  sorting_1">Liberty Mutual</td><td class="category ">Bills and Utilities</td><td class="category ">home insurance</td><td class=" ">$10.17</td></tr><tr class="even"><td class=" ">2012-03-10</td><td class="  sorting_1">Lgalotpof Pf</td><td class="category ">Car</td><td class="category ">parking</td><td class=" ">$6.00</td></tr><tr class="odd"><td class=" ">2012-03-20</td><td class="  sorting_1">Laz Parking</td><td class="category ">Car</td><td class="category ">parking</td><td class=" ">$3.99</td></tr><tr class="even"><td class=" ">2012-03-10</td><td class="  sorting_1">LA Maison Du Chocolat</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$13.71</td></tr><tr class="odd"><td class=" ">2012-03-10</td><td class="  sorting_1">LA Maison Du Chocolat</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$16.50</td></tr><tr class="even"><td class=" ">2012-03-12</td><td class="  sorting_1">Koreatown Restaurant</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$20.00</td></tr><tr class="odd"><td class=" ">2012-03-15</td><td class="  sorting_1">Jo-Ann Stores</td><td class="category ">Shopping</td><td class="category ">sewing</td><td class=" ">$7.96</td></tr><tr class="even"><td class=" ">2012-03-31</td><td class="  sorting_1">J's Spa &amp; Nail</td><td class="category ">Personal Care</td><td class="category ">general</td><td class=" ">$35.00</td></tr><tr class="odd"><td class=" ">2012-03-17</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$5.54</td></tr><tr class="even"><td class=" ">2012-03-17</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-16</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="even"><td class=" ">2012-03-16</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$8.98</td></tr><tr class="odd"><td class=" ">2012-03-16</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.64</td></tr><tr class="even"><td class=" ">2012-03-16</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.60</td></tr><tr class="odd"><td class=" ">2012-03-15</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.08</td></tr><tr class="even"><td class=" ">2012-03-15</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="odd"><td class=" ">2012-03-14</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="even"><td class=" ">2012-03-14</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.38</td></tr><tr class="odd"><td class=" ">2012-03-14</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="even"><td class=" ">2012-03-09</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-08</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.97</td></tr><tr class="even"><td class=" ">2012-03-08</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.93</td></tr><tr class="odd"><td class=" ">2012-03-07</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.21</td></tr><tr class="even"><td class=" ">2012-03-07</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.08</td></tr><tr class="odd"><td class=" ">2012-03-05</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-05</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.04</td></tr><tr class="even"><td class=" ">2012-03-01</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="odd"><td class=" ">2012-03-17</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="even"><td class=" ">2012-03-17</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$5.54</td></tr><tr class="odd"><td class=" ">2012-03-21</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="odd"><td class=" ">2012-03-21</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="even"><td class=" ">2012-03-22</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-22</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.78</td></tr><tr class="even"><td class=" ">2012-03-23</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.91</td></tr><tr class="odd"><td class=" ">2012-03-23</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.47</td></tr><tr class="even"><td class=" ">2012-03-24</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.93</td></tr><tr class="odd"><td class=" ">2012-03-24</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.47</td></tr><tr class="even"><td class=" ">2012-03-28</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-28</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.99</td></tr><tr class="even"><td class=" ">2012-03-28</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-29</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="even"><td class=" ">2012-03-29</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.17</td></tr><tr class="odd"><td class=" ">2012-03-29</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.14</td></tr><tr class="even"><td class=" ">2012-03-30</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="odd"><td class=" ">2012-03-30</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.68</td></tr><tr class="even"><td class=" ">2012-03-30</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="odd"><td class=" ">2012-03-31</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.47</td></tr><tr class="even"><td class=" ">2012-03-31</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.60</td></tr><tr class="odd"><td class=" ">2012-03-31</td><td class="  sorting_1">Ibm Outtakes</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$4.60</td></tr><tr class="even"><td class=" ">2012-03-17</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.54</td></tr><tr class="odd"><td class=" ">2012-03-17</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.54</td></tr><tr class="even"><td class=" ">2012-03-14</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.18</td></tr><tr class="odd"><td class=" ">2012-03-09</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.01</td></tr><tr class="even"><td class=" ">2012-03-09</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.67</td></tr><tr class="odd"><td class=" ">2012-03-02</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$4.40</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.04</td></tr><tr class="odd"><td class=" ">2012-03-22</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$3.16</td></tr><tr class="even"><td class=" ">2012-03-23</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.04</td></tr><tr class="odd"><td class=" ">2012-03-24</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.04</td></tr><tr class="even"><td class=" ">2012-03-28</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$4.08</td></tr><tr class="odd"><td class=" ">2012-03-29</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.57</td></tr><tr class="even"><td class=" ">2012-03-30</td><td class="  sorting_1">Ibm Littleton</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.55</td></tr><tr class="odd"><td class=" ">2012-03-07</td><td class="  sorting_1">Home Depot</td><td class="category ">Home</td><td class="category ">home improvement</td><td class=" ">$33.79</td></tr><tr class="even"><td class=" ">2012-03-12</td><td class="  sorting_1">Hilton</td><td class="category ">Travel</td><td class="category ">hotel</td><td class=" ">$61.54</td></tr><tr class="odd"><td class=" ">2012-03-07</td><td class="  sorting_1">Genki Ya Sushi</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$19.83</td></tr><tr class="even"><td class=" ">2012-03-15</td><td class="  sorting_1">Exxon</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$41.02</td></tr><tr class="odd"><td class=" ">2012-03-12</td><td class="  sorting_1">Exxon</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$42.00</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Exxon</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$40.00</td></tr><tr class="odd"><td class=" ">2012-03-31</td><td class="  sorting_1">Exxon</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$42.15</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Espresso Royale Caffe</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$2.41</td></tr><tr class="odd"><td class=" ">2012-03-19</td><td class="  sorting_1">Dunkin Donuts</td><td class="category ">Food</td><td class="category ">coffee</td><td class=" ">$1.70</td></tr><tr class="even"><td class=" ">2012-03-05</td><td class="  sorting_1">Dlr Boston</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$35.95</td></tr><tr class="odd"><td class=" ">2012-03-26</td><td class="  sorting_1">Deuxave</td><td class="category ">Entertainment</td><td class="category ">alcohol &amp; bars</td><td class=" ">$27.55</td></tr><tr class="even"><td class=" ">2012-03-19</td><td class="  sorting_1">Destination Boston</td><td class="category ">Shopping</td><td class="category ">gift</td><td class=" ">$19.99</td></tr><tr class="odd"><td class=" ">2012-03-10</td><td class="  sorting_1">CVS</td><td class="category ">Personal Care</td><td class="category ">skincare</td><td class=" ">$17.99</td></tr><tr class="even"><td class=" ">2012-03-26</td><td class="  sorting_1">CVS</td><td class="category ">Personal Care</td><td class="category ">skincare</td><td class=" ">$38.03</td></tr><tr class="odd"><td class=" ">2012-03-29</td><td class="  sorting_1">Corner Tavern</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$37.35</td></tr><tr class="even"><td class=" ">2012-03-01</td><td class="  sorting_1">Comcast</td><td class="category ">Bills and Utilities</td><td class="category ">television</td><td class=" ">$43.55</td></tr><tr class="odd"><td class=" ">2012-03-09</td><td class="  sorting_1">Chipotle</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$5.75</td></tr><tr class="even"><td class=" ">2012-03-19</td><td class="  sorting_1">Brownstone</td><td class="category ">Entertainment</td><td class="category ">alcohol &amp; bars</td><td class=" ">$60.83</td></tr><tr class="odd"><td class=" ">2012-03-06</td><td class="  sorting_1">Boston Common Movie Theatre</td><td class="category ">Entertainment</td><td class="category ">entertainment</td><td class=" ">$11.50</td></tr><tr class="even"><td class=" ">2012-03-14</td><td class="  sorting_1">Boloco</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$4.23</td></tr><tr class="odd"><td class=" ">2012-03-19</td><td class="  sorting_1">Barking Crab</td><td class="category ">Food</td><td class="category ">restaurants</td><td class=" ">$9.00</td></tr><tr class="even"><td class=" ">2012-03-23</td><td class="  sorting_1">ATM Withdrawal</td><td class="category ">Unknown</td><td class="category ">unknown</td><td class=" ">$80.00</td></tr><tr class="odd"><td class=" ">2012-03-30</td><td class="  sorting_1">Amazon - opi nail polish</td><td class="category ">Personal Care</td><td class="category ">makeup</td><td class=" ">$67.26</td></tr><tr class="even"><td class=" ">2012-03-21</td><td class="  sorting_1">Amazon</td><td class="category ">Shopping</td><td class="category ">miscellaneous</td><td class=" ">$5.00</td></tr><tr class="odd"><td class=" ">2012-03-09</td><td class="  sorting_1">Al Prime</td><td class="category ">Car</td><td class="category ">gas</td><td class=" ">$37.00</td></tr><tr class="even"><td class=" ">2012-03-09</td><td class="  sorting_1">Actors Fcu Withdrwl 262 Canal Street</td><td class="category ">Shopping</td><td class="category ">miscellaneous</td><td class=" ">$100.99</td></tr><tr class="odd"><td class=" ">2012-03-09</td><td class="  sorting_1">AAA payment</td><td class="category ">Car</td><td class="category ">auto insurance</td><td class=" ">$50.00</td></tr><tr class="even"><td class=" ">2012-03-30</td><td class="  sorting_1">45 Trull rent</td><td class="category ">Rent</td><td class="category ">rent</td><td class=" ">$1700.00</td></tr></tbody></table></div></div>
+<br>
+<br>
+<div class="" id="paycheckTable" style=""><div id="paychecks_table_wrapper" class="dataTables_wrapper" role="grid"><table cellpadding="0" cellspacing="0" border="0" class="purchases_table dataTable" id="paychecks_table"><thead><tr role="row"><th class="date sorting_asc" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Date: activate to sort column descending">Date</th><th class="gross sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="Gross: activate to sort column ascending">Gross</th><th class="deductions sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="Tax: activate to sort column ascending">Tax</th><th class="deductions sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="Healthcare: activate to sort column ascending">Healthcare</th><th class="deductions sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="FICA: activate to sort column ascending">FICA</th><th class="deductions sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="401K: activate to sort column ascending">401K</th><th class="total_deducts sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="Deductions: activate to sort column ascending">Deductions</th><th class="net sorting" role="columnheader" tabindex="0" aria-controls="paychecks_table" rowspan="1" colspan="1" aria-label="Net: activate to sort column ascending">Net</th></tr></thead><tfoot><tr><th class="date" style="text-align:right" rowspan="1" colspan="1">Totals:</th><th class="gross" rowspan="1" colspan="1">$4501.88</th><th class="deductions" rowspan="1" colspan="1">$0.00</th><th class="deductions" rowspan="1" colspan="1">$0.00</th><th class="deductions" rowspan="1" colspan="1">$0.00</th><th class="deductions" rowspan="1" colspan="1">$0.00</th><th class="total_deducts" rowspan="1" colspan="1">$0.00</th><th class="net" rowspan="1" colspan="1">$4501.88</th></tr></tfoot><tbody role="alert" aria-live="polite" aria-relevant="all"><tr class="odd"><td class="date  sorting_1">2012-03-15</td><td class="gross ">$1909.82</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="total_deducts ">-$0</td><td class="net ">$1909.82</td></tr><tr class="even"><td class="date  sorting_1">2012-03-15</td><td class="gross ">$350.23</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="total_deducts ">-$0</td><td class="net ">$350.23</td></tr><tr class="odd"><td class="date  sorting_1">2012-03-29</td><td class="gross ">$166.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="total_deducts ">-$0</td><td class="net ">$166</td></tr><tr class="even"><td class="date  sorting_1">2012-03-30</td><td class="gross ">$1909.83</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="total_deducts ">-$0</td><td class="net ">$1909.83</td></tr><tr class="odd"><td class="date  sorting_1">2012-03-30</td><td class="gross ">$166.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="deductions ">-$0.00</td><td class="total_deducts ">-$0</td><td class="net ">$166</td></tr></tbody></table></div></div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br><div style="position: absolute; display: none;"><div style="background-color: infobackground; padding: 1px; border: 1px solid infotext; font-size: 13px; margin: 13px; font-family: Arial; background-position: initial initial; background-repeat: initial initial;">Public Transportation</div></div>
+
+
+</body></html>

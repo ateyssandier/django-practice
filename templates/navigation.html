@@ -1,0 +1,30 @@
+<div class="generate_report">
+    {{ navigation_form }}
+
+
+    <form method="post" action="" enctype="application/x-www-form-urlencoded" name="report_form">
+        <p class="thelabel">
+            Choose a monthly report
+        </p>
+        <p class="switch">
+        {% for i in months %}
+            &nbsp;&nbsp;<input onclick="getReport('standard')" type="radio" class="radio_switches" id="{{ i  }}" name="{{ i }}" value="{{ i }}">
+            <label for="months{{   i }}" id="cb-{{ i }}" class="cb-enable"><span>{{ i }}</span></label>
+        {% endfor %}
+        </p><br>
+        <p class="switch">&nbsp;&nbsp;<input onclick="getReport('standard')" type="radio" class="radio_switches" id="years1" name="years" value="2010">
+        {% for i in years %}
+            <label id="cb-{{ i }}" for="years{{ i }}" class="cb-enable"><span>{{ i }}</span></label>
+            &nbsp;&nbsp;<input onclick="getReport('standard')" type="radio" class="radio_switches" id="{{ i }}" name="{{ i }}" value="{{ i }}">
+        {% endfor %}
+        </p><br>
+        <br>
+        <p class="thelabel">
+            Or, define your own custom date
+        </p>
+        <input type="text" name="Date" value="mm" size="1" maxlength="2" id="frommonth">/<input type="text" name="Date" value="dd" size="1" maxlength="2" id="fromday">/<input type="text" name="Date" value="yyyy" size="2" maxlength="4" id="fromyear"> to
+        <input type="text" name="Date" value="mm" size="1" maxlength="2" id="tomonth">/<input type="text" name="Date" value="dd" size="1" maxlength="2" id="today">/<input type="text" name="Date" value="yyyy" size="2" maxlength="4" id="toyear"><br>
+        <br>
+        <a class="button" onclick="getReport('custom')" href="javascript:void(0)"><span>Go!</span></a>
+    </form>
+</div>

@@ -1,0 +1,67 @@
+{% load less %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/superfish.css" media="screen">
+    <link href="{{ STATIC_URL }}less/styles.less" type="text/less" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL}}{% less "less/styles.less" %}" />
+    <title>Transactions</title>
+</head>
+<body>
+    <h3>report budget</h3>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/hoverIntent.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/superfish.js"></script>
+    <script type='text/javascript' src='http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js'></script>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript' src="{{ STATIC_URL }}js/budget.js"></script>
+    <script type='text/javascript'>
+
+        startCurrent();
+
+        jQuery(function(){
+            jQuery('ul.sf-menu').superfish();
+        });
+
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1.0', {'packages':['corechart']});
+        google.load('visualization', '1', {packages:['table']});
+    </script>
+
+
+    {% include "modals/addcategory.html" %}
+    <div id="background_overlay"></div>
+
+    {%  include "add_paycheck.html" %}
+
+    <br>
+    <br>
+
+    {% include "input_receipt.html" %}
+
+    <br>
+    <br>
+
+    {%  include "navigation.html" %}
+
+    <br>
+    <br>
+
+    {%  include "getreport.html" %}
+
+
+{% for transaction in transaction_list %}
+    <ul>
+        <li>{{ transaction.date }}</li>
+        <li>{{ transaction.item_desc }}</li>
+        <li>{{ transaction.cost }}</li>
+        <li>{{ transaction.category.subCategory}}</li>
+    </ul>
+{% endfor %}
+
+
+
+</body>
+</html>

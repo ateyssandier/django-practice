@@ -1,0 +1,13 @@
+<div id="addlabelpopup">
+<form id='addcategory_form' action="{% url addcategory %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div style="height:50px">
+        Add new category under <span id="supercategoryspan"></span>
+    </div>
+    {{ add_category_form.sub_category }}
+    <p><input id="add_category_button" type="submit" value="Add"/></p>
+    <span id="addlabelresult"></span>
+    <br>
+    <a href="#" id="closeCategoryPopup" onclick="closeCategoryPopup()">close</a>
+</form>
+</div>

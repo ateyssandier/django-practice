@@ -1,0 +1,51 @@
+<div id="input_paycheck" class="input_paycheck">
+    <form id="addpaycheck_form" method="post" action="{% url addpaycheck %}" >
+        <div style="display:inline; float:left">
+            <label  for='id_month'><span>Date</span></label>
+            <br>
+            {{ input_paycheck.month }} / {{ input_paycheck.day }} / {{ input_paycheck.year }}
+        </div>
+        <div style="display:inline; float:left; margin-left:30px">
+            <label  for='gross'><span>Gross Pay</span></label>
+            <br>
+            {{ input_paycheck.gross }}
+        </div>
+
+        <div style="display:inline; float:left; margin-left:30px">
+            <label  for='tax'><span>Tax</span></label>
+            <br>
+            <span class='deduct_td'>-$</span>
+            {{ input_paycheck.tax }}
+        </div>
+
+        <div style="display:inline; float:left; margin-left:30px">
+            <label  for='k401'><span>401k</span></label>
+            <br>
+            <span class='deduct_td'>-$</span>
+            {{ input_paycheck.k401 }}
+        </div>
+
+        <div style="display:inline; float:left; margin-left:30px">
+            <label  for='healthcare'><span>Healthcare</span></label>
+            <br>
+            <span class='deduct_td'>-$</span>
+            {{ input_paycheck.healthcare }}
+        </div>
+
+        <div style="display:inline; float:left; margin-left:30px">
+            <label  for='fica'><span>FICA</span></label>
+            <br>
+            <span class='deduct_td'>-$</span>
+            {{ input_paycheck.fica }}
+        </div>
+
+    </form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div><a class='button' onClick=addPaycheck() href='javascript:void(0);'><span>Add Paycheck</span></a></div>
+<br>
+<span id="addpaycheckresult"></span>
