@@ -10,6 +10,7 @@ import datetime
 
 
 
+
 def addcategory(request):
 
     # Handle file upload
@@ -141,27 +142,49 @@ def getCategories():
 
 
 def getreport(request):
-# Handle file upload
+
     if request.method == 'POST':
+        form = NavigationForm(request.POST, request.FILES)
 
+        print "posting url"
 
-        form = AddCategoryForm(request.POST, request.FILES)
         if request.is_ajax():
+
+            print "form is ajax"
+
+
 
             if form.is_valid():
                 print 'form is valid'
-                superCategory = request.POST.get('super_category')
-                subCategory = request.POST.get('sub_category')
+                #"2011-01-01",
 
-                print superCategory
-                print subCategory
+                #from_date = request.POST.get('from')
+                #to_date = request.POST.get('to')
+                from_month = 12
+                from_year = 2012
+                from_day = 15
+
+                to_month = 1
+                to_year = 2013
+                to_day = 31
+
+                start_date = datetime.date(from_year, from_month, from_day)
+                end_date = datetime.date(to_year, to_month, to_day)
+
+                #import pdb; pdb.set_trace()
+
+                transaction_list = Purchases.objects.filter(date__range=(start_date, end_date)).order_by('-date')[:10]
+
+                for transaction in transaction_list:
+                    #here we will need to pass in all the data that the template and the javascript will need
+                    pass
 
 
-                _addCategory(superCategory, subCategory)
-                results = {'success':True, 'addedCategory': superCategory, 'addedSubCategory': subCategory}
+                results = {'success':True}
 
 
             jsonResult = json.dumps(results)
+
             return HttpResponse(jsonResult, mimetype='application/json')
         else:
             return HttpResponse("nonajax")

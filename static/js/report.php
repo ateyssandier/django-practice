@@ -180,7 +180,7 @@ if(($tax_sum =  $row['tax']) == ''){
     #super piechart
         #401k, healthcare, fica, eachcategory, savings, , tax
         //build the  categories column string
-        $categoriesString = "superData.addRows([\n";
+    $categoriesString = "superData.addRows([\n";
         $counter =0;
 
         for($counter = 0; $counter<count($supercategories); $counter++){

@@ -330,11 +330,17 @@ function startCurrent(){
 
 //notDone
 function getReport(str){
-    if(str == "standard"){
-        processDate();
+    "use strict";
+
+    return;
+
+    if(str === "standard"){
+        from = "2011-01-01";
+        to = "2011-01-31";
+        //processDate();
     }
 
-    if(str == "custom"){
+    if(str === "custom"){
         var monthfrom = document.report_form.frommonth.value;
         monthfrom = trimNumber(monthfrom);
         var dayfrom = document.report_form.fromday.value;
@@ -355,23 +361,24 @@ function getReport(str){
         // Animation complete
     });
 
-    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    }
-    else{// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState==4 && xmlhttp.status==200){
-            var innerHTMLDoc = xmlhttp.responseText;
-            //alert(innerHTMLDoc);
-            eval(xmlhttp.responseText);
-        }
-    }
 
-    //alert("From: "+from+"\nTo: "+to);
-    xmlhttp.open("GET","getReport.php?&from="+from+"&to="+to,true);
-    xmlhttp.send();
+    var newurl = $("#report_form").attr( 'action' );
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        data: { from: from, to: to },
+        success: function(data){
+            var response = data;
+            //var message = "Successfully added " + response['addedSubCategory'] +  " into " +  response['addedCategory']+".";
+            //$("#addlabelresult").html(message);
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
 
 }
 
@@ -454,7 +461,7 @@ function refreshCategories(){
     window.location.reload();
 }
 
-//not done
+//not done, might noeed to be refactored
 function processDate(){
     var startmonth="";
     var numdays="";
@@ -489,7 +496,7 @@ function processDate(){
 }
 
 
-//notDone
+//notDone, might not be necessary
 function daysInMonth(monthint){
     var months=new Array(12);
     var adjmonthint = monthint-1;
@@ -510,7 +517,7 @@ function daysInMonth(monthint){
 }
 
 
-//notDone
+//notDonemight not be necessary.
 function make_open_dialog(){
     $('#add-label-popup').dialog({
         autoOpen: false,
@@ -534,9 +541,11 @@ $(document).ready( function(){
 
     $(".cb-enable").click(function(){
         var parent = $(this).parents('.switch');
+        var current_id = $(this).attr('for');
         $('.cb-enable',parent).removeClass('selected');
         $(this).addClass('selected');
-        $('.checkbox',parent).attr('checked', true);
+        var radio_button = $('#'+current_id);
+        radio_button.attr('checked', 'checked');
     });
 
 
@@ -552,11 +561,23 @@ $(document).ready( function(){
     });
 
 
+    $("#report_form").submit(function(event) {
+        event.preventDefault();
+
+        setTimeout(
+            function() {
+                getReport();
+            },
+            1
+        );
+    });
+
+
     var monthNames = [ "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December" ];
 
     var currentTime = new Date();
-    var monthname = monthNames[currentTime.getMonth()];
+    var monthname = currentTime.getMonth();
     var year = currentTime.getFullYear();
 
     $('#cb-'+monthname).trigger('click');
