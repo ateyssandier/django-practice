@@ -13,6 +13,9 @@ var cost;
 
 var originalInputReceiptDiv;
 
+// Load the Visualization API and the piechart package.
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.load('visualization', '1', {packages:['table']});
 
 //not done, probably  not needed
 function launchSelect(clickednode){
@@ -29,7 +32,7 @@ function addBindings(){
         $('ul.sf-menu').hideSuperfishUl();
         var selected = $(this).html();
 
-        if(selected == 'Add Category'){
+        if(selected === 'Add Category'){
             var superparent = $(this).parents(".supercategory_li").find("a").find('.category_content');
             superCat = superparent.html();
             showAddCategoryPanel(superCat);
@@ -82,7 +85,7 @@ function addReceipt(){
     var dateArray = [];
 
 
-    product_div
+    //product_div
 
     $.each($(".product_div"), function() {
         var month = this.find('.month');
@@ -332,8 +335,6 @@ function startCurrent(){
 function getReport(str){
     "use strict";
 
-    return;
-
     if(str === "standard"){
         from = "2011-01-01";
         to = "2011-01-31";
@@ -373,6 +374,20 @@ function getReport(str){
             var response = data;
             //var message = "Successfully added " + response['addedSubCategory'] +  " into " +  response['addedCategory']+".";
             //$("#addlabelresult").html(message);
+
+
+            google.setOnLoadCallback(drawChart(convertToArray(response.gross_array)), drawChartSummary(convertToArray(response.gross_array)),
+            drawChartPurchases2(),
+            drawChartPaycheck());
+
+
+
+
+            $('#allreports').fadeIn(900, function() {
+                // Animation complete
+            });
+
+
         },
         dataType: 'json',
         beforeSend: function(xhr, settings){
@@ -380,6 +395,17 @@ function getReport(str){
         }
     });
 
+}
+
+function convertToArray(data){
+    var newArray = [];
+    for (var key in data) {
+        var keyvalue =  data[key];
+        var newMiniArray = [key, keyvalue];
+        newArray.push(newMiniArray)
+
+    }
+    return newArray;
 }
 
 //done

@@ -20,9 +20,6 @@
     <script type='text/javascript' src="{{ STATIC_URL }}js/report.js"></script>
 
     <script type='text/javascript'>
-
-        startCurrent();
-
         jQuery(function(){
             jQuery('ul.sf-menu').superfish();
         });
@@ -30,6 +27,11 @@
         // Load the Visualization API and the piechart package.
         google.load('visualization', '1.0', {'packages':['corechart']});
         google.load('visualization', '1', {packages:['table']});
+
+        google.setOnLoadCallback(startCurrent);
+
+
+
     </script>
 
 
