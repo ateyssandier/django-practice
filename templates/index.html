@@ -27,11 +27,6 @@
         // Load the Visualization API and the piechart package.
         google.load('visualization', '1.0', {'packages':['corechart']});
         google.load('visualization', '1', {packages:['table']});
-
-        google.setOnLoadCallback(startCurrent);
-
-
-
     </script>
 
 
@@ -54,18 +49,6 @@
     <br>
 
     {%  include "getreport.html" %}
-
-
-{% for transaction in transaction_list %}
-    <ul>
-        <li>{{ transaction.date }}</li>
-        <li>{{ transaction.item_desc }}</li>
-        <li>{{ transaction.cost }}</li>
-        <li>{{ transaction.category.subCategory}}</li>
-    </ul>
-{% endfor %}
-
-
 
 </body>
 </html>

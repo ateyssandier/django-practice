@@ -4,11 +4,11 @@ var subData;
 var sub_chart;
 var bdData;
 var bd_chart;
-var mouseXPos;
-var mouseYPos;
 
-    
+
 function drawChart(gross_array) {
+    "use strict";
+
     //gross_array
     /*[
      ['Car', 113.61 ],
@@ -20,77 +20,56 @@ function drawChart(gross_array) {
      ['Student Loans', 1900.35 ],
      ['Tolls', 40.00 ],
      ['Savings' , 199.88],
-     ['401k' , 0.00],
-     ['Federal/State Taxes' , 0.00],
-     ['Healthcare' , 0.00],
-     ['FICA' , 0.00]
      ]*/
 
-    //net_array
-    /*[
-     ['Car', 113.61 ],
-     ['Clothing', 66.70 ],
-     ['Food', 60.98 ],
-     ['Gas', 194.00 ],
-     ['Personal Care', -35.28 ],
-     ['Shopping', 621.65 ],
-     ['Student Loans', 1900.35 ],
-     ['Tolls', 40.00 ],
-     ['Savings' , 199.88]
-     ]*/
 
 
     // Create the superData table.
-    superData = new google.visualization.DataTable();
-    superData.addColumn('string', 'categories');
-    superData.addColumn('number', 'Dollars');
-    superData.addRows(gross_array);
-    // Set chart options
-    var options = {'title':'General Expenses',
-                 'width':600,
-                 'height':450};
-                     
-      
+        superData = new google.visualization.DataTable();
+        superData.addColumn('string', 'categories');
+        superData.addColumn('number', 'Dollars');
+        superData.addRows(gross_array);
+        // Set chart options
+        var options = {'title':'General Expenses',
+                     'width':600,
+                     'height':450};
+
+
     // Create the subData table.
-    //    subData = new google.visualization.DataTable();
-    //    subData.addColumn('string', 'categories');
-    //    subData.addColumn('number', 'Dollars');
-    // Set chart options
-    var options2 = {'title':'Specific Expenses','width':600, 'height':450};
+        //    subData = new google.visualization.DataTable();
+        //    subData.addColumn('string', 'categories');
+        //    subData.addColumn('number', 'Dollars');
+        // Set chart options
+        //var options2 = {'title':'Specific Expenses','width':600, 'height':450};
 
 
 
     // Create the bdData table.
-    //    bdData = new google.visualization.DataTable();
-    //    bdData.addColumn('string', 'categories');
-    //    bdData.addColumn('number', 'Dollars');
-    //TODO: create categoriesStringBD
-    // Set chart options
-    //  var options3 = {'title':'Paycheck Breakdown','width':600, 'height':450};
+        //    bdData = new google.visualization.DataTable();
+        //    bdData.addColumn('string', 'categories');
+        //    bdData.addColumn('number', 'Dollars');
+        // Set chart options
+        //  var options3 = {'title':'Paycheck Breakdown','width':600, 'height':450};
 
     // Instantiate and draw our chart, passing in some options.
     super_chart = new google.visualization.PieChart(document.getElementById('super_chart_div'));
     //sub_chart = new google.visualization.PieChart(document.getElementById('sub_chart_div'));
     //bd_chart = new google.visualization.PieChart(document.getElementById('bd_chart_div'));
-    
+
     google.visualization.events.addListener(super_chart, 'select', superHandler);
     //google.visualization.events.addListener(sub_chart, 'select', subHandler);
     //google.visualization.events.addListener(bd_chart, 'select', bdHandler);
-      
+
     super_chart.draw(superData, options);
     //sub_chart.draw(subData, options2);
     //bd_chart.draw(bdData, options3);
 }
 
  function superHandler() {
-    //$('#sub_net_chart_div').fadeOut(900, function() {
-        // Animation complete
-    //});
+     "use strict";
 
     var selectedItem = super_chart.getSelection()[0];
-     alert(selectedItem);
     var value = superData.getValue(selectedItem.row, 0);
-     alert(value);
 
 
      // Create the netSubData table.
@@ -98,22 +77,19 @@ function drawChart(gross_array) {
     netSubData.addColumn('string', 'categories');
     netSubData.addColumn('number', 'Dollars');
 
-    eval(getWhatToAdd(value));
+    var sub_array = getSubArray(value);
+
+    netSubData.addRows(sub_array);
     var options = {'title':value+' Breakdown', 'titleTextStyle':{fontSize: 20},'legend':'none', 'backgroundColor':'', 'width':400, 'height':300};
     var sub_net_chart = new google.visualization.PieChart(document.getElementById('sub_net_chart_div'));
     sub_net_chart.draw(netSubData, options);
 
-    //$('#sub_net_chart_div').fadeIn(900, function() {
-          // Animation complete
-    //});
     showSubChartDivPopup('net');
 }
-    
+
 function subHandler() {
-    //$('#sub_net_chart_div').fadeOut(900, function() {
-        // Animation complete
-    //});
-        
+    "use strict";
+
     var selectedItem = net_chart.getSelection()[0];
     var value = subData.getValue(selectedItem.row, 0);
 
@@ -122,41 +98,39 @@ function subHandler() {
     var netSubData = new google.visualization.DataTable();
     netSubData.addColumn('string', 'categories');
     netSubData.addColumn('number', 'Dollars');
-     
-    eval(getWhatToAdd(value));
+
     var options = {'title':value+' Breakdown', 'titleTextStyle':{fontSize: 20},'legend':'none', 'backgroundColor':'', 'width':400, 'height':300};
     var sub_net_chart = new google.visualization.PieChart(document.getElementById('sub_net_chart_div'));
     sub_net_chart.draw(netSubData, options);
-              
-    //$('#sub_net_chart_div').fadeIn(900, function() {
-      // Animation complete
-    //});
+
     showSubChartDivPopup('net');
 }
 
-function getWhatToAdd(value){
-    if(value == 'Bills and Utilities'){
-        return "netSubData.addRows([ ['mobile phone', 41.82 ], ])";
-    }
-    if(value == 'Car'){
-        return "netSubData.addRows([ ['tolls', 40.00 ], ['auto insurance', 113.61 ], ['gas', 194.00 ], ['auto payment', 374.14 ], ])";
-    }
-    if(value == 'Clothing'){
-        return "netSubData.addRows([ ['clothing', 66.70 ], ])";
-    }
-    if(value == 'Food'){
-        return "netSubData.addRows([ ['coffee', 10.88 ], ['restaurants', 40.59 ], ['groceries', 9.51 ], ])";
-    }
-    if(value == 'Personal Care'){
-        return "netSubData.addRows([ ['hair', -35.28 ], ])";
-    }
-    if(value == 'Shopping'){
-        return "netSubData.addRows([ ['electronics', 154.75 ], ['miscellaneous', 50.94 ], ])";
-    }
-    if(value == 'Student Loans'){
-        return "netSubData.addRows([ ['student loan', 1900.35 ], ])";
-    }
-    
+function getSubArray(superCategory){
+    "use strict";
+    var newArray = new Array();
+
+    var newurl = "/getsubchart/";
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        async: false,
+        data: { from: from, to: to, super_category: superCategory },
+        success: function(data){
+            var response = data;
+            newArray = convertToArray(response.sub_transaction_array)
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+
+    return newArray;
+
 }
 
 function drawChartSummary(summary_data){
@@ -180,167 +154,149 @@ function drawChartSummary(summary_data){
     var options = {'title':'Net Paycheck Breakdown','width':200, 'height':450, allowHTML: true};
     table.draw(sumData, options);
 }
-    
-function drawChartPurchases2(){
-    document.getElementById('purchasesTable2').innerHTML =
-        '<table cellpadding="0" cellspacing="0" border="0" class="purchases_table" id="purchases_table">' +
-            '<thead>' +
-            '<tr>' +
-                '<th>' +
-                    'Date' +
-                '</th>' +
-                '<th>' +
-                    'Description' +
-                '</th>' +
-                '<th class="category">' +
-                    'Category' +
-                '</th>' +
-                '<th class="category">' +
-                    'Sub-category' +
-                '</th>' +
-                '<th>' +
-                    'Cost</th></tr></thead><tbody><tr><td>2011-06-28</td><td>SunPass</td><td class="category">Car</td><td class="category">tolls</td><td>$10.00</td></tr><tr><td>2011-06-28</td><td>McDonald\'s</td><td class="category">Food</td><td class="category">coffee</td><td>$1.06</td></tr><tr><td>2011-06-25</td><td>Cafe De France</td><td class="category">Food</td><td class="category">restaurants</td><td>$30.14</td></tr><tr><td>2011-06-23</td><td>Cumberland Farms - Gas</td><td class="category">Car</td><td class="category">gas</td><td>$43.00</td></tr><tr><td>2011-06-22</td><td>McDonald\'s</td><td class="category">Food</td><td class="category">coffee</td><td>$1.06</td></tr><tr><td>2011-06-21</td><td>Educational Comp Des</td><td class="category">Student Loans</td><td class="category">student loan</td><td>$1533.25</td></tr><tr><td>2011-06-20</td><td>Barnes & Noble</td><td class="category">Food</td><td class="category">coffee</td><td>$2.98</td></tr><tr><td>2011-06-20</td><td>SunPass</td><td class="category">Car</td><td class="category">tolls</td><td>$10.00</td></tr><tr><td>2011-06-17</td><td>374.14</td><td class="category">Car</td><td class="category">auto payment</td><td>$374.14</td></tr><tr><td>2011-06-17</td><td>Vehicle Registration</td><td class="category">Car</td><td class="category">auto insurance</td><td>$58.35</td></tr><tr><td>2011-06-17</td><td>Car Insurance</td><td class="category">Car</td><td class="category">auto insurance</td><td>$55.26</td></tr><tr><td>2011-06-17</td><td>Tmobile</td><td class="category">Bills and Utilities</td><td class="category">mobile phone</td><td>$41.82</td></tr><tr><td>2011-06-17</td><td>Wal-Mart</td><td class="category">Shopping</td><td class="category">miscellaneous</td><td>$25.31</td></tr><tr><td>2011-06-16</td><td>Chevron</td><td class="category">Car</td><td class="category">gas</td><td>$40.00</td></tr><tr><td>2011-06-16</td><td>McDonald\'s - Coffee</td><td class="category">Food</td><td class="category">coffee</td><td>$1.06</td></tr><tr><td>2011-06-14</td><td>SunPass</td><td class="category">Car</td><td class="category">tolls</td><td>$10.00</td></tr><tr><td>2011-06-13</td><td>Exxon - Gas</td><td class="category">Car</td><td class="category">gas</td><td>$40.00</td></tr><tr><td>2011-06-13</td><td>Sallie Mae</td><td class="category">Student Loans</td><td class="category">student loan</td><td>$82.28</td></tr><tr><td>2011-06-13</td><td>Sallie Mae</td><td class="category">Student Loans</td><td class="category">student loan</td><td>$84.82</td></tr><tr><td>2011-06-11</td><td>Rotelli Pizza & Pasta - Lunch with Velitas</td><td class="category">Food</td><td class="category">restaurants</td><td>$10.45</td></tr><tr><td>2011-06-10</td><td>Staples - Micro usb reader</td><td class="category">Shopping</td><td class="category">electronics</td><td>$7.41</td></tr><tr><td>2011-06-10</td><td>McDonald\'s</td><td class="category">Food</td><td class="category">coffee</td><td>$1.06</td></tr><tr><td>2011-06-09</td><td>Barnes & Noble - Nook</td><td class="category">Shopping</td><td class="category">electronics</td><td>$147.34</td></tr><tr><td>2011-06-08</td><td>Whole Foods</td><td class="category">Food</td><td class="category">groceries</td><td>$9.51</td></tr><tr><td>2011-06-07</td><td>Barnes & Noble</td><td class="category">Food</td><td class="category">coffee</td><td>$1.54</td></tr><tr><td>2011-06-07</td><td>Barnes & Noble</td><td class="category">Shopping</td><td class="category">miscellaneous</td><td>$20.96</td></tr><tr><td>2011-06-07</td><td>Ross</td><td class="category">Clothing</td><td class="category">clothing</td><td>$26.46</td></tr><tr><td>2011-06-07</td><td>Collegiate Funding Svcs - Chase</td><td class="category">Student Loans</td><td class="category">student loan</td><td>$200.00</td></tr><tr><td>2011-06-06</td><td>Sunshine - Gas</td><td class="category">Car</td><td class="category">gas</td><td>$43.00</td></tr><tr><td>2011-06-06</td><td>Barnes & Noble - Harry Potter and Philosophy</td><td class="category">Shopping</td><td class="category">miscellaneous</td><td>$4.67</td></tr><tr><td>2011-06-03</td><td>SunPass</td><td class="category">Car</td><td class="category">tolls</td><td>$10.00</td></tr><tr><td>2011-06-02</td><td>McDonald\'s</td><td class="category">Food</td><td class="category">coffee</td><td>$1.06</td></tr><tr><td>2011-06-01</td><td>Ross</td><td class="category">Clothing</td><td class="category">clothing</td><td>$40.24</td></tr><tr><td>2011-06-01</td><td>CVS</td><td class="category">Personal Care</td><td class="category">hair</td><td>$-35.28</td></tr><tr><td>2011-06-01</td><td>Chevron - Gas</td><td class="category">Car</td><td class="category">gas</td><td>$28.00</td></tr><tr><td>2011-06-01</td><td>McDonald\'s - Coffee</td><td class="category">Food</td><td class="category">coffee</td><td>$1.06</td></tr></tbody><tfoot><tr><th style="text-align:right" colspan="4">Total:</th><th></th></tr></tfoot></table>';
 
-    $('#purchases_table').dataTable( {
+function drawChartPurchases2(transaction_list){
+    "use strict";
+    var newurl = "/getpurchasestable/";
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $('#purchasesTable2').load('/getpurchasestable?from='+from+'&to='+to, function(){
+
+        $('#purchases_table').dataTable( {
             'bPaginate': false,
             'bLengthChange': false,
             'bFilter': true,
             'bSort': true,
             'bInfo': false,
             'bAutoWidth': false,
-            'aaSorting': [[ 1, 'desc' ]],
-            'fnFooterCallback': function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-                                    /* Calculate the market share for browsers on this page */
-                                    var iPageMarket = 0;
-                                    for ( var i=iStart ; i<iEnd ; i++ ){
-                                        var temp = aaData[ aiDisplay[i] ][4];
-                                        temp = temp.substring(1);
-                                        temp = parseFloat(temp);
-                                        var factor = Math.pow(10,2);
-                                        temp =  Math.floor(temp*factor+((temp*factor*10)%10>=5?1:0));
-                                        iPageMarket +=  temp;
-                                    }
-
-                                    /* Modify the footer row to match what we want */
-                                    var nCells = nRow.getElementsByTagName('th');
-                                    nCells[1].innerHTML = '$' + (iPageMarket/100).toFixed(2);
-            }
-    } );
-}
-
-function drawChartPaycheck(){
-    document.getElementById('paycheckTable').innerHTML = '<table cellpadding="0" cellspacing="0" border="0" class="purchases_table" id="paychecks_table"><thead><tr><th class="date">Date</th><th class="gross">Gross</th><th class="deductions">Tax</th><th class="deductions">Healthcare</th><th class="deductions">FICA</th><th class="deductions">401K</th><th class="total_deducts">Deductions</th><th class="net">Net</th></tr></thead><tbody><tr><td class="date">2011-06-24</td><td class="gross">\$1607.03</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="total_deducts">-$0</td><td class="net">\$1607.03</td></tr><tr><td class="date">2011-06-17</td><td class="gross">\$700.46</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="total_deducts">-$0</td><td class="net">\$700.46</td></tr><tr><td class="date">2011-06-10</td><td class="gross">\$854.40</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="deductions">-\$0.00</td><td class="total_deducts">-$0</td><td class="net">\$854.4</td></tr></tbody><tfoot><tr><th class="date" style="text-align:right">Totals:</th><th class="gross"></th><th class="deductions"></th><th class="deductions"></th><th class="deductions"></th><th class="deductions"></th><th class="total_deducts"></th><th class="net"></th></tr></tfoot></table>';
-        
-    $('#paychecks_table').dataTable( {
-            'bPaginate': false,
-            'bLengthChange': false,
-            'bFilter': false,
-            'bSort': true,
-            'bInfo': false,
-            'bAutoWidth': false,
             'aaSorting': [[ 0, 'asc' ]],
             'fnFooterCallback': function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-                var gross = 0;
-                var tax = 0;
-                var healthcare = 0;
-                var fica = 0;
-                var k401 = 0;
-                var totalDeductions = 0;
-                var net = 0;
+                /* Calculate the total cost on this page */
+                var iPageMarket = 0;
                 for ( var i=iStart ; i<iEnd ; i++ ){
-                    var temp = aaData[ aiDisplay[i] ][1];
+                    var temp = aaData[ aiDisplay[i] ][4];
                     temp = temp.substring(1);
                     temp = parseFloat(temp);
-                    gross +=  temp;
-
-                    temp = aaData[ aiDisplay[i] ][2];
-                    temp = temp.substring(2);
-                    temp = parseFloat(temp);
-                    tax +=  temp;    
-                    
-                    temp = aaData[ aiDisplay[i] ][3];
-                    temp = temp.substring(2);
-                    temp = parseFloat(temp);
-                    healthcare +=  temp;                
-                    
-                    temp = aaData[ aiDisplay[i] ][4];
-                    temp = temp.substring(2);
-                    temp = parseFloat(temp);
-                    fica +=  temp;
-                    
-                    temp = aaData[ aiDisplay[i] ][5];
-                    temp = temp.substring(2);
-                    temp = parseFloat(temp);
-                    k401 +=  temp;
-                    
-                    temp = aaData[ aiDisplay[i] ][6];
-                    temp = temp.substring(2);
-                    temp = parseFloat(temp);
-                    totalDeductions +=  temp;
-                    
-                    temp = aaData[ aiDisplay[i] ][7];
-                    temp = temp.substring(1);
-                    temp = parseFloat(temp);
-                    net +=  temp;
-                    
+                    var factor = Math.pow(10,2);
+                    temp =  Math.floor(temp*factor+((temp*factor*10)%10>=5?1:0));
+                    iPageMarket +=  temp;
                 }
-            
+
                 /* Modify the footer row to match what we want */
                 var nCells = nRow.getElementsByTagName('th');
-                nCells[1].innerHTML = '$' + gross.toFixed(2);
-                nCells[2].innerHTML = '$' + tax.toFixed(2);
-                nCells[3].innerHTML = '$' + healthcare.toFixed(2);
-                nCells[4].innerHTML = '$' + fica.toFixed(2);
-                nCells[5].innerHTML = '$' + k401.toFixed(2);
-                nCells[6].innerHTML = '$' + totalDeductions.toFixed(2);
-                nCells[7].innerHTML = '$' + net.toFixed(2);
-            } 
+                nCells[1].innerHTML = '$' + (iPageMarket/100).toFixed(2);
+            }
+        } );
     });
 }
 
-function drawLargeSummary(){
-    var savings = 199.88;
-    var theclass = 'income';
+function drawChartPaycheck(){
+    var newurl = "/getpaycheckstable/";
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $('#paycheckTable').load('/getpaycheckstable?from='+from+'&to='+to, function(){
+
+        $('#paychecks_table').dataTable( {
+                'bPaginate': false,
+                'bLengthChange': false,
+                'bFilter': false,
+                'bSort': true,
+                'bInfo': false,
+                'bAutoWidth': false,
+                'aaSorting': [[ 0, 'asc' ]],
+                'fnFooterCallback': function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                    var gross = 0;
+                    var tax = 0;
+                    var healthcare = 0;
+                    var fica = 0;
+                    var k401 = 0;
+                    var totalDeductions = 0;
+                    var net = 0;
+                    for ( var i=iStart ; i<iEnd ; i++ ){
+                        var temp = aaData[ aiDisplay[i] ][1];
+                        temp = temp.substring(1);
+                        temp = parseFloat(temp);
+                        gross +=  temp;
+
+                        temp = aaData[ aiDisplay[i] ][2];
+                        temp = temp.substring(2);
+                        temp = parseFloat(temp);
+                        tax +=  temp;
+
+                        temp = aaData[ aiDisplay[i] ][3];
+                        temp = temp.substring(2);
+                        temp = parseFloat(temp);
+                        healthcare +=  temp;
+
+                        temp = aaData[ aiDisplay[i] ][4];
+                        temp = temp.substring(2);
+                        temp = parseFloat(temp);
+                        fica +=  temp;
+
+                        temp = aaData[ aiDisplay[i] ][5];
+                        temp = temp.substring(2);
+                        temp = parseFloat(temp);
+                        k401 +=  temp;
+
+                        temp = aaData[ aiDisplay[i] ][6];
+                        temp = temp.substring(2);
+                        temp = parseFloat(temp);
+                        totalDeductions +=  temp;
+
+                        temp = aaData[ aiDisplay[i] ][7];
+                        temp = temp.substring(1);
+                        temp = parseFloat(temp);
+                        net +=  temp;
+
+                    }
+
+                    /* Modify the footer row to match what we want */
+                    var nCells = nRow.getElementsByTagName('th');
+                    nCells[1].innerHTML = '$' + gross.toFixed(2);
+                    nCells[2].innerHTML = '$' + tax.toFixed(2);
+                    nCells[3].innerHTML = '$' + healthcare.toFixed(2);
+                    nCells[4].innerHTML = '$' + fica.toFixed(2);
+                    nCells[5].innerHTML = '$' + k401.toFixed(2);
+                    nCells[6].innerHTML = '$' + totalDeductions.toFixed(2);
+                    nCells[7].innerHTML = '$' + net.toFixed(2);
+                }
+        });
+
+    });
+}
+
+function drawLargeSummary(income, expenses, savings){
+    var savingsclass = 'income';
     if(savings < 0){
-        theclass='expenses';
+        savingsclass='expenses';
     }
 
-    var summaryHTML = 'INCOME:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="income">$3161.89</span><br>EXPENSES:&nbsp;&nbsp;<span class="expenses">$2962.01</span><br>SAVINGS:&nbsp;&nbsp;&nbsp;&nbsp;<span class="'+theclass+'">$'+savings+'</span>';
-    document.getElementById('finalSummaryDiv').innerHTML = summaryHTML;
-
-    var frHeader = document.getElementById('reportResult');
-    frHeader.innerHTML = '<h3>Report for 2011-6-1 to 2011-6-30 </h3>';
+    $('#income').html("$"+income);
+    $('#expenses').html("$"+expenses);
+    $('#savings').html("$"+parseFloat(savings).toFixed(2));
+    $("savings").attr('class', savingsclass);
 
 }
 
-drawChart();
-drawChartSummary();
-drawChartPurchases2();
-drawChartPaycheck();
-drawLargeSummary();
-    
-$('#allreports').fadeIn(900, function() {
-      // Animation complete
-});
-    
+
 
 function showSubChartDivPopup(which){
-    
+
     //hide the background by displaying the overlay
     var background_overlay = document.getElementById('background_overlay');
     background_overlay.style.display = 'inline';
 
     var addlabelpopup1;
     addlabelpopup1 = document.getElementById('sub_net_chart_div');
-    
 
-    
+
+
     // w is a width of the addlabelpopup1 panel
     w = 400;
     // h is a height of the addlabelpopup1 panel
     h = 300;
     // get the x and y coordinates to center the addlabelpopup1 panel
-    
+
     xc = Math.round((window.innerWidth/2)-(w/2));
     yc = Math.round(($(window).scrollTop()+(window.innerHeight/2))-(h/2));
     // show the addlabelpopup1 panel
@@ -349,19 +305,19 @@ function showSubChartDivPopup(which){
     addlabelpopup1.style.display = 'block';
 }
 
-$(document).ready( function(){ 
+/*$(document).ready( function(){
     $(document).bind('click', function(e) {
         var clicked = $(e.target);
-        
-        if (!clicked.parents().hasClass('subChart')){          
-      
+
+        if (!clicked.parents().hasClass('subChart')){
+
             var background_overlay = document.getElementById('background_overlay');
             background_overlay.style.display = 'none';
-    
+
             var addlabelpopup2 = document.getElementById('sub_net_chart_div');
 
             addlabelpopup2.style.display = 'none';
 
-        }           
+        }
     });
-});
+});*/

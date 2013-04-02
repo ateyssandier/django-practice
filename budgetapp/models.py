@@ -34,6 +34,17 @@ class Purchases(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     category = models.ForeignKey('Category')
 
+
+    def to_dict(self):
+        purchase_dict = {}
+        purchase_dict['date'] = self.date
+        purchase_dict['item_desc'] = self.item_desc
+        purchase_dict['cost'] = self.cost
+        purchase_dict['sub_category'] = self.category.__unicode__()
+        purchase_dict['super_category'] = self.category.superCategory
+        return purchase_dict
+
+
 class MyModelChoiceField(ModelChoiceField):
     def label_from_instance(self, obj):
         return "My Object #%i" % obj.superCategory

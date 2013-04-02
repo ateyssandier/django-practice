@@ -1,0 +1,36 @@
+{% load purchase_tags %}
+
+<table cellpadding="0" cellspacing="0" border="0" class="purchases_table" id="purchases_table">
+    <thead> 
+    <tr> 
+        <th>Date</th> 
+        <th>Description</th> 
+        <th class="category">Category</th> 
+        <th class="category">Sub-category</th> 
+        <th>Cost</th> 
+        </tr> 
+    </thead> 
+    <tbody>
+        {% for transaction in transaction_list %}
+            <tr>
+               <td>{{ transaction.date }}</td>
+               <td>{{ transaction.item_desc }}</td>
+               <td class="category">{{ transaction.category.superCategory }}</td>
+               <td class="category">{{ transaction.category.subCategory }}</td>
+               {% if transaction.cost < 0 %}
+                    <td class="income">
+               {% else %}
+                    <td>
+                {% endif %}
+                   {{ transaction.cost|currency }}
+               </td>
+            </tr>
+        {% endfor %}
+    </tbody> 
+    <tfoot> 
+        <tr>
+            <th style="text-align:right" colspan="4">Total:</th>
+            <th>{{ total }}</th>
+        </tr>
+    </tfoot>
+</table>

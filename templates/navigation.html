@@ -3,7 +3,7 @@
         <p class="thelabel">
             Choose a monthly report
         </p>
-        <p class="switch">
+        <p id="months_switch"  class="switch">
             {% for radio in navigation_form.standard_month %}
                 {{ radio.tag }}
             {% endfor %}
@@ -13,13 +13,15 @@
             {% endfor %}
         </p>
         <br>
-        <p class="switch">
+        <p id="years_switch" class="switch">
             {% for radio in navigation_form.standard_year %}
-                {{ radio.tag }}
+
+                {# radio.tag #}
             {% endfor %}
             {% for i in years %}
-                &nbsp;&nbsp;<label id="cb-{{ i }}" for="years_{{ i }}" class="cb-enable"><span>{{ i }}</span></label>
+                &nbsp;&nbsp;<label id="cb-{{ i  }}" for="years_{{ i}}" class="cb-enable"><span>{{ i }}</span></label>
                 <!-- <input onclick="getReport('standard')" type="radio" class="radio_switches" id="{# i #}" name="{# i #}" value="{# i #}">-->
+                <input onclick="getReport('standard')" type="radio" class="radio_switches" id="years_{{ i }}" name="years_{{ i }}" value="{{ i }}">
             {% endfor %}
         </p><br>
         <br>

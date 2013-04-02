@@ -2,81 +2,14 @@ var from, to;
 var productCount = 1;
 var totalProducts = 1;
 
-var month;
-var day;
-var year;
-var desc;
-var category;
-var add;
-var remove;
-var cost;
+var transaction_list;
 
-var originalInputReceiptDiv;
 
 // Load the Visualization API and the piechart package.
 google.load('visualization', '1.0', {'packages':['corechart']});
 google.load('visualization', '1', {packages:['table']});
 
-//not done, probably  not needed
-function launchSelect(clickednode){
-    var parentCat = clickednode.parentNode.parentNode.id;
-    $("#"+parentCat+" dd ul").toggle();
-    $("#"+parentCat+" dd ul li ul.submenu").hide();
-    var newvar = 0;
-}
-
-//done
-function addBindings(){
-
-    $("a.subcategory").click(function() {
-        $('ul.sf-menu').hideSuperfishUl();
-        var selected = $(this).html();
-
-        if(selected === 'Add Category'){
-            var superparent = $(this).parents(".supercategory_li").find("a").find('.category_content');
-            superCat = superparent.html();
-            showAddCategoryPanel(superCat);
-        } else {
-            //find the select box relevent to click
-            var selectbox = $(this).parents("div").find("select");
-            var number = (selectbox.attr('id')).substr(9,9);
-            var hrefer = $('#category_span_'+number).find('.main_dropdown').find('.category_content');
-            hrefer.html(selected);
-        }
-    });
-}
-
-//not done
-function trimNumber(s) {
-    while (s.substr(0,1) == '0' && s.length>1) { s = s.substr(1,9999); }
-    return s;
-}
-
-/**
- * Function will get element by id starting from specified node.
- * Author: Renato Bebić <renato.bebic@gmail.com>
- *
- */
-//notdone
-function GetElementById( dNode, id ) {
-
-    var dResult = null;
-
-    if ( dNode.getAttribute('id') == id )
-        return dNode;
-
-    for ( var i = 0; i < dNode.childNodes.length; i++ ) {
-        if ( dNode.childNodes[i].nodeType == 1 ) {
-            dResult = GetElementById( dNode.childNodes[i], id );
-            if ( dResult != null )
-                break;
-        }
-    }
-    return dResult;
-}
-
-
-//not done
+//not done, might not ever finish
 function addReceipt(){
 
     var descArray  = [];
@@ -115,7 +48,7 @@ function addReceipt(){
 //       var category =  document.getElementById("category"+i);
 //        category.dt.a.span.value.html();
         var category = document.getElementById("category_"+i);
-        category = GetElementById(category, "finalcatname");
+        category = category.find("#finalcatname");
         category = category.innerHTML;
 
         var cost = document.getElementById("cost_"+i).value;
@@ -186,8 +119,6 @@ function addReceipt(){
 //done not tested
 function addPaycheck(){
     var month = $("#addpaycheck_form .month").val();
-    alert ("month");
-
     var day = $("#addpaycheck_form .day").val();
     var year = $("#addpaycheck_form .year").val();
     var gross = $("#addpaycheck_form .gross").val();
@@ -298,70 +229,71 @@ function removeProduct(whocalled){
     addBindings();
 }
 
-//not done might not be necessary
-function preload(){
-    month = document.getElementById("month1").cloneNode(true);
-    day = document.getElementById("day1").cloneNode(true);
-    year = document.getElementById("year1").cloneNode(true);
-    desc = document.getElementById("itemDescription1").cloneNode(true);
-    category = document.getElementById("category1").cloneNode(true);
-    add = document.getElementById("add1").cloneNode(true);
-    remove = document.getElementById("remove1").cloneNode(true);
-    cost = document.getElementById("cost1").cloneNode(true);
-
-    originalInputReceiptDiv = document.getElementById("product_table").cloneNode(true);
-}
-
-//notdone
-function startCurrent(){
-    //preload();
-
-
-    var currentTime = new Date();
-
-    var curmonth = currentTime.getMonth() + 1;
-    var curday = currentTime.getDate();
-    var curyear = currentTime.getFullYear();
-
-    //first day of today's month
-    from = curyear+"\-"+curmonth+"\-"+1;
-    //current day
-    to = curyear+"\-"+curmonth+"\-"+curday;
-    getReport();
-
-}
-
 //notDone
 function getReport(str){
     "use strict";
 
+
+    //standard month report, i.e. may, june, whatever
     if(str === "standard"){
-        from = "2011-01-01";
-        to = "2011-01-31";
-        //processDate();
+        //var standard_month = $("#report_form").find("[id^='months'][checked='true']").attr("value");
+        var standard_month = $("#months_switch").find("[class='cb-enable selected']").attr("for");
+        standard_month = $("#months_switch").find("#"+standard_month).attr("value");
+
+        //var standard_year = $("#report_form").find("[id^='years']");
+        var standard_year = $("#years_switch").find("[class='cb-enable selected']").attr("for");
+        standard_year = $("#years_switch").find("#"+standard_year).attr("value");
+
+        var monthNames = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+
+        var month_number = monthNames.indexOf(standard_month) + 1;
+
+        var days_in_month = new Date(standard_year, month_number, 0).getDate();
+
+        from = standard_year+"\-"+month_number+"\-"+1;
+        to = standard_year+"\-"+month_number+"\-"+days_in_month;
+
     }
 
+    //custo report, should be redone.
     if(str === "custom"){
         var monthfrom = document.report_form.frommonth.value;
-        monthfrom = trimNumber(monthfrom);
+        //monthfrom = trimNumber(monthfrom);
         var dayfrom = document.report_form.fromday.value;
-        dayfrom = trimNumber(dayfrom);
+        //dayfrom = trimNumber(dayfrom);
         var yearfrom = document.report_form.fromyear.value;
 
         var monthto = document.report_form.tomonth.value;
-        monthto = trimNumber(monthto);
+        //monthto = trimNumber(monthto);
         var dayto = document.report_form.today.value;
-        dayto = trimNumber(dayto);
+        //dayto = trimNumber(dayto);
         var yearto = document.report_form.toyear.value;
 
         from = yearfrom+"\-"+monthfrom+"\-"+dayfrom;
         to = yearto+"\-"+monthto+"\-"+dayto;
+    }
+
+    if(str == "initial"){
+
+        var currentTime = new Date();
+
+        var curmonth = currentTime.getMonth() + 1;
+        var curday = currentTime.getDate();
+        var curyear = currentTime.getFullYear();
+
+        //first day of today's month
+        from = curyear+"\-"+curmonth+"\-"+1;
+        //current day
+        to = curyear+"\-"+curmonth+"\-"+curday;
 
     }
-    $('#allreports').fadeOut(900, function() {
-        // Animation complete
-    });
 
+    //test data
+    if (str == "test"){
+        from = "2012-03-15";
+        to = "2015-04-15";
+    }
 
     var newurl = $("#report_form").attr( 'action' );
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
@@ -372,19 +304,35 @@ function getReport(str){
         data: { from: from, to: to },
         success: function(data){
             var response = data;
-            //var message = "Successfully added " + response['addedSubCategory'] +  " into " +  response['addedCategory']+".";
-            //$("#addlabelresult").html(message);
 
+            transaction_list = response.transaction_list;
 
-            google.setOnLoadCallback(drawChart(convertToArray(response.gross_array)), drawChartSummary(convertToArray(response.gross_array)),
-            drawChartPurchases2(),
-            drawChartPaycheck());
+            $('#from_date').html(from);
+            $('#to_date').html(to);
 
-
-
+            drawLargeSummary(response.income, response.expenses, response.savings);
+            drawChart(convertToArray(response.gross_array));
+            drawChartSummary(convertToArray(response.summary_data));
+            drawChartPurchases2(transaction_list);
+            drawChartPaycheck();
 
             $('#allreports').fadeIn(900, function() {
                 // Animation complete
+            });
+
+            $(document).bind('click', function(e) {
+                var clicked = $(e.target);
+
+                if (!clicked.parents().hasClass('subChart')){
+
+                    var background_overlay = document.getElementById('background_overlay');
+                    background_overlay.style.display = 'none';
+
+                    var addlabelpopup2 = document.getElementById('sub_net_chart_div');
+
+                    addlabelpopup2.style.display = 'none';
+
+                }
             });
 
 
@@ -400,10 +348,13 @@ function getReport(str){
 function convertToArray(data){
     var newArray = [];
     for (var key in data) {
-        var keyvalue =  data[key];
-        var newMiniArray = [key, keyvalue];
-        newArray.push(newMiniArray)
 
+        var keyvalue =  data[key];
+        if(!isNaN(parseFloat(keyvalue))){
+            keyvalue = parseFloat(keyvalue);
+        }
+        var newMiniArray = [key, keyvalue];
+        newArray.push(newMiniArray);
     }
     return newArray;
 }
@@ -561,9 +512,25 @@ function make_open_dialog(){
     });
 }
 
-//partialy done
+// done
 $(document).ready( function(){
-    addBindings();
+    //adds bindings to the supercategory and subcategory dropdown
+    $("a.subcategory").click(function() {
+        $('ul.sf-menu').hideSuperfishUl();
+        var selected = $(this).html();
+
+        if(selected === 'Add Category'){
+            var superparent = $(this).parents(".supercategory_li").find("a").find('.category_content');
+            superCat = superparent.html();
+            showAddCategoryPanel(superCat);
+        } else {
+            //find the select box relevent to click
+            var selectbox = $(this).parents("div").find("select");
+            var number = (selectbox.attr('id')).substr(9,9);
+            var hrefer = $('#category_span_'+number).find('.main_dropdown').find('.category_content');
+            hrefer.html(selected);
+        }
+    });
 
     $(".cb-enable").click(function(){
         var parent = $(this).parents('.switch');
@@ -571,7 +538,7 @@ $(document).ready( function(){
         $('.cb-enable',parent).removeClass('selected');
         $(this).addClass('selected');
         var radio_button = $('#'+current_id);
-        radio_button.attr('checked', 'checked');
+        radio_button.attr('checked', 'true');
     });
 
 
@@ -586,10 +553,10 @@ $(document).ready( function(){
         );
     });
 
-
+    //this might not be needed
     $("#report_form").submit(function(event) {
         event.preventDefault();
-
+        alert("hello");
         setTimeout(
             function() {
                 getReport();
@@ -599,15 +566,20 @@ $(document).ready( function(){
     });
 
 
-    var monthNames = [ "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December" ];
 
     var currentTime = new Date();
     var monthname = currentTime.getMonth();
     var year = currentTime.getFullYear();
 
-    $('#cb-'+monthname).trigger('click');
-    $('#cb-'+year).trigger('click');
+    $('#cb-'+monthname).addClass('selected');
+    var current_id = $('#cb-'+monthname).attr('for');
+    $('#'+current_id).attr("checked", true);
+    $('#cb-'+year).addClass('selected');
+    current_id = $('#cb-'+year).attr('for');
+    $('#'+current_id).attr("checked", true);
+
+
+    getReport("initial")
 
 });
 

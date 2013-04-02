@@ -1,5 +1,6 @@
 from django.template import Context, loader, RequestContext
 from budgetapp.models import Purchases, Category, Paychecks
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect
 from budgetapp.forms import AddCategoryForm, AddPaycheckForm, AddPurchaseForm, NavigationForm
 from django.shortcuts import render_to_response
@@ -7,6 +8,7 @@ from django.core.urlresolvers import reverse
 import json
 import calendar
 import datetime
+
 
 
 
@@ -109,7 +111,7 @@ def index(request):
     for i in range(2010,today.year+1):
         years_choices.append(i)
 
-    transaction_list = Purchases.objects.all().order_by('-date')[:10]
+    transaction_list = Purchases.objects.all().order_by('-date')
     addCategoryForm = AddCategoryForm()
     inputPaycheck = AddPaycheckForm()
     navForm = NavigationForm(auto_id='%s')
@@ -146,53 +148,171 @@ def getreport(request):
     if request.method == 'POST':
         form = NavigationForm(request.POST, request.FILES)
 
-        print "posting url"
-
         if request.is_ajax():
-
-            print "form is ajax"
-
-
-
             if form.is_valid():
-                print 'form is valid'
-                #"2011-01-01",
 
-                #from_date = request.POST.get('from')
-                #to_date = request.POST.get('to')
-                from_month = 12
-                from_year = 2012
-                from_day = 15
+                from_date = request.POST.get('from')
+                to_date = request.POST.get('to')
 
-                to_month = 1
-                to_year = 2013
-                to_day = 31
+                #start_date = datetime.date(from_year, from_month, from_day)
+                start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+                #end_date = datetime.date(to_year, to_month, to_day)
+                end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
 
-                start_date = datetime.date(from_year, from_month, from_day)
-                end_date = datetime.date(to_year, to_month, to_day)
+                transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).order_by('-date')
+                paychecks_list = Paychecks.objects.all().filter(date__range=(start_date, end_date)).order_by('-date')
 
-                #import pdb; pdb.set_trace()
+                gross_array = {}
+                gross_array_savings = 0
 
-                transaction_list = Purchases.objects.filter(date__range=(start_date, end_date)).order_by('-date')[:10]
+                serializable_transaction_list = []
 
                 for transaction in transaction_list:
                     #here we will need to pass in all the data that the template and the javascript will need
-                    pass
+                    category = transaction.category.superCategory
+                    cost = transaction.cost
 
 
-                results = {'success':True}
+                    if cost < 0:
+                        gross_array_savings += abs(cost)
+                    elif category in gross_array:
+                        current_total = gross_array[category]
+                        new_total = current_total + cost
+                        gross_array[category] = new_total
+                    else:
+                        gross_array[category] = cost
+
+                    serializable_transaction_list.append(transaction.to_dict())
+
+                total_expenses = sum(gross_array.values())
+                gross_paycheck = 0
+                takehome_pay = 0
+
+                for paycheck in paychecks_list:
+                    gross_paycheck = gross_paycheck+paycheck.gross
+                    takehome_pay = takehome_pay+paycheck.net
 
 
-            jsonResult = json.dumps(results)
+                savings = takehome_pay - total_expenses + gross_array_savings
+
+                if savings > 0:
+                    gross_array["Savings"] = savings
+
+                summary_data =  {'Gross Paycheck': gross_paycheck,
+                                 'Takehome Pay': takehome_pay,
+                                 'Total Expenses' : total_expenses,
+                                 'Savings' : savings}
+
+
+                results = {'success':True, 'summary_data': summary_data, 'gross_array': gross_array, 'transaction_list': serializable_transaction_list, 'income':takehome_pay, 'expenses':total_expenses, 'savings': savings}
+
+
+
+
+            jsonResult = json.dumps(results, cls=DjangoJSONEncoder)
 
             return HttpResponse(jsonResult, mimetype='application/json')
         else:
             return HttpResponse("nonajax")
 
 
+def getpurchasetable(request):
+    #do the purchase table template stuff
+    purchases_template = "purchases_table.html"
+
+    if request.is_ajax():
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+
+        start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+        end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+
+        transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).order_by('-date')
+
+        sum = 0
+        #get the sum:
+        for transaction in transaction_list:
+            sum+= transaction.cost
 
 
+        data = {
+            'success':True,
+            'transaction_list': transaction_list,
+            'total': sum
+        }
+
+        return render_to_response(purchases_template, data, context_instance = RequestContext(request))
+    else:
+        return HttpResponse("nonajax")
 
 
+def getpaycheckstable(request):
+    #do the purchase table template stuff
+    purchases_template = "paychecks_table.html"
+
+    if request.is_ajax():
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+
+        start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+        end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+
+
+        paychecks_list = Paychecks.objects.all().filter(date__range=(start_date, end_date)).order_by('-date')
+
+        new_paychecks_list = []
+
+        for paycheck in paychecks_list:
+            new_paycheck = paycheck
+            total_deductions = sum([paycheck.tax, paycheck.healthcare, paycheck.fica, paycheck.k401])
+            new_paycheck.total_deductions = total_deductions
+            new_paychecks_list.append(new_paycheck)
+
+
+        data = {
+            'success':True,
+            'paychecks_list': new_paychecks_list,
+            }
+
+        return render_to_response(purchases_template, data, context_instance = RequestContext(request))
+    else:
+        return HttpResponse("nonajax")
+
+def getsubchart(request):
+    if request.is_ajax():
+        from_date = request.POST.get('from')
+        to_date = request.POST.get('to')
+        super_category = request.POST.get('super_category')
+
+
+        start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+        end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+
+        category_list = Category.objects.filter(superCategory =super_category)
+        transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter(category__in=category_list).order_by('-date')
+
+        sub_transaction_array =  {}
+
+        for transaction in transaction_list:
+            #here we will need to pass in all the data that the template and the javascript will need
+            sub_category = transaction.category.subCategory
+            cost = transaction.cost
+
+
+            if cost > 0:
+                if sub_category in sub_transaction_array:
+                    current_total = sub_transaction_array[sub_category]
+                    new_total = current_total + cost
+                    sub_transaction_array[sub_category] = new_total
+                else:
+                    sub_transaction_array[sub_category] = cost
+
+        results = {'success':True, 'sub_transaction_array': sub_transaction_array}
+
+        jsonResult = json.dumps(results, cls=DjangoJSONEncoder)
+
+        return HttpResponse(jsonResult, mimetype='application/json')
+    else:
+        return HttpResponse("nonajax")
 
 
