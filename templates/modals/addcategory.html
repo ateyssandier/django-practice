@@ -1,5 +1,5 @@
 <div id="addlabelpopup">
-<form id='addcategory_form' action="{% url addcategory %}" method="post" enctype="multipart/form-data">
+<form id='addcategory_form' action="{% url 'addcategory' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div style="height:50px">
         Add new category under <span id="supercategoryspan"></span>

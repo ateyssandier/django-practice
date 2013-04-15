@@ -2,83 +2,40 @@ var from, to;
 var productCount = 1;
 var totalProducts = 1;
 
-var month;
-var day;
-var year;
-var desc;
-var category;
-var add;
-var remove;
-var cost;
-
-var originalInputReceiptDiv;
-
-function launchSelect(clickednode){
-    var parentCat = clickednode.parentNode.parentNode.id;
-    $("#"+parentCat+" dd ul").toggle();
-    $("#"+parentCat+" dd ul li ul.submenu").hide();
-    var newvar = 0;
-}
+var transaction_list;
 
 
-function tester(){
+// Load the Visualization API and the piechart package.
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.load('visualization', '1', {packages:['table']});
 
-    $("a.subcategory").click(function() {
-        $('ul.sf-menu').hideSuperfishUl();
-        var selected = $(this).html();
-
-        if(selected == 'Add Category'){
-            var superparent = $(this).parents(".supercategory_li").find("a").find('.category_content');
-            superCat = superparent.html();
-
-            showAddCategoryPanel(superCat);
-        } else {
-            //find the select box relevent to click
-            var selectbox = $(this).parents("div").find("select");
-            var number = (selectbox.attr('id')).substr(9,9);
-            var hrefer = $('#category_span_'+number).find('.main_dropdown').find('.category_content');
-            hrefer.html(selected);
-
-
-        }
-    });
-}
-
-function trimNumber(s) {
-    while (s.substr(0,1) == '0' && s.length>1) { s = s.substr(1,9999); }
-    return s;
-}
-
-/**
- * Function will get element by id starting from specified node.
- * Author: Renato Bebić <renato.bebic@gmail.com>
- *
- */
-function GetElementById( dNode, id ) {
-
-    var dResult = null;
-
-    if ( dNode.getAttribute('id') == id )
-        return dNode;
-
-    for ( var i = 0; i < dNode.childNodes.length; i++ ) {
-        if ( dNode.childNodes[i].nodeType == 1 ) {
-            dResult = GetElementById( dNode.childNodes[i], id );
-            if ( dResult != null )
-                break;
-        }
-    }
-    return dResult;
-}
-
-
-
+//not done, might not ever finish
 function addReceipt(){
 
-    var descArray  = new Array();
-    var categoryArray  = new Array();
-    var costArray  = new Array();
-    var dateArray = new Array();
+    var descArray  = [];
+    var categoryArray  = [];
+    var costArray  = [];
+    var dateArray = [];
+
+
+    //product_div
+
+    $.each($(".product_div"), function() {
+        var month = this.find('.month');
+        var day = this.find('.day');
+        var year = this.find('.year');
+        var desc = this.find('.desc');
+
+        var category = this.find('')
+
+    });
+        $("#" + this).text("Mine is " + this + ".");
+        return (this != "three"); // will stop running after "three"
+
+    $.each( $(".product_div"), function(i, l){
+        alert( "Index #" + i + ": " + l );
+    });
+
 
     var i;
     for(i=1;i<=productCount; i++){
@@ -91,7 +48,7 @@ function addReceipt(){
 //       var category =  document.getElementById("category"+i);
 //        category.dt.a.span.value.html();
         var category = document.getElementById("category_"+i);
-        category = GetElementById(category, "finalcatname");
+        category = category.find("#finalcatname");
         category = category.innerHTML;
 
         var cost = document.getElementById("cost_"+i).value;
@@ -143,7 +100,7 @@ function addReceipt(){
             for (i_tem2 = 0; i_tem2 < categories.length; i_tem2++){
                 $("#"+categories[i_tem2].id+" dt a span").text(text);
             }
-            tester();
+            addBindngs();
         }
     }
     var params = "total="+dateArray.length;
@@ -159,54 +116,59 @@ function addReceipt(){
 
 }
 
+//done not tested
 function addPaycheck(){
-
-    var month = document.addpaycheck_form.month.value;
-    var day = document.addpaycheck_form.day.value;
-    var year = document.addpaycheck_form.year.value;
-    var gross = document.addpaycheck_form.gross.value;
-    var tax = document.addpaycheck_form.tax.value;
-    var k401 = document.addpaycheck_form.k401.value;
-    var healthcare = document.addpaycheck_form.healthcare.value;
-    var fica = document.addpaycheck_form.fica.value;
+    var month = $("#addpaycheck_form .month").val();
+    var day = $("#addpaycheck_form .day").val();
+    var year = $("#addpaycheck_form .year").val();
+    var gross = $("#addpaycheck_form .gross").val();
+    var tax = $("#addpaycheck_form .tax").val();
+    var k401 = $("#addpaycheck_form .k401").val();
+    var healthcare = $("#addpaycheck_form .healthcare").val();
+    var fica = $("#addpaycheck_form .fica").val();
 
 
     var fulldate = year+"\-"+month+"\-"+day;
 
-    if(tax == ''){
+    if(tax === ''){
         tax = 0;
     }
-    if(k401 == ''){
+    if(k401 === ''){
         k401 = 0;
     }
-    if(healthcare == ''){
+    if(healthcare === ''){
         healthcare = 0;
     }
-    if(fica == ''){
+    if(fica === ''){
         fica = 0;
     }
 
+    var newurl = $("#addpaycheck_form").attr( 'action' );
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
+    var data = {date: date, gross: gross, tax: tax, healthcare: healthcare, fica: fica, k401: k401};
 
-    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    }
-    else{// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        data: data,
+        success: function(data){
+            var response = data;
+            var message = "Net pay was: " + response['netpay'];
 
-    xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState==4 && xmlhttp.status==200){
-            document.getElementById("addpaycheckresult").innerHTML=xmlhttp.responseText;
+            $("#addpaycheckresult").html(message);
+
+
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
-    }
-
-    xmlhttp.open("GET","addPaycheck.php?fulldate="+fulldate+"&gross="+gross+"&tax="+tax+"&k401="+k401+"&healthcare="+healthcare+"&fica="+fica);
-    xmlhttp.send();
-
+    });
 
 }
 
-function    addProduct(){
+//done
+function addProduct(){
 
     var receiptDiv = $('#input_receipt');
     var theheight  = $('#input_receipt').height();
@@ -239,9 +201,10 @@ function    addProduct(){
     jQuery('ul.sf-menu').superfish();
 
     //ad the jquery handlers
-    tester();
+    addBindings();
 }
 
+//done
 function removeProduct(whocalled){
     //get the products parent element (the div enclosing the receipt
     //var  whocalled = whocalled;
@@ -262,94 +225,141 @@ function removeProduct(whocalled){
         var newheight = theheight - 57;
         receiptDiv.style.height = newheight+"px";
     }
-    tester();
+    //probably not necessary
+    addBindings();
 }
 
-function preload(){
-    month = document.getElementById("month1").cloneNode(true);
-    day = document.getElementById("day1").cloneNode(true);
-    year = document.getElementById("year1").cloneNode(true);
-    desc = document.getElementById("itemDescription1").cloneNode(true);
-    category = document.getElementById("category1").cloneNode(true);
-    add = document.getElementById("add1").cloneNode(true);
-    remove = document.getElementById("remove1").cloneNode(true);
-    cost = document.getElementById("cost1").cloneNode(true);
-
-    originalInputReceiptDiv = document.getElementById("product_table").cloneNode(true);
-}
-
-function startCurrent(){
-    //preload();
-
-    var monthNames = [ "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December" ];
-
-    var currentTime = new Date();
-
-    var curmonth = currentTime.getMonth() + 1;
-    var monthname = monthNames[currentTime.getMonth()];
-
-    $('#cb-January').trigger('click');
-
-    var curday = currentTime.getDate();
-    var curyear = currentTime.getFullYear();
-
-    //first day of today's month
-    from = curyear+"\-"+curmonth+"\-"+1;
-    //current day
-    to = curyear+"\-"+curmonth+"\-"+curday;
-    getReport();
-
-}
-
-
+//notDone
 function getReport(str){
-    if(str == "standard"){
-        processDate();
+    "use strict";
+
+
+    //standard month report, i.e. may, june, whatever
+    if(str === "standard"){
+        //var standard_month = $("#report_form").find("[id^='months'][checked='true']").attr("value");
+        var standard_month = $("#months_switch").find("[class='cb-enable selected']").attr("for");
+        standard_month = $("#months_switch").find("#"+standard_month).attr("value");
+
+        //var standard_year = $("#report_form").find("[id^='years']");
+        var standard_year = $("#years_switch").find("[class='cb-enable selected']").attr("for");
+        standard_year = $("#years_switch").find("#"+standard_year).attr("value");
+
+        var monthNames = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+
+        var month_number = monthNames.indexOf(standard_month) + 1;
+
+        var days_in_month = new Date(standard_year, month_number, 0).getDate();
+
+        from = standard_year+"\-"+month_number+"\-"+1;
+        to = standard_year+"\-"+month_number+"\-"+days_in_month;
+
     }
 
-    if(str == "custom"){
+    //custo report, should be redone.
+    if(str === "custom"){
         var monthfrom = document.report_form.frommonth.value;
-        monthfrom = trimNumber(monthfrom);
+        //monthfrom = trimNumber(monthfrom);
         var dayfrom = document.report_form.fromday.value;
-        dayfrom = trimNumber(dayfrom);
+        //dayfrom = trimNumber(dayfrom);
         var yearfrom = document.report_form.fromyear.value;
 
         var monthto = document.report_form.tomonth.value;
-        monthto = trimNumber(monthto);
+        //monthto = trimNumber(monthto);
         var dayto = document.report_form.today.value;
-        dayto = trimNumber(dayto);
+        //dayto = trimNumber(dayto);
         var yearto = document.report_form.toyear.value;
 
         from = yearfrom+"\-"+monthfrom+"\-"+dayfrom;
         to = yearto+"\-"+monthto+"\-"+dayto;
+    }
+
+    if(str == "initial"){
+
+        var currentTime = new Date();
+
+        var curmonth = currentTime.getMonth() + 1;
+        var curday = currentTime.getDate();
+        var curyear = currentTime.getFullYear();
+
+        //first day of today's month
+        from = curyear+"\-"+curmonth+"\-"+1;
+        //current day
+        to = curyear+"\-"+curmonth+"\-"+curday;
 
     }
-    $('#allreports').fadeOut(900, function() {
-        // Animation complete
-    });
 
-    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
+    //test data
+    if (str == "test"){
+        from = "2012-03-15";
+        to = "2015-04-15";
     }
-    else{// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState==4 && xmlhttp.status==200){
-            var innerHTMLDoc = xmlhttp.responseText;
-            //alert(innerHTMLDoc);
-            eval(xmlhttp.responseText);
+
+    var newurl = $("#report_form").attr( 'action' );
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        data: { from: from, to: to },
+        success: function(data){
+            var response = data;
+
+            transaction_list = response.transaction_list;
+
+            $('#from_date').html(from);
+            $('#to_date').html(to);
+
+            drawLargeSummary(response.income, response.expenses, response.savings);
+            drawChart(convertToArray(response.gross_array));
+            drawChartSummary(convertToArray(response.summary_data));
+            drawChartPurchases2(transaction_list);
+            drawChartPaycheck();
+
+            $('#allreports').fadeIn(900, function() {
+                // Animation complete
+            });
+
+            $(document).bind('click', function(e) {
+                var clicked = $(e.target);
+
+                if (!clicked.parents().hasClass('subChart')){
+
+                    var background_overlay = document.getElementById('background_overlay');
+                    background_overlay.style.display = 'none';
+
+                    var addlabelpopup2 = document.getElementById('sub_net_chart_div');
+
+                    addlabelpopup2.style.display = 'none';
+
+                }
+            });
+
+
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
-    }
-
-    //alert("From: "+from+"\nTo: "+to);
-    xmlhttp.open("GET","getReport.php?&from="+from+"&to="+to,true);
-    xmlhttp.send();
+    });
 
 }
 
+function convertToArray(data){
+    var newArray = [];
+    for (var key in data) {
 
+        var keyvalue =  data[key];
+        if(!isNaN(parseFloat(keyvalue))){
+            keyvalue = parseFloat(keyvalue);
+        }
+        var newMiniArray = [key, keyvalue];
+        newArray.push(newMiniArray);
+    }
+    return newArray;
+}
+
+//done
 function showAddCategoryPanel(superCat){
     //hide the background by displaying the overlay
     $('#background_overlay').show();
@@ -373,8 +383,11 @@ function showAddCategoryPanel(superCat){
 
     $('#addlabelpopup').show();
 
+    $("#id_sub_category").focus();
+
 }
 
+//Done
 function closeCategoryPopup(){
     //show the background by hiding the overlay
     $('#background_overlay').hide();
@@ -383,30 +396,14 @@ function closeCategoryPopup(){
 
 }
 
+
+//Done
 function addNewCategory(){
     var subCategory = $("#id_sub_category").val();
     var superCategory = $("#supercategoryspan").html()
 
-
-    //if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-    //    xmlhttp=new XMLHttpRequest();
-    //}
-    //else{// code for IE6, IE5
-    //    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    //}
-    //xmlhttp.onreadystatechange=function(){
-    //    if (xmlhttp.readyState==4 && xmlhttp.status==200){
-    //        document.getElementById("addlabelresult").innerHTML=xmlhttp.responseText;
-    //        closeCategoryPopup();
-    //        refreshCategories(newCategory);
-    //    }
-    //}
-
-
     var newurl = $("#addcategory_form").attr( 'action' );
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
-
-
 
     $.ajax({
         type: "POST",
@@ -417,35 +414,31 @@ function addNewCategory(){
             var message = "Successfully added " + response['addedSubCategory'] +  " into " +  response['addedCategory']+".";
 
              $("#addlabelresult").html(message);
-            closeCategoryPopup();
+
+
+            setTimeout(
+                function() {
+                    closeCategoryPopup();
+                },
+                5000
+            );
+
             refreshCategories();
         },
         dataType: 'json',
         beforeSend: function(xhr, settings){
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
-
     });
-
-
-    //if(newCategory == ""){
-    //    document.getElementById("addlabelresult").innerHTML="Empty Field is not allowed";
-    //    return;
-    //}
-    var patt1=/[^a-z0-9_\-\s]/gi;
-
-    //if(newCategory.match(patt1)){
-    //    document.getElementById("addlabelresult").innerHTML="Sorry, you have inserted invalid characters, please try again.";
-    //    return;
-    //}
-
-
 }
 
+//Done
 function refreshCategories(){
     $('ul.sf-menu').superfish();
+    window.location.reload();
 }
 
+//not done, might noeed to be refactored
 function processDate(){
     var startmonth="";
     var numdays="";
@@ -480,6 +473,7 @@ function processDate(){
 }
 
 
+//notDone, might not be necessary
 function daysInMonth(monthint){
     var months=new Array(12);
     var adjmonthint = monthint-1;
@@ -499,6 +493,8 @@ function daysInMonth(monthint){
     return months[adjmonthint];
 }
 
+
+//notDonemight not be necessary.
 function make_open_dialog(){
     $('#add-label-popup').dialog({
         autoOpen: false,
@@ -516,26 +512,74 @@ function make_open_dialog(){
     });
 }
 
+// done
 $(document).ready( function(){
-    $(".cb-enable").click(function(){
-        var parent = $(this).parents('.switch');
-        $('.cb-enable',parent).removeClass('selected');
-        $(this).addClass('selected');
-        $('.checkbox',parent).attr('checked', true);
-    });
+    //adds bindings to the supercategory and subcategory dropdown
+    $("a.subcategory").click(function() {
+        $('ul.sf-menu').hideSuperfishUl();
+        var selected = $(this).html();
 
-    $("#categoryName").keyup(function(event){
-        if(event.keyCode == 13){
-            $("#add_category").click();
+        if(selected === 'Add Category'){
+            var superparent = $(this).parents(".supercategory_li").find("a").find('.category_content');
+            superCat = superparent.html();
+            showAddCategoryPanel(superCat);
+        } else {
+            //find the select box relevent to click
+            var selectbox = $(this).parents("div").find("select");
+            var number = (selectbox.attr('id')).substr(9,9);
+            var hrefer = $('#category_span_'+number).find('.main_dropdown').find('.category_content');
+            hrefer.html(selected);
         }
     });
-    $(document).bind('click', function(e) {
-        var $clicked = $(e.target);
-        if (! $clicked.parents().hasClass("dropdown"))
-            $(".dropdown dd ul").hide();
+
+    $(".cb-enable").click(function(){
+        var parent = $(this).parents('.switch');
+        var current_id = $(this).attr('for');
+        $('.cb-enable',parent).removeClass('selected');
+        $(this).addClass('selected');
+        var radio_button = $('#'+current_id);
+        radio_button.attr('checked', 'true');
     });
 
-    tester();
+
+    $("#addcategory_form").submit(function(event) {
+        event.preventDefault();
+
+        setTimeout(
+            function() {
+                addNewCategory();
+            },
+            1
+        );
+    });
+
+    //this might not be needed
+    $("#report_form").submit(function(event) {
+        event.preventDefault();
+        alert("hello");
+        setTimeout(
+            function() {
+                getReport();
+            },
+            1
+        );
+    });
+
+
+
+    var currentTime = new Date();
+    var monthname = currentTime.getMonth();
+    var year = currentTime.getFullYear();
+
+    $('#cb-'+monthname).addClass('selected');
+    var current_id = $('#cb-'+monthname).attr('for');
+    $('#'+current_id).attr("checked", true);
+    $('#cb-'+year).addClass('selected');
+    current_id = $('#cb-'+year).attr('for');
+    $('#'+current_id).attr("checked", true);
+
+
+    getReport("initial")
 
 });
 

@@ -164,6 +164,7 @@ def getreport(request):
 
                 gross_array = {}
                 gross_array_savings = 0
+                total_expenses = 0
 
                 serializable_transaction_list = []
 
@@ -172,6 +173,7 @@ def getreport(request):
                     category = transaction.category.superCategory
                     cost = transaction.cost
 
+                    total_expenses = total_expenses + cost
 
                     if cost < 0:
                         gross_array_savings += abs(cost)
@@ -184,7 +186,6 @@ def getreport(request):
 
                     serializable_transaction_list.append(transaction.to_dict())
 
-                total_expenses = sum(gross_array.values())
                 gross_paycheck = 0
                 takehome_pay = 0
 
