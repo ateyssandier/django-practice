@@ -3,23 +3,62 @@
 <head>
     <meta charset="utf-8">
     <title>fetched data</title>
+    <link href="{{ STATIC_URL }}less/styles.less" type="text/less" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL}}LESS_CACHE/less/styles-10c7edfc7061.css" />
 </head>
 <body>
 
     <a href='/index'>Back to transactions</a>
 
-    {% for transaction in transaction_list %}
-        <ul>
-            <li>{{ transaction.date }}</li>
-            <li>{{ transaction.description }}</li>
-            <li>{{ transaction.amount }}</li>
-            <li>{{ transaction.transaction_type}}</li>
-            <li>{{ transaction.category}}</li>
-            {%  if transaction.notes %}
-                <li>{{ transaction.notes}}</li>
-            {%  endif %}
-        </ul>
-    {% endfor %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type='text/javascript' src='http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js'></script>
 
+<table cellpadding="0" cellspacing="0" border="0" class="purchases_table" id="purchases_table">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th class="category">Category</th>
+        <th>Transaction Type</th>
+        <th>Cost</th>
+        <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transaction_list %}
+            <tr>
+               <td>{{ transaction.date }}</td>
+               <td>{{ transaction.description }}</td>
+               <td class="category">{{ transaction.category }}</td>
+               <td>{{ transaction.transaction_type}}</td>
+               {% if transaction.cost < 0 %}
+                    <td class="income">
+               {% else %}
+                    <td>
+                {% endif %}
+                   {{ transaction.amount }}
+               </td>
+               <td>
+               {%  if transaction.notes %}
+                   {{ transaction.notes }}
+               {% endif %}
+               </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('#purchases_table').dataTable( {
+            'bPaginate': false,
+            'bLengthChange': false,
+            'bFilter': true,
+            'bSort': true,
+            'bInfo': false,
+            'bAutoWidth': false,
+            'aaSorting': [[ 0, 'asc' ]],
+        } );
+</script>
 </body>
 </html>
