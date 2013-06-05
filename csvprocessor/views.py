@@ -11,6 +11,32 @@ import datetime
 
 from csvprocessor.forms import UploadFileForm
 
+CATEGORY_MAP = {
+    "coffee shops" : "coffee",
+    "electronics & software"  : "electronics",
+    "gas & fuel" : "gas",
+    "mortgage & rent" : "rent",
+    "shopping" : "miscellaneous",
+    "dentist" : "doctor",
+    "personal care" : "general",
+    "pharmacy" : "general",
+    "service & parts" : "maintenance",
+    "fast food" : "restaurants",
+    "miscellaneous fee" : "misc fee",
+    "alcohol and bars" : "alcohol & bars",
+    "finance charges" : "finance charge",
+    "gym membership" : "gym",
+    "home insurance bill" : "home insurance"
+}
+
+SKIP_MAP = ["credit card payment", 
+            "exclude from mint", 
+            "interest income", 
+            "loan payment", 
+            "transfer", 
+            "atm fee", 
+            "cash & atm"]
+
 def uploadcsv(request):
     # Handle file upload
     if request.method == 'POST':
@@ -174,55 +200,21 @@ def save_transaction(transaction):
         description += " - "
         description += notes;
 
+    #remap mint categories to budgetapp categories
+    if category in CATEGORY_MAP:
+        category = CATEGORY_MAP[category]
 
-
-    if category == "coffee shops" :
-        category = "coffee"
-    elif category == "electronics & software" :
-        category = "electronics"
-    elif category == "gas & fuel":
-        category = "gas"
-    elif category == "mortgage & rent":
-        category = "rent"
-    elif category == "shopping":
-        category = "miscellaneous"
-    elif category == "dentist":
-        category = "doctor"
-    elif description.find("National Grid") >= 0:
+    if description.find("National Grid") >= 0:
         category = "heat";
-    elif description.find("NSTAR") >= 0:
+    if description.find("NSTAR") >= 0:
         category = "electric"
-    elif category == "personal care":
-        category = "general"
-    elif category == "pharmacy":
-        category = "general"
-    elif category == "service & parts":
-        category = "maintenance"
-    elif category == "fast food":
-        category = "restaurants"
-    elif category == "miscellaneous fee":
-        category = "misc fee"
-
 
 
     #skip categories
-    if category == "credit card payment":
+    if category in SKIP_MAP:
         category = "skip"
-    elif category == "exclude from mint":
-        category = "skip"
-    elif category == "interest income":
-        category = "skip"
-    elif category == "loan payment":
-        category = "skip"
-    elif category == "transfer":
-        category = "skip"
-    elif description.find("Reimbursable") >= 0:
-        category = "skip"
-    elif category == "finance charge":
-        category = "skip"
-    elif category == "atm fee":
-        category = "skip"
-    elif category == "cash & atm":
+    
+    if description.find("Reimbursable") >= 0:
         category = "skip"
 
 
