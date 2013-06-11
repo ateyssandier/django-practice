@@ -18,8 +18,7 @@ CATEGORY_MAP = {
     "mortgage & rent" : "rent",
     "shopping" : "miscellaneous",
     "dentist" : "doctor",
-    "personal care" : "general",
-    "pharmacy" : "general",
+    "pharmacy" : "personal care",
     "service & parts" : "maintenance",
     "fast food" : "restaurants",
     "miscellaneous fee" : "misc fee",
@@ -133,8 +132,6 @@ def fetch_transactions(request):
             new_date = datetime.datetime.strptime(date, "%m/%d/%y").date()
             date = new_date.strftime("%Y-%m-%d")
 
-
-
         if transaction["isLinkedToRule"]:
             description = transaction["ruleMerchant"]
             category =  transaction["ruleCategory"]
@@ -142,13 +139,9 @@ def fetch_transactions(request):
             description = transaction["merchant"]
             category = transaction["category"]
 
-        if category == 'Cash &amp; ATM':
-            #fixme: just manually change this for now
-            category = 'Cash & ATM'
-
-        #there's a weird transaction that I can't get out of mint, exclude it manually
-        if description == 'Bamboo':
-            category = 'Exclude From Mint'
+        #fixme: editing transactions with ampersands renders html code, not ampersand. 
+        #just manually change this for now
+        category = category.replace("&amp;", "&")
 
         original_description = transaction["omerchant"]
 
@@ -156,12 +149,18 @@ def fetch_transactions(request):
         amount = amount[1:]
         amount = amount.replace(",", "")
 
+        #there's afew weird split transaction that I can't get out of mint, exclude it manually
+        if description == 'Bamboo' and amount == "193.76":
+            category = 'Exclude From Mint'
+        if description == 'Good Gas' and amount == "218.91":
+            category = 'Exclude From Mint'
+
         transaction_type = "debit" if transaction["isDebit"] else "credit"
         account = transaction["account"]
         notes = transaction["note"]
 
         new_transaction = {'date': date, 'description': description, 'amount': amount, 'transaction_type': transaction_type, 'category':category, 'notes': notes}
-        transaction_list.append(new_transaction)
+        transaction_list.insert(0, new_transaction)
         save_transaction(new_transaction)
 
     # Render list page with the documents and the form
@@ -204,10 +203,11 @@ def save_transaction(transaction):
     if category in CATEGORY_MAP:
         category = CATEGORY_MAP[category]
 
-    if description.find("National Grid") >= 0:
-        category = "heat";
-    if description.find("NSTAR") >= 0:
-        category = "electric"
+    #the below isn't necessary, I made mint categories
+    #if description.find("National Grid") >= 0:
+    #    category = "heat";
+    #if description.find("NSTAR") >= 0:
+    #    category = "electric"
 
 
     #skip categories
@@ -216,7 +216,6 @@ def save_transaction(transaction):
     
     if description.find("Reimbursable") >= 0:
         category = "skip"
-
 
     #if category == income
     if category == "income" or category == 'paycheck':
