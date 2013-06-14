@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import TemplateView
 import settings
 
 # Uncomment the next two lines to enable the admin:
@@ -18,7 +19,8 @@ urlpatterns = patterns('',
     url(r'^$', 'budgetapp.views.index', name='index'),
     (r'^index/$', 'budgetapp.views.index'),
     url(r'^uploadcsv/$', 'csvprocessor.views.uploadcsv', name='uploadcsv'),
-    url(r'^fetch_transactions/$', 'csvprocessor.views.fetch_transactions', name='fetch_transactions'),
+    url(r'^fetch_transactions_ajax/$', 'csvprocessor.views.fetch_transactions', name='fetch_transactions_ajax'),
+    (r'^fetch_transactions/$', TemplateView.as_view(template_name='fetch_transactions.html')),
     url(r'^addcategory/$', 'budgetapp.views.addcategory', name='addcategory'),
     url(r'^addpaycheck/$', 'budgetapp.views.addpaycheck', name='addpaycheck'),
     url(r'^addpurchase/$', 'budgetapp.views.addpurchase', name='addpurchase'),

@@ -56,7 +56,7 @@ def uploadcsv(request):
 
     # Render list page with the documents and the form
     return render_to_response(
-        'csvprocessor/uploadcsv.html',
+        'uploadcsv.html',
         {
          'form': form},
         context_instance=RequestContext(request)
@@ -77,11 +77,6 @@ def handle_uploaded_file(f):
 
     Purchases.objects.all().delete()
     Paychecks.objects.all().delete()
-
-    #create a purchases table
-
-    #create a paychecks table
-
 
     for transaction in dataReader:
         if transaction[0] != 'Date': # Ignore the header row, import everything else
@@ -110,6 +105,7 @@ def fetch_transactions(request):
     Paychecks.objects.all().delete()
 
     transaction_list = []
+    skip_transaction_list = []
 
     transactions = c.allTransactions()
     for transaction in transactions:
@@ -155,19 +151,25 @@ def fetch_transactions(request):
         if description == 'Good Gas' and amount == "218.91":
             category = 'Exclude From Mint'
 
+        #skip pending transaction
+        if transaction['isPending']:
+            category = 'Exclude From Mint'
+
         transaction_type = "debit" if transaction["isDebit"] else "credit"
         account = transaction["account"]
         notes = transaction["note"]
 
         new_transaction = {'date': date, 'description': description, 'amount': amount, 'transaction_type': transaction_type, 'category':category, 'notes': notes}
-        transaction_list.insert(0, new_transaction)
-        save_transaction(new_transaction)
+        if save_transaction(new_transaction):
+            transaction_list.append(new_transaction)
+        else:
+            skip_transaction_list.append(new_transaction)
 
     # Render list page with the documents and the form
     return render_to_response(
-        'csvprocessor/fetch_transactions.html',
+        'fetch_transactions_ajax.html',
         {
-            'transaction_list': transaction_list},
+            'transaction_list': transaction_list, 'skip_transaction_list' : skip_transaction_list},
         context_instance=RequestContext(request)
     )
 
@@ -184,10 +186,7 @@ def save_transaction(transaction):
     #date = date[2]+'-'+date[0]+'-'+date[1]
     #date = date
 
-
     amount = float(amount)
-
-
 
     if transaction_type == "credit":
         amount = -amount
@@ -229,7 +228,7 @@ def save_transaction(transaction):
         paycheck.save()
     #else if category == skip
     elif category == "skip":
-        pass
+        return False
     else:
         #else add to purchases
         purchase = Purchases();
@@ -237,7 +236,7 @@ def save_transaction(transaction):
         try:
             category_object = Category.objects.get(subCategory=category)
         except Category.DoesNotExist:
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             category_object = Category.objects.get(subCategory="unknown")
 
 
@@ -248,6 +247,7 @@ def save_transaction(transaction):
 
         purchase.save()
 
+    return True
 
 
 

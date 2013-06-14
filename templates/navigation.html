@@ -32,5 +32,13 @@
         <input type="text" name="Date" value="mm" size="1" maxlength="2" id="tomonth">/<input type="text" name="Date" value="dd" size="1" maxlength="2" id="today">/<input type="text" name="Date" value="yyyy" size="2" maxlength="4" id="toyear"><br>
         <br>
         <a class="button" onclick="getReport('custom')" href="javascript:void(0)"><span>Go!</span></a>
+        <br>
+        <br>
+        <br>
+        <p class="thelabel">
+            Transactions out of date?
+        </p>
+        <a id="fetch_button" class="button" onclick="getTransactions()" href="javascript:void(0)"><span>Fetch Transactions</span></a>
+        <a id="spinner_button" class="button" style="background-color:#ffffff; height:35px; width:177px; display:none; background-repeat:no-repeat; background-position:center; background-image:url('http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_blue_32.gif')" href="javascript:void(0)"><span></span></a>
     </form>
 </div>

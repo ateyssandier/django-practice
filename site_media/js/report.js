@@ -176,6 +176,7 @@ function drawChartPurchases2(transaction_list){
                 for ( var i=iStart ; i<iEnd ; i++ ){
                     var temp = aaData[ aiDisplay[i] ][4];
                     temp = temp.substring(1);
+                    temp = temp.replace(',','');
                     temp = parseFloat(temp);
                     var factor = Math.pow(10,2);
                     temp =  Math.floor(temp*factor+((temp*factor*10)%10>=5?1:0));
@@ -215,36 +216,45 @@ function drawChartPaycheck(){
                     for ( var i=iStart ; i<iEnd ; i++ ){
                         var temp = aaData[ aiDisplay[i] ][1];
                         temp = temp.substring(1);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
+
+
                         gross +=  temp;
 
                         temp = aaData[ aiDisplay[i] ][2];
                         temp = temp.substring(2);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
                         tax +=  temp;
 
                         temp = aaData[ aiDisplay[i] ][3];
                         temp = temp.substring(2);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
                         healthcare +=  temp;
 
                         temp = aaData[ aiDisplay[i] ][4];
                         temp = temp.substring(2);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
                         fica +=  temp;
 
                         temp = aaData[ aiDisplay[i] ][5];
                         temp = temp.substring(2);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
                         k401 +=  temp;
 
                         temp = aaData[ aiDisplay[i] ][6];
                         temp = temp.substring(2);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
                         totalDeductions +=  temp;
 
                         temp = aaData[ aiDisplay[i] ][7];
                         temp = temp.substring(1);
+                        temp = temp.replace(',','');
                         temp = parseFloat(temp);
                         net +=  temp;
 
@@ -270,11 +280,10 @@ function drawLargeSummary(income, expenses, savings){
     if(savings < 0){
         savingsclass='expenses';
     }
-
     $('#income').html("$"+income);
     $('#expenses').html("$"+expenses);
     $('#savings').html("$"+parseFloat(savings).toFixed(2));
-    $("savings").attr('class', savingsclass);
+    $("#savings").attr('class', savingsclass);
 
 }
 

@@ -280,11 +280,10 @@ function drawLargeSummary(income, expenses, savings){
     if(savings < 0){
         savingsclass='expenses';
     }
-
     $('#income').html("$"+income);
     $('#expenses').html("$"+expenses);
     $('#savings').html("$"+parseFloat(savings).toFixed(2));
-    $("savings").attr('class', savingsclass);
+    $("#savings").attr('class', savingsclass);
 
 }
 

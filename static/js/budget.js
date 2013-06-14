@@ -229,6 +229,26 @@ function removeProduct(whocalled){
     addBindings();
 }
 
+
+function getTransactions(){
+    "use strict";
+
+    $('#fetch_button').hide();
+    $('#spinner_button').show();
+
+    var newurl = '/fetch_transactions_ajax/';
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $.get('/fetch_transactions_ajax/', function(data) {
+       $('.result').html(data);
+       $('#spinner_button').hide()
+       getReport("current");
+    });
+
+
+}
+
+
 //notDone
 function getReport(str){
     "use strict";
