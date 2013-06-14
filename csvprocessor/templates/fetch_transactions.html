@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>fetched data</title>
+    <link href="{{ STATIC_URL }}less/styles.less" type="text/less" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL}}LESS_CACHE/less/styles-10c7edfc7061.css" />
+</head>
+<body>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type='text/javascript' src='http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js'></script>
+
+
+<div id="spinner"><img src="http://templates.entheosweb.com/template_number/images/loading.gif"></img></div>
+<div id="content">
+</div>
+
+<script type='text/javascript'>
+   $('#content').load('/fetch_transactions_ajax/', function() {
+        $('#spinner').hide();
+   }
+   );
+</script>
+
+
+</body>
+</html>
