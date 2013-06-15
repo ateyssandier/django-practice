@@ -169,7 +169,7 @@ function drawChartPurchases2(transaction_list){
             'bSort': true,
             'bInfo': false,
             'bAutoWidth': false,
-            'aaSorting': [[ 0, 'asc' ]],
+            'aaSorting': [[ 0, 'desc' ]],
             'fnFooterCallback': function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
                 /* Calculate the total cost on this page */
                 var iPageMarket = 0;
