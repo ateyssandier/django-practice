@@ -242,6 +242,7 @@ function getTransactions(){
     $.get('/fetch_transactions_ajax/', function(data) {
        $('.result').html(data);
        $('#spinner_button').hide()
+       $('#fetch_button').show()
        getReport("current");
     });
 
