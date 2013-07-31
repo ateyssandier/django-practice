@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^addpurchase/$', 'budgetapp.views.addpurchase', name='addpurchase'),
     url(r'^getreport/$', 'budgetapp.views.getreport', name='getreport'),
     url(r'^getpurchasestable/$', 'budgetapp.views.getpurchasetable', name='getpurchasestable'),
+    url(r'^get_budget_status/$', 'budgetapp.views.get_budget_status', name='get_budget_status'),
     url(r'^getpaycheckstable/$', 'budgetapp.views.getpaycheckstable', name='getpaycheckstable'),
     url(r'^getsubchart/$', 'budgetapp.views.getsubchart', name='getsubchart'),
 )

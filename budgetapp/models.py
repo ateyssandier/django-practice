@@ -20,6 +20,9 @@ SUPERCATEGORY_CHOICES = (
 class Category(models.Model):
     superCategory = models.CharField(max_length=200, choices=SUPERCATEGORY_CHOICES)
     subCategory = models.CharField(max_length=200)
+    #for now subcategories of budgets will be mutually exclusive (one to many). i.e. a subcategory can not be in more than one budget
+    #this is to be able to determine which transactions fall into an "everything else" budget category.
+    budget = models.ForeignKey('Budget',blank=True, null=True, on_delete=models.SET_NULL)
 
 
     def get_super_categories(self, superCategory):
@@ -61,7 +64,7 @@ class Purchases(models.Model):
         purchase_dict['super_category'] = self.category.superCategory
         return purchase_dict
 
-
-class MyModelChoiceField(ModelChoiceField):
-    def label_from_instance(self, obj):
-        return "My Object #%i" % obj.superCategory
+class Budget(models.Model):
+    max = models.DecimalField(max_digits=6, decimal_places=2, default=0.00, null=True)
+    #for now subcategories of budgets will be mutually exclusive (one to many). i.e. a subcategory can not be in more than one budget
+    #this is to be able to determine which transactions fall into an "everything else" budget category.

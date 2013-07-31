@@ -1,5 +1,5 @@
 from django.template import Context, loader, RequestContext
-from budgetapp.models import Purchases, Category, Paychecks
+from budgetapp.models import Purchases, Category, Paychecks, Budget
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect
 from budgetapp.forms import AddCategoryForm, AddPaycheckForm, AddPurchaseForm, NavigationForm
@@ -154,6 +154,9 @@ def getreport(request):
                 from_date = request.POST.get('from')
                 to_date = request.POST.get('to')
 
+                #TODO EXCLUDED PAYCHECKS
+                excluded_paycheck_total = request.POST.get('excluded_paycheck_total')
+
                 #start_date = datetime.date(from_year, from_month, from_day)
                 start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
                 #end_date = datetime.date(to_year, to_month, to_day)
@@ -192,6 +195,9 @@ def getreport(request):
                 for paycheck in paychecks_list:
                     gross_paycheck = gross_paycheck+paycheck.gross
                     takehome_pay = takehome_pay+paycheck.net
+
+                #todo delete paychecks from
+                #takehome_pay = takehome_pay-excluded_paycheck_total
 
 
                 savings = takehome_pay - total_expenses + gross_array_savings
@@ -316,4 +322,43 @@ def getsubchart(request):
     else:
         return HttpResponse("nonajax")
 
+def get_budget_status(request):
+    #do the purchase table template stuff
+    purchases_template = "budget_status.html"
+
+    if request.is_ajax():
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+
+        start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
+        end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
+
+        #get the budgetlist
+        budgetlist = Budget.objects.all()
+        #create a budget_map of budget_item to amount spent
+        budget_map = {}
+        #for each item in budget_list
+        for budget_item in budgetlist:
+            #fetch a list of transactions from purchase objects whith date range, and subcategories
+            budget_item_categories = Category.objects.all().filter(budget=budget_item.pk)
+            transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter( category__in(budget_item_categories)).order_by('-date')
+            #sum them up
+            total = 100
+
+            #add to budget_map
+            budget_map_string = [x.subcategory for x in budget_item_categories]
+            budget_map_string = "-".join(budget_map_string)
+            budget_map[budget_map_string] = total
+
+        #include total spent from budget
+        #
+
+        data = {
+            'success':True,
+            'budget_map': budget_map,
+        }
+
+        return render_to_response(purchases_template, data, context_instance = RequestContext(request))
+    else:
+        return HttpResponse("nonajax")
 

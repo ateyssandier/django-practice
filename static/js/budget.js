@@ -335,6 +335,7 @@ function getReport(str){
             drawChart(convertToArray(response.gross_array));
             drawChartSummary(convertToArray(response.summary_data));
             drawChartPurchases2(transaction_list);
+            drawBudget();
             drawChartPaycheck();
 
             $('#allreports').fadeIn(900, function() {

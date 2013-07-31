@@ -288,6 +288,15 @@ function drawLargeSummary(income, expenses, savings){
 }
 
 
+function drawBudget(){
+    "use strict";
+    var newurl = "/getpurchasestable/";
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $('budget_status_area').load('get_budget_status?from='+from+'&to='+to, function(){
+        //my call back function
+    });
+}
 
 function showSubChartDivPopup(which){
 
