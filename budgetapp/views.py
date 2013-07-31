@@ -325,7 +325,7 @@ def getsubchart(request):
 def get_budget_status(request):
     #do the purchase table template stuff
     purchases_template = "budget_status.html"
-
+    import pdb; pdb.set_trace()
     if request.is_ajax():
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')

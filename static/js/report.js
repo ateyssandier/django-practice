@@ -293,8 +293,8 @@ function drawBudget(){
     var newurl = "/getpurchasestable/";
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
 
-    $('budget_status_area').load('get_budget_status?from='+from+'&to='+to, function(){
-        //my call back function
+    $('budget_status_area').load('/get_budget_status?from='+from+'&to='+to, function(){
+        alert('something');
     });
 }
 
