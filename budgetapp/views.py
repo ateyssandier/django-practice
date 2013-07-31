@@ -325,8 +325,8 @@ def getsubchart(request):
 def get_budget_status(request):
     #do the purchase table template stuff
     purchases_template = "budget_status.html"
-    import pdb; pdb.set_trace()
     if request.is_ajax():
+    #if True:
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
 
@@ -340,13 +340,13 @@ def get_budget_status(request):
         #for each item in budget_list
         for budget_item in budgetlist:
             #fetch a list of transactions from purchase objects whith date range, and subcategories
-            budget_item_categories = Category.objects.all().filter(budget=budget_item.pk)
-            transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter( category__in(budget_item_categories)).order_by('-date')
+            budget_item_categories = budget_item.categories.all()
+            transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter( category__in=(budget_item_categories)).order_by('-date')
             #sum them up
             total = 100
 
             #add to budget_map
-            budget_map_string = [x.subcategory for x in budget_item_categories]
+            budget_map_string = [x.subCategory for x in budget_item_categories]
             budget_map_string = "-".join(budget_map_string)
             budget_map[budget_map_string] = total
 

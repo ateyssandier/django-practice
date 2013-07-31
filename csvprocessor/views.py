@@ -26,7 +26,7 @@ CATEGORY_MAP = {
     "finance charges" : "finance charge",
     "gym membership" : "gym",
     "home insurance bill" : "home insurance",
-    "atm fee", "misc fee"
+    "atm fee": "misc fee"
 }
 
 SKIP_MAP = ["credit card payment", 
