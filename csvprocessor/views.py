@@ -25,7 +25,8 @@ CATEGORY_MAP = {
     "alcohol and bars" : "alcohol & bars",
     "finance charges" : "finance charge",
     "gym membership" : "gym",
-    "home insurance bill" : "home insurance"
+    "home insurance bill" : "home insurance",
+    "atm fee", "misc fee"
 }
 
 SKIP_MAP = ["credit card payment", 
@@ -33,7 +34,6 @@ SKIP_MAP = ["credit card payment",
             "interest income", 
             "loan payment", 
             "transfer", 
-            "atm fee", 
             "cash & atm"]
 
 def uploadcsv(request):
