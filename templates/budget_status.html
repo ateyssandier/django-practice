@@ -1,23 +1,4 @@
-<table cellpadding="0" cellspacing="0" border="0" class="budget_table" id="budget_table">
-    <thead>
-    <tr>
-        <th>Budget_name</th>
-        <th>Total</th>
+{% for key,value in budget_list.items %}
+    <div id="{{ key }}_progressbar" class="progressBar"><div></div></div>
+{% endfor %}
 
-    </tr>
-    </thead>
-    <tbody>
-    {% for key,value in budget_map.items %}
-        <tr>
-            <td>{{ key }}</td>
-            <td>{{ value }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-    <tfoot>
-    <tr>
-        <th style="text-align:right" colspan="4">Total:</th>
-        <th>{{ total }}</th>
-    </tr>
-    </tfoot>
-</table>

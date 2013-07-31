@@ -111,6 +111,16 @@ def index(request):
     for i in range(2010,today.year+1):
         years_choices.append(i)
 
+    budgetlist = Budget.objects.all()
+    budget_map = {}
+    for budget_item in budgetlist:
+        budget_item_categories = budget_item.categories.all()
+
+        #add to budget_map
+        budget_map_string = [x.subCategory for x in budget_item_categories]
+        budget_map_string = "-".join(budget_map_string)
+        budget_map[budget_map_string] = budget_item.max
+
     transaction_list = Purchases.objects.all().order_by('-date')
     addCategoryForm = AddCategoryForm()
     inputPaycheck = AddPaycheckForm()
@@ -125,7 +135,8 @@ def index(request):
         'category_dict': getCategories(),
         'months': months_choices,
         'years' : years_choices,
-        'navigation_form': navForm
+        'navigation_form': navForm,
+        'budget_list': budget_map
         })
     return HttpResponse(t.render(c))
 
@@ -348,7 +359,7 @@ def get_budget_status(request):
             #add to budget_map
             budget_map_string = [x.subCategory for x in budget_item_categories]
             budget_map_string = "-".join(budget_map_string)
-            budget_map[budget_map_string] = total
+            budget_map[budget_map_string] = total/budget_item.max
 
         #include total spent from budget
         #
@@ -358,7 +369,10 @@ def get_budget_status(request):
             'budget_map': budget_map,
         }
 
-        return render_to_response(purchases_template, data, context_instance = RequestContext(request))
+        jsonResult = json.dumps(data, cls=DjangoJSONEncoder)
+
+        return HttpResponse(jsonResult, mimetype='application/json')
+
     else:
         return HttpResponse("nonajax")
 

@@ -290,11 +290,35 @@ function drawLargeSummary(income, expenses, savings){
 
 function drawBudget(){
     "use strict";
-    var newurl = "/getpurchasestable/";
+    var newurl = "/get_budget_status/";
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
 
-    $('#budget_status_area').load('/get_budget_status?from='+from+'&to='+to, function(){
-        alert('something');
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        async: false,
+        data: { from: from, to: to },
+        success: function(data){
+            var response = data;
+            var budget_map = response.budget_map;
+
+
+
+            function progress(percent, $element) {
+                var progressBarWidth = percent * $element.width() / 100;
+                $element.find('div').animate({ width: progressBarWidth }, 500).html(percent + "%&nbsp;");
+            }
+
+            //for budget_key in budget_map
+                //div_name = budget_key+'_progressbar'
+                //percentage = budget_map[budget_key]
+                //progress(precentage, $(div_name));
+
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
     });
 }
 
