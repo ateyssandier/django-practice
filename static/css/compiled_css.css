@@ -374,8 +374,7 @@ span.tooltip {
   display: block;
 }
 .progressBar .title {
-  text-align: left;
-  display: inline;
+  display: inline-block;
 }
 .progressBar div {
   height: 100%;
