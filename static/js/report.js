@@ -304,9 +304,18 @@ function drawBudget(){
 
 
 
-            function progress(percent, $element) {
+            var animated_progress = function progress(percent, $element) {
                 var progressBarWidth = percent * $element.width() / 100;
                 $element.find('div').animate({ width: progressBarWidth }, 500).html(percent + "%&nbsp;");
+            }
+
+            for (var key in budget_map) {
+                if (budget_map.hasOwnProperty(key)) {
+                    var div_name = key+'_progressbar';
+                    var percentage = budget_map[key];
+                    alert(key + " -> " + budget_map[key]);
+                    animated_progress(percentage, $(div_name));
+                }
             }
 
             //for budget_key in budget_map

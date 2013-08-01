@@ -338,8 +338,8 @@ def get_budget_status(request):
     purchases_template = "budget_status.html"
     if request.is_ajax():
     #if True:
-        from_date = request.GET.get('from')
-        to_date = request.GET.get('to')
+        from_date = request.POST.get('from')
+        to_date = request.POST.get('to')
 
         start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
         end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
