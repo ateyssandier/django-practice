@@ -370,9 +370,11 @@ span.tooltip {
   box-shadow: 0 -1px 1px #c0bfbc inset;
   margin-bottom: 20px;
 }
-.progressBar .total {
+.progressBar span.total {
   float: right;
-  display: inline-block;
+}
+.progressBar span.title {
+  float: left;
 }
 .progressBar div {
   height: 100%;
@@ -387,7 +389,7 @@ span.tooltip {
   border-radius: 9px 9px 9px 9px;
   box-shadow: 0 2px 2px #333333;
 }
-.progressBar .overbudget {
+.progressBar div.overbudget {
   background: -moz-linear-gradient(center top, #ff4b4b, #980000) repeat scroll 0 0 transparent;
   background: -webkit-gradient(linear, center top, center bottom, from(#ff4b4b), to(#980000));
 }
