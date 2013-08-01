@@ -370,9 +370,6 @@ span.tooltip {
   box-shadow: 0 -1px 1px #c0bfbc inset;
   padding-bottom: 50px;
 }
-.progressBar span.total {
-  float: right;
-}
 .progressBar div {
   height: 100%;
   color: #fff;
