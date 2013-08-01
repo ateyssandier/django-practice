@@ -360,6 +360,13 @@ span.tooltip {
 .radio_switches {
   display: none;
 }
+.progressLabel .total {
+  float: right;
+  display: block;
+}
+.progressLabel .title {
+  display: inline-block;
+}
 .progressBar {
   width: 400px;
   height: 20px;
@@ -368,13 +375,6 @@ span.tooltip {
   border-radius: 10px 10px 10px 10px;
   box-shadow: 0 -1px 1px #c0bfbc inset;
   margin-bottom: 5px;
-}
-.progressBar .total {
-  float: right;
-  display: block;
-}
-.progressBar .title {
-  display: inline-block;
 }
 .progressBar div {
   height: 100%;
