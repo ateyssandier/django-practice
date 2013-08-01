@@ -463,7 +463,11 @@ span.tooltip{
   background: none repeat scroll 0 0 #E6E5E2;
   border-radius: 10px 10px 10px 10px;
   box-shadow: 0 -1px 1px #C0BFBC inset;
+  padding-bottom: 50px;
 
+  span.total {
+     float: right;
+  }
   div {
     height: 100%;
     color: #fff;
@@ -471,10 +475,12 @@ span.tooltip{
     line-height: 30px; /* same as #progressBar height if we want text middle aligned */
     width: 0;
     background: -moz-linear-gradient(center top , #FF4B4B, #980000) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(center top, color-stop(0%,#FF4B4B), color-stop(100%,#980000)); 
     border-radius: 9px 9px 9px 9px;
     box-shadow: 0 2px 2px #333333;
   }
   div.overbudget {
     background: -moz-linear-gradient(center top , #4BFF4B, #005F00) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(center top, color-stop(0%,#4bFF4b), color-stop(100%,#005F00)); 
   }
 }
