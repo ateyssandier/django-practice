@@ -302,8 +302,6 @@ function drawBudget(){
             var response = data;
             var budget_map = response.budget_map;
 
-
-
             var animated_progress = function progress(percent, $element) {
                 var progressBarWidth = percent * $element.width() / 100;
                 $element.find('div').animate({ width: progressBarWidth }, 500).html(percent + "%&nbsp;");
@@ -311,9 +309,10 @@ function drawBudget(){
 
             for (var key in budget_map) {
                 if (budget_map.hasOwnProperty(key)) {
-                    var div_name = key+'_progressbar';
-                    var percentage = budget_map[key];
-                    alert(key + " -> " + budget_map[key]);
+                    var div_name = '#'+key+'_progressbar'
+                    var max_val = $(div_name).attr("data-max");
+                    alert(max_val);
+                    var percentage = budget_map[key].toFixed(2);
                     animated_progress(percentage, $(div_name));
                 }
             }

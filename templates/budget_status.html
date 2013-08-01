@@ -1,4 +1,5 @@
 {% for key,value in budget_list.items %}
-    <div id="{{ key }}_progressbar" class="progressBar"><div></div></div>
+    <div data-max="{{ value }}" id="{{ key }}_progressbar" class="progressBar"><div></div></div>
+   <span id="{{ key }}_currentval"></span> of <span id="{{ key }}_maxval">${{ value }}</span>
 {% endfor %}
 

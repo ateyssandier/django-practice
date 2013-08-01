@@ -117,8 +117,7 @@ def index(request):
         budget_item_categories = budget_item.categories.all()
 
         #add to budget_map
-        budget_map_string = [x.subCategory for x in budget_item_categories]
-        budget_map_string = "-".join(budget_map_string)
+        budget_map_string = budget_item.name
         budget_map[budget_map_string] = budget_item.max
 
     transaction_list = Purchases.objects.all().order_by('-date')
@@ -357,9 +356,8 @@ def get_budget_status(request):
             total = 100
 
             #add to budget_map
-            budget_map_string = [x.subCategory for x in budget_item_categories]
-            budget_map_string = "-".join(budget_map_string)
-            budget_map[budget_map_string] = total/budget_item.max
+            budget_map_string = budget_item.name
+            budget_map[budget_map_string] = float(total/budget_item.max)
 
         #include total spent from budget
         #

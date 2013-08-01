@@ -20,8 +20,6 @@ SUPERCATEGORY_CHOICES = (
 class Category(models.Model):
     superCategory = models.CharField(max_length=200, choices=SUPERCATEGORY_CHOICES)
     subCategory = models.CharField(max_length=200)
-    #for now subcategories of budgets will be mutually exclusive (one to many). i.e. a subcategory can not be in more than one budget
-    #this is to be able to determine which transactions fall into an "everything else" budget category.
     #budget = models.ForeignKey('Budget',blank=True, null=True, on_delete=models.SET_NULL)
 
 
@@ -70,6 +68,16 @@ class MyModelChoiceField(ModelChoiceField):
 
 class Budget(models.Model):
     max = models.DecimalField(max_digits=6, decimal_places=2, default=0.00, null=True)
-    #for now subcategories of budgets will be mutually exclusive (one to many). i.e. a subcategory can not be in more than one budget
-    #this is to be able to determine which transactions fall into an "everything else" budget category.
     categories = models.ManyToManyField(Category)
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        print self.name
+        super(Budget, self).save(*args, **kwargs)
+        if not self.name:
+            categories = self.categories.all()
+            budget_name = [x.subCategory for x in categories]
+            budget_name = "-".join(budget_name)
+            budget_name = budget_name.replace(' ', '_') 
+            self.name = budget_name
+        super(Budget, self).save(*args, **kwargs)
