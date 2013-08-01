@@ -365,8 +365,8 @@ function getReport(str){
                     var background_overlay = document.getElementById('background_overlay');
                     background_overlay.style.display = 'none';
 
-                    //var addlabelpopup2 = document.getElementById('sub_net_chart_div');
-                    //addlabelpopup2.style.display = 'none';
+                    var addlabelpopup2 = document.getElementById('sub_net_chart_div');
+                    addlabelpopup2.style.display = 'none';
 
                 }
             });
