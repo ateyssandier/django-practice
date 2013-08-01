@@ -1,5 +1,5 @@
 {% for key,value in budget_list.items %}
-   <div>
+   <div class=".progressLabel">
       <div class="title">{{ key }}</div>
       <div class="total"><span id="{{ key }}_currentval">0</span> of <span id="{{ key }}_maxval">${{ value }}</span></div>
    </div>
