@@ -382,11 +382,11 @@ span.tooltip {
 
   width: 0;
   background: -moz-linear-gradient(center top, #ff4b4b, #980000) repeat scroll 0 0 transparent;
-  background: -webkit-gradient(center top, from(#ff4b4b), to(#980000));
+  background: -webkit-gradient(linear, center top, center bottom, from(#ff4b4b), to(#980000));
   border-radius: 9px 9px 9px 9px;
   box-shadow: 0 2px 2px #333333;
 }
 .progressBar div.overbudget {
   background: -moz-linear-gradient(center top, #4bff4b, #005f00) repeat scroll 0 0 transparent;
-  background: -webkit-gradient(center top, from(#4bff4b), to(#005f00));
+  background: -webkit-gradient(linear, center top, center bottom, from(#4bff4b), to(#005f00));
 }
