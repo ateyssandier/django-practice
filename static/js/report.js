@@ -303,12 +303,14 @@ function drawBudget(){
             var budget_map = response.budget_map;
 
             var animated_progress = function progress(percent, $element) {
-                var progressBarWidth = percent * $element.width() / 100;
-                if progressBarWidth > $element.width(){
-                   alert('over budget');
+                if (percent > 100){
+                   percent = 100;
                    $element.find('div').addClass('overbudget')
+                } else {
+                   $element.find('div').removeClass('overbudget');
                 }
-                $element.find('div').animate({ width: progressBarWidth }, 500).html(percent + "%&nbsp;");
+                var progressBarWidth = percent * $element.width() / 100;
+                $element.find('div').animate({ width: progressBarWidth }, 500);
             }
 
             for (var key in budget_map) {

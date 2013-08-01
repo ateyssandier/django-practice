@@ -22,7 +22,6 @@ CATEGORY_MAP = {
     "service & parts" : "maintenance",
     "fast food" : "restaurants",
     "miscellaneous fee" : "misc fee",
-    "alcohol and bars" : "alcohol & bars",
     "finance charges" : "finance charge",
     "gym membership" : "gym",
     "home insurance bill" : "home insurance",
