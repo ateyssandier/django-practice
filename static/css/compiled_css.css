@@ -369,11 +369,11 @@ span.tooltip {
   box-shadow: 0 -1px 1px #c0bfbc inset;
   margin-bottom: 5px;
 }
-.progressBar span.total {
+.progressBar .total {
   float: right;
   display: block;
 }
-.progressBar span.title {
+.progressBar .title {
   text-align: left;
   display: inline;
 }
