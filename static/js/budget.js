@@ -239,12 +239,27 @@ function getTransactions(){
     var newurl = '/fetch_transactions_ajax/';
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
 
-    $.get('/fetch_transactions_ajax/', function(data) {
+    $.ajax({
+      type:'GET',
+      url: '/fetch_transactions_ajax/',
+      data: {},
+      success: function(data) {
+         $('.result').html(data);
+         $('#spinner_button').hide()
+         $('#fetch_button').show()
+         getReport("current");
+      }, 
+      error: function(jqXHR, textStatus, errorThrown) {
+         console.log(err); 
+      }
+    });
+
+    /*$.get('/fetch_transactions_ajax/', function(data) {
        $('.result').html(data);
        $('#spinner_button').hide()
        $('#fetch_button').show()
        getReport("current");
-    });
+    });*/
 
 
 }

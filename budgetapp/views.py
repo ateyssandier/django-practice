@@ -358,10 +358,9 @@ def get_budget_status(request):
             #get the sum:
             for transaction in transaction_list:
                 sum+= transaction.cost
-
             #add to budget_map
             budget_map_string = budget_item.name
-            budget_map[budget_map_string] = int(sum/budget_item.max)
+            budget_map[budget_map_string] = int(sum/budget_item.max*100)
 
         #include total spent from budget
         #

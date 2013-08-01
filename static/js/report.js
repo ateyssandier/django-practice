@@ -304,6 +304,10 @@ function drawBudget(){
 
             var animated_progress = function progress(percent, $element) {
                 var progressBarWidth = percent * $element.width() / 100;
+                if progressBarWidth > $element.width(){
+                   alert('over budget');
+                   $element.find('div').addClass('overbudget')
+                }
                 $element.find('div').animate({ width: progressBarWidth }, 500).html(percent + "%&nbsp;");
             }
 
@@ -311,12 +315,16 @@ function drawBudget(){
                 if (budget_map.hasOwnProperty(key)) {
                     var div_name = '#'+key+'_progressbar';
                     var max_val = $(div_name).attr("data-max");
-                    $('#'+key+'_progressbar').html('$'+max_val)
-                    var percentage = budget_map[key].toFixed(2);
+                    var percentage = budget_map[key];
+                    var total = percentage*max_val/100
+                    $('#'+key+'_currentval').html('$'+total)
                     animated_progress(percentage, $(div_name));
                 }
             }
 
+        },
+        error: function (jqXHR, textStatus, errorThrown){
+             console.log(err); 
         },
         dataType: 'json',
         beforeSend: function(xhr, settings){
