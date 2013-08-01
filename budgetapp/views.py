@@ -352,12 +352,16 @@ def get_budget_status(request):
             #fetch a list of transactions from purchase objects whith date range, and subcategories
             budget_item_categories = budget_item.categories.all()
             transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter( category__in=(budget_item_categories)).order_by('-date')
+
             #sum them up
-            total = 100
+            sum = 0
+            #get the sum:
+            for transaction in transaction_list:
+                sum+= transaction.cost
 
             #add to budget_map
             budget_map_string = budget_item.name
-            budget_map[budget_map_string] = float(total/budget_item.max)
+            budget_map[budget_map_string] = int(sum/budget_item.max)
 
         #include total spent from budget
         #

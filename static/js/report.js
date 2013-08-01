@@ -309,18 +309,13 @@ function drawBudget(){
 
             for (var key in budget_map) {
                 if (budget_map.hasOwnProperty(key)) {
-                    var div_name = '#'+key+'_progressbar'
+                    var div_name = '#'+key+'_progressbar';
                     var max_val = $(div_name).attr("data-max");
-                    alert(max_val);
+                    $('#'+key+'_progressbar').html('$'+max_val)
                     var percentage = budget_map[key].toFixed(2);
                     animated_progress(percentage, $(div_name));
                 }
             }
-
-            //for budget_key in budget_map
-                //div_name = budget_key+'_progressbar'
-                //percentage = budget_map[budget_key]
-                //progress(precentage, $(div_name));
 
         },
         dataType: 'json',
