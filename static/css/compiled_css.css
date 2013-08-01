@@ -371,10 +371,10 @@ span.tooltip {
   margin-bottom: 20px;
 }
 .progressBar span.total {
-  float: right;
+  text-align: right;
 }
 .progressBar span.title {
-  float: left;
+  text-align: left;
 }
 .progressBar div {
   height: 100%;
