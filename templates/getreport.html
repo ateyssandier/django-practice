@@ -14,7 +14,13 @@
 <br>
 <div class="allreports" id="allreports" style="display: block;">
     <br>
-    <div class="superChart" id="super_chart_div" style="position: relative;">
+    <div>
+        <div class="superChart" id="super_chart_div" style="position: relative;">
+        </div>
+        <br>
+        <div class="" id="budget_status_area" style="float:right;">
+            {% include "budget_status.html" %}
+        </div>
     </div>
     <br>
     <div class="superChart" id="sub_chart_div" style="margin-top:-20px">
@@ -27,10 +33,7 @@
     <div class="caption" id="piechartsummary" style="width:200px; height:150px; margin-left:50px; margin-top:-75px;">
     </div>
 
-    <br>
-    <div class="" id="budget_status_area" style="float:right;">
-        {% include "budget_status.html" %}
-    </div>
+
 
     <br>
     <br>
