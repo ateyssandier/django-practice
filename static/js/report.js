@@ -318,7 +318,7 @@ function drawBudget(){
                     var div_name = '#'+key+'_progressbar';
                     var max_val = $(div_name).attr("data-max");
                     var percentage = budget_map[key];
-                    var total = percentage*max_val/100
+                    var total = Math.round(percentage*max_val/100);
                     $('#'+key+'_currentval').html('$'+total)
                     animated_progress(percentage, $(div_name));
                 }
