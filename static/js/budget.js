@@ -11,6 +11,7 @@ google.load('visualization', '1', {packages:['table']});
 
 //function to exclude a paycheck
 function excludePaycheck(cb){
+    var exclude = cb.checked;
     var newurl = $(cb).data('action');
     var paycheckId = $(cb).data('pk');
     //var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
