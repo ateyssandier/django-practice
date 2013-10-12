@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 import json
 import calendar
 import datetime
-
+from decimal import *
 
 
 
@@ -165,7 +165,7 @@ def getreport(request):
                 to_date = request.POST.get('to')
 
                 #TODO EXCLUDED PAYCHECKS
-                excluded_paycheck_total = request.POST.get('excluded_paycheck_total')
+                excluded_paycheck_total = request.POST.get('excluded_total')
 
                 #start_date = datetime.date(from_year, from_month, from_day)
                 start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
@@ -207,7 +207,7 @@ def getreport(request):
                     takehome_pay = takehome_pay+paycheck.net
 
                 #todo delete paychecks from
-                #takehome_pay = takehome_pay-excluded_paycheck_total
+                takehome_pay = takehome_pay - Decimal(excluded_paycheck_total)
 
 
                 savings = takehome_pay - total_expenses + gross_array_savings

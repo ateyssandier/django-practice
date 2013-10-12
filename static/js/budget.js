@@ -9,6 +9,18 @@ var transaction_list;
 google.load('visualization', '1.0', {'packages':['corechart']});
 google.load('visualization', '1', {packages:['table']});
 
+//function to exclude a paycheck
+function excludePaycheck(cb){
+  var exclude = cb.checked;
+  var row = $(cb).parents('tr')
+  if (exclude == true){
+     row.addClass('excludedPaycheck');
+  } else {
+     row.removeClass('excludedPaycheck');
+  }
+  getReport("current");
+}
+
 //not done, might not ever finish
 function addReceipt(){
 
@@ -254,13 +266,6 @@ function getTransactions(){
       }
     });
 
-    /*$.get('/fetch_transactions_ajax/', function(data) {
-       $('.result').html(data);
-       $('#spinner_button').hide()
-       $('#fetch_button').show()
-       getReport("current");
-    });*/
-
 
 }
 
@@ -333,11 +338,18 @@ function getReport(str){
 
     var newurl = $("#report_form").attr( 'action' );
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+    var excludedTotal = 0;
+    $('#paychecks_table tr.excludedPaycheck').each(function(i, obj) {
+        excludedTotal = excludedTotal + 0;
+        var stringTotal = $(obj).find('.gross').html();
+        stringTotal = stringTotal.substring(1);
+        excludedTotal = excludedTotal + parseFloat(stringTotal.replace(',', ''));
+    });
 
     $.ajax({
         type: "POST",
         url: newurl,
-        data: { from: from, to: to },
+        data: { from: from, to: to , excluded_total : excludedTotal},
         success: function(data){
             var response = data;
 
@@ -590,7 +602,7 @@ $(document).ready( function(){
     });
 
     //this might not be needed
-    $("#report_form").submit(function(event) {
+    /*$("#report_form").submit(function(event) {
         event.preventDefault();
         alert("hello");
         setTimeout(
@@ -599,7 +611,7 @@ $(document).ready( function(){
             },
             1
         );
-    });
+    });*/
 
 
 

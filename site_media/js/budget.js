@@ -229,6 +229,42 @@ function removeProduct(whocalled){
     addBindings();
 }
 
+
+function getTransactions(){
+    "use strict";
+
+    $('#fetch_button').hide();
+    $('#spinner_button').show();
+
+    var newurl = '/fetch_transactions_ajax/';
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $.ajax({
+      type:'GET',
+      url: '/fetch_transactions_ajax/',
+      data: {},
+      success: function(data) {
+         $('.result').html(data);
+         $('#spinner_button').hide()
+         $('#fetch_button').show()
+         getReport("current");
+      }, 
+      error: function(jqXHR, textStatus, errorThrown) {
+         console.log(err); 
+      }
+    });
+
+    /*$.get('/fetch_transactions_ajax/', function(data) {
+       $('.result').html(data);
+       $('#spinner_button').hide()
+       $('#fetch_button').show()
+       getReport("current");
+    });*/
+
+
+}
+
+
 //notDone
 function getReport(str){
     "use strict";
@@ -314,6 +350,7 @@ function getReport(str){
             drawChart(convertToArray(response.gross_array));
             drawChartSummary(convertToArray(response.summary_data));
             drawChartPurchases2(transaction_list);
+            drawBudget();
             drawChartPaycheck();
 
             $('#allreports').fadeIn(900, function() {
@@ -329,7 +366,6 @@ function getReport(str){
                     background_overlay.style.display = 'none';
 
                     var addlabelpopup2 = document.getElementById('sub_net_chart_div');
-
                     addlabelpopup2.style.display = 'none';
 
                 }

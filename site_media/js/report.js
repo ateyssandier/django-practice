@@ -169,7 +169,7 @@ function drawChartPurchases2(transaction_list){
             'bSort': true,
             'bInfo': false,
             'bAutoWidth': false,
-            'aaSorting': [[ 0, 'asc' ]],
+            'aaSorting': [[ 0, 'desc' ]],
             'fnFooterCallback': function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
                 /* Calculate the total cost on this page */
                 var iPageMarket = 0;
@@ -288,6 +288,52 @@ function drawLargeSummary(income, expenses, savings){
 }
 
 
+function drawBudget(){
+    "use strict";
+    var newurl = "/get_budget_status/";
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        async: false,
+        data: { from: from, to: to },
+        success: function(data){
+            var response = data;
+            var budget_map = response.budget_map;
+
+            var animated_progress = function progress(percent, $element) {
+                if (percent > 100){
+                   percent = 100;
+                   $element.find('div').addClass('overbudget')
+                } else {
+                   $element.find('div').removeClass('overbudget');
+                }
+                var progressBarWidth = percent * $element.width() / 100;
+                $element.find('div').animate({ width: progressBarWidth }, 500);
+            }
+
+            for (var key in budget_map) {
+                if (budget_map.hasOwnProperty(key)) {
+                    var div_name = '#'+key+'_progressbar';
+                    var max_val = $(div_name).attr("data-max");
+                    var percentage = budget_map[key];
+                    var total = Math.round(percentage*max_val/100);
+                    $('#'+key+'_currentval').html('$'+total)
+                    animated_progress(percentage, $(div_name));
+                }
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown){
+             console.log(err); 
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+}
 
 function showSubChartDivPopup(which){
 

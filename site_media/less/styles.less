@@ -2,7 +2,6 @@ body {
   font-family:Helvetica;
   overflow:scroll;
   padding-right:0px;
-  width:10000px;
 }
 
 h3 {
@@ -456,4 +455,37 @@ span.tooltip{
   display:none;
 }
 
+.progressBar{
+  width: 400px;
+  height: 20px;
+  border: 1px solid #111;
+  background: none repeat scroll 0 0 #E6E5E2;
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 0 -1px 1px #C0BFBC inset;
+  margin-bottom: 5px;
 
+  span.total {
+    float : right;
+    display: block;
+  }
+  span.title {
+    text-align: left;
+    display: inline;
+  }
+
+  div {
+    height: 100%;
+    color: #fff;
+    text-align: right;
+    line-height: 20px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background: -moz-linear-gradient(center top , #4BFF4B, #005F00) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#4bff4b), to(#005f00)); 
+    border-radius: 9px 9px 9px 9px;
+    box-shadow: 0 2px 2px #333333;
+  }
+  div.overbudget {
+    background: -moz-linear-gradient(center top , #FF4B4B, #980000) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#FF4B4B), to(#980000)); 
+  }
+}
