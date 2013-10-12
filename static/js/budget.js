@@ -18,7 +18,33 @@ function excludePaycheck(cb){
   } else {
      row.removeClass('excludedPaycheck');
   }
-  getReport("current");
+
+    var newurl = $(cb).data('action');
+    var paycheckId = $(cb).data('pk');
+    //var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
+    var data = {paycheck_id: paycheckId, enabled: exclude };
+
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        data: data,
+        success: function(data){
+            var response = data;
+            var message = "Net pay was: " + response['netpay'];
+
+            $("#addpaycheckresult").html(message);
+
+
+        },
+        dataType: 'json'
+//        beforeSend: function(xhr, settings){
+//            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+//        }
+    });
+
+
+    //todo, get current date and refresh
+    getReport("current");
 }
 
 //not done, might not ever finish
@@ -338,18 +364,12 @@ function getReport(str){
 
     var newurl = $("#report_form").attr( 'action' );
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
-    var excludedTotal = 0;
-    $('#paychecks_table tr.excludedPaycheck').each(function(i, obj) {
-        excludedTotal = excludedTotal + 0;
-        var stringTotal = $(obj).find('.gross').html();
-        stringTotal = stringTotal.substring(1);
-        excludedTotal = excludedTotal + parseFloat(stringTotal.replace(',', ''));
-    });
+
 
     $.ajax({
         type: "POST",
         url: newurl,
-        data: { from: from, to: to , excluded_total : excludedTotal},
+        data: { from: from, to: to},
         success: function(data){
             var response = data;
 
@@ -600,20 +620,6 @@ $(document).ready( function(){
             1
         );
     });
-
-    //this might not be needed
-    /*$("#report_form").submit(function(event) {
-        event.preventDefault();
-        alert("hello");
-        setTimeout(
-            function() {
-                getReport();
-            },
-            1
-        );
-    });*/
-
-
 
     var currentTime = new Date();
     var monthname = currentTime.getMonth();

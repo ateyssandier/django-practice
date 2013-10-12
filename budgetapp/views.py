@@ -164,8 +164,6 @@ def getreport(request):
                 from_date = request.POST.get('from')
                 to_date = request.POST.get('to')
 
-                #TODO EXCLUDED PAYCHECKS
-                excluded_paycheck_total = request.POST.get('excluded_total')
 
                 #start_date = datetime.date(from_year, from_month, from_day)
                 start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
@@ -173,7 +171,7 @@ def getreport(request):
                 end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
 
                 transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).order_by('-date')
-                paychecks_list = Paychecks.objects.all().filter(date__range=(start_date, end_date)).order_by('-date')
+                paychecks_list = Paychecks.objects.all().filter(date__range=(start_date, end_date)).exclude(excluded=True).order_by('-date')
 
                 gross_array = {}
                 gross_array_savings = 0
@@ -205,9 +203,6 @@ def getreport(request):
                 for paycheck in paychecks_list:
                     gross_paycheck = gross_paycheck+paycheck.gross
                     takehome_pay = takehome_pay+paycheck.net
-
-                #todo delete paychecks from
-                takehome_pay = takehome_pay - Decimal(excluded_paycheck_total)
 
 
                 savings = takehome_pay - total_expenses + gross_array_savings
@@ -377,3 +372,23 @@ def get_budget_status(request):
     else:
         return HttpResponse("nonajax")
 
+def excludepaycheck(request):
+    if request.is_ajax():
+        paycheck_id =  request.POST.get('paycheck_id', None)
+        value = request.POST.get('enabled', False)
+
+        if paycheck_id:
+            _excludepaycheck(paycheck_id, value)
+
+            results = {'success':True, 'netPay' : paycheck_id}
+            jsonResult = json.dumps(results)
+            return HttpResponse(jsonResult, mimetype='application/json')
+    else:
+        return HttpResponse("nonajax")
+
+def _excludepaycheck(paycheck_id, value):
+    paycheck = Paychecks.objects.filter(pk=paycheck_id)
+
+    paycheck.exclude = value
+
+    paycheck.save()

@@ -38,6 +38,7 @@ class Paychecks(models.Model):
     fica = models.DecimalField(max_digits=6, decimal_places=2, default=0.00, null=True)
     k401 = models.DecimalField(max_digits=6, decimal_places=2, default=0.00, null=True)
     net = models.DecimalField(max_digits=6, decimal_places=2)
+    excluded = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.net
