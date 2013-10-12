@@ -23,21 +23,13 @@ function excludePaycheck(cb){
         data: data,
         success: function(data){
             var response = data;
-            var message = "Net pay was: " + response['netpay'];
-
-            $("#addpaycheckresult").html(message);
-
-
+            getReport("unchanged");
         },
         dataType: 'json',
         beforeSend: function(xhr, settings){
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     });
-
-
-    //todo, get current date and refresh
-    getReport("current");
 }
 
 //not done, might not ever finish
@@ -278,7 +270,7 @@ function getTransactions(){
          $('.result').html(data);
          $('#spinner_button').hide()
          $('#fetch_button').show()
-         getReport("current");
+         getReport("custom");
       }, 
       error: function(jqXHR, textStatus, errorThrown) {
          console.log(err); 
@@ -354,6 +346,18 @@ function getReport(str){
         from = "2012-03-15";
         to = "2015-04-15";
     }
+
+    //don't change, just use the global ones
+    if (str == "unchanged"){
+        from = from;
+        to = to;
+    }
+
+    getReportWithDates(from, to)
+
+}
+
+function getReportWithDates(from, to){
 
     var newurl = $("#report_form").attr( 'action' );
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
