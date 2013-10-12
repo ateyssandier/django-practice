@@ -25,7 +25,7 @@
                 <td class="deductions">{{ paycheck.k401|currency }}</td>
                 <td class="deductions">{{ paycheck.total_deductions|currency }}</td>
                 <td class="net">{{ paycheck.net|currency }}</td>
-                <td class="excluded {% if paycheck.excluded %}excludedPaycheck{% endif %}"><input data-pk="{{ paycheck.pk }}" data-action="{% url 'excludepaycheck' %}" type="checkbox" onchange="excludePaycheck(this)" /></td>
+                <td class="excluded {% if paycheck.excluded %}excludedPaycheck{% endif %}"><input data-pk="{{ paycheck.pk }}" data-action="{% url 'excludepaycheck' %}" {% if paycheck.excluded %}checked{% endif %} type="checkbox" onchange="excludePaycheck(this)" /></td>
             </tr>
         {% endfor %}
     </tbody>

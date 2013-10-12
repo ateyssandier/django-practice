@@ -164,7 +164,6 @@ def getreport(request):
                 from_date = request.POST.get('from')
                 to_date = request.POST.get('to')
 
-
                 #start_date = datetime.date(from_year, from_month, from_day)
                 start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
                 #end_date = datetime.date(to_year, to_month, to_day)
@@ -374,12 +373,13 @@ def get_budget_status(request):
 
 def excludepaycheck(request):
     if request.is_ajax():
+        import pdb; pdb.set_trace()
         paycheck_id =  request.POST.get('paycheck_id', None)
-        value = request.POST.get('enabled', False)
+        value = json.loads(request.POST.get('enabled', False))
 
         if paycheck_id:
             _excludepaycheck(paycheck_id, value)
-
+          
             results = {'success':True, 'netPay' : paycheck_id}
             jsonResult = json.dumps(results)
             return HttpResponse(jsonResult, mimetype='application/json')
@@ -387,8 +387,8 @@ def excludepaycheck(request):
         return HttpResponse("nonajax")
 
 def _excludepaycheck(paycheck_id, value):
-    paycheck = Paychecks.objects.filter(pk=paycheck_id)
+    paycheck = Paychecks.objects.get(pk=paycheck_id)
 
-    paycheck.exclude = value
+    paycheck.excluded = value
 
     paycheck.save()

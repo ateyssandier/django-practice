@@ -14,7 +14,7 @@ function excludePaycheck(cb){
     var exclude = cb.checked;
     var newurl = $(cb).data('action');
     var paycheckId = $(cb).data('pk');
-    //var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
     var data = {paycheck_id: paycheckId, enabled: exclude };
 
     $.ajax({
@@ -29,10 +29,10 @@ function excludePaycheck(cb){
 
 
         },
-        dataType: 'json'
-//        beforeSend: function(xhr, settings){
-//            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-//        }
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
     });
 
 
