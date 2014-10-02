@@ -332,7 +332,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [30],
-        "max": 200
+        "max": 200,
+        "name": "alcohol"
       }
   },
   {
@@ -340,7 +341,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [23],
-        "max": 100
+        "max": 100,
+        "name": "restaurants"
     }
   },
   {
@@ -348,7 +350,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [15, 16, 17, 18],
-        "max": 80
+        "max": 80,
+        "name": "personal_care"
     }
   },
   {
@@ -356,7 +359,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [19],
-        "max": 29
+        "max": 29,
+        "name": "gym"
     }
   },
   {
@@ -364,7 +368,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [22],
-        "max": 50
+        "max": 50,
+        "name": "coffee"
     }
   },
   {
@@ -372,7 +377,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [28, 29],
-        "max": 100
+        "max": 100,
+        "name": "electric_heat"
     }
   },
   {
@@ -380,7 +386,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [14],
-        "max": 1700
+        "max": 1736,
+        "name": "mortgage"
     }
   },
   {
@@ -388,7 +395,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [24],
-        "max": 400
+        "max": 400,
+        "name": "groceries"
     }
   },
   {
@@ -396,7 +404,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [13],
-        "max": 267
+        "max": 267,
+        "name": "student_loan"
     }
   },
   {
@@ -404,7 +413,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [36],
-        "max": 222
+        "max": 222,
+        "name": "autopayment"
     }
   },
   {
@@ -412,7 +422,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [32],
-        "max": 200
+        "max": 200,
+        "name": "clothing"
     }
   },
   {
@@ -420,7 +431,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [33],
-        "max": 120
+        "max": 120,
+        "name": "gas"
     }
   },
   {
@@ -428,7 +440,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [34],
-        "max": 79
+        "max": 84,
+        "name": "autoinsurance"
     }
   },
   {
@@ -436,7 +449,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [25],
-        "max": 46
+        "max": 46,
+        "name": "internet"
     }
   },
   {
@@ -444,7 +458,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [27],
-        "max": 45
+        "max": 45,
+        "name": "mobile_phone"
     }
   },
   {
@@ -452,7 +467,8 @@
     "model": "budgetapp.budget",
     "fields": {
         "categories": [26],
-        "max": 10
+        "max": 10,
+        "name": "homeinsurance"
     }
   },
   {
