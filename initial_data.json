@@ -95,7 +95,7 @@
     "pk": 1,
     "fields": {
       "superCategory": 2,
-      "subCategory": "misc fee",
+      "subCategory": "miscellaneous fee",
       "mint_id": 1307277
     }
   },
@@ -294,7 +294,7 @@
     "pk": 23,
     "fields": {
       "superCategory": 5,
-      "subCategory": "coffee",
+      "subCategory": "coffee shops",
       "mint_id": 704
     }
   },
@@ -456,7 +456,7 @@
     "pk": 41,
     "fields": {
       "superCategory": 2,
-      "subCategory": "finance charge",
+      "subCategory": "finance charges",
       "mint_id": 1315550
     }
   },
