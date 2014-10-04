@@ -86,14 +86,14 @@ class MintCloudClient(mechanize.Browser):
     def login(self, username, password):
         import pdb; pdb.set_trace()
         # 1: Login.
-        session.mount('https://', MintHTTPSAdapter())
+        self.session.mount('https://', MintHTTPSAdapter())
         
-        if session.get("https://wwws.mint.com/login.event?task=L").status_code != requests.codes.ok:
+        if self.session.get("https://wwws.mint.com/login.event?task=L").status_code != requests.codes.ok:
             raise Exception("Failed to load Mint login page")
     
         data = {"username": email, "password": password, "task": "L", "browser": "firefox", "browserVersion": "27", "os": "linux"}
         
-        response = session.post(base+"loginUserSubmit.xevent", data=data, headers=headers).text
+        response = self.session.post(self.base+"loginUserSubmit.xevent", data=data, headers=self.headers).text
         if "token" not in response:
             raise Exception("Mint.com login failed[1]")
     
@@ -102,7 +102,7 @@ class MintCloudClient(mechanize.Browser):
             raise Exception("Mint.com login failed[2]")
     
         # 2: Grab token.
-        token = response["sUser"]["token"] 
+        self.token = response["sUser"]["token"] 
     
 
     def login_2(self, username, password, pg='login.event'):
@@ -122,7 +122,7 @@ class MintCloudClient(mechanize.Browser):
     
     def getJsonData(self, path='getJsonData.xevent', **urlparams):
         log.debug('get JSON data: %s %s', path, urlparams)
-        response = session.get(url=base+path, params=urlparams, headers=headers).text
+        response = self.session.get(url=self.base+path, params=urlparams, headers=self.headers).text
         return json.loads(response)
 
     def getJsonData_old(self, path='getJsonData.xevent',
@@ -152,7 +152,7 @@ class MintCloudClient(mechanize.Browser):
                 filterType='cash',  # monkey see...
                 comparableType=0,
                 task='transactions',
-                rnd=rnd)
+                rnd=self.rnd)
             txns = data['set'][0].get('data', [])
             if not txns:
                 break
@@ -174,16 +174,16 @@ class MintCloudClient(mechanize.Browser):
 
     def parent(self, id,
                path='listSplitTransactions.xevent'):
-        data = self.getJsonData(path=path, txnId='%s:0' % id, rnd=rnd)
+        data = self.getJsonData(path=path, txnId='%s:0' % id, rnd=self.rnd)
         return data['parent'][0]
 
-    def listTransaction(self, queryNew='', offset=0, filterType='cash', comparableType=3, rnd=rnd, path='listTransaction.xevent'):
+    def listTransaction(self, queryNew='', offset=0, filterType='cash', comparableType=3, rnd=self.rnd, path='listTransaction.xevent'):
         return self.getJsonData(path='listTransaction.xevent',
             queryNew=queryNew,
             offset=offset,
             filterType=filterType,
             comparableType=comparableType,
-            rnd=rnd)
+            rnd=self.rnd)
 
 if __name__ == '__main__':
     import sys
