@@ -72,12 +72,14 @@ class MintCloudClient(mechanize.Browser):
 
     def login(self, username, password, pg='login.event'):
         log.debug('login: open(%s)', self.base + pg)
+        self.set_handle_robots(False)
+        self.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
         self.open(self.base + pg)
 
         def has_validation(f):
             return len([c for c in f.controls
                         if c.name == 'validation' and c.value]) > 0
-
+        import pdb; pdb.set_trace()
         self.select_form(predicate=has_validation)
         self['username'] = username
         self['password'] = password
