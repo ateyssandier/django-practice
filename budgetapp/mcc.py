@@ -85,14 +85,13 @@ class MintCloudClient():
         self.rnd="1325289755805"
     
     def login(self, username, password):
-        import pdb; pdb.set_trace()
         # 1: Login.
         self.session.mount('https://', MintHTTPSAdapter())
         
         if self.session.get("https://wwws.mint.com/login.event?task=L").status_code != requests.codes.ok:
             raise Exception("Failed to load Mint login page")
     
-        data = {"username": email, "password": password, "task": "L", "browser": "firefox", "browserVersion": "27", "os": "linux"}
+        data = {"username": username, "password": password, "task": "L", "browser": "firefox", "browserVersion": "27", "os": "linux"}
         
         response = self.session.post(self.base+"loginUserSubmit.xevent", data=data, headers=self.headers).text
         if "token" not in response:
@@ -142,7 +141,7 @@ class MintCloudClient():
 
 
     def getCategories(self):
-        return self.getJsonData()
+        return self.getJsonData(task="categories")
 
     def allTransactions(self):
         alltx = []
@@ -178,7 +177,7 @@ class MintCloudClient():
         data = self.getJsonData(path=path, txnId='%s:0' % id, rnd=self.rnd)
         return data['parent'][0]
 
-    def listTransaction(self, queryNew='', offset=0, filterType='cash', comparableType=3, rnd=self.rnd, path='listTransaction.xevent'):
+    def listTransaction(self, queryNew='', offset=0, filterType='cash', comparableType=3, path='listTransaction.xevent'):
         return self.getJsonData(path='listTransaction.xevent',
             queryNew=queryNew,
             offset=offset,
