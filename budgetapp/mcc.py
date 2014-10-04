@@ -73,15 +73,16 @@ class MintHTTPSAdapter(HTTPAdapter):
     def init_poolmanager(self, connections, maxsize, **kwargs):
         self.poolmanager = PoolManager(num_pools=connections, maxsize=maxsize, ssl_version=ssl.PROTOCOL_SSLv3, **kwargs)
 
-class MintCloudClient(mechanize.Browser):
+class MintCloudClient():
     '''
     .. todo:: figure out how rnd works, i.e. whether it's required etc.
     '''
-    self.base = 'https://wwws.mint.com/'
-    self.token = None
-    self.session = requests.Session()
-    self.headers = {"accept": "application/json"}
-    self.rnd="1325289755805"
+    def __init__(self):
+        self.base = 'https://wwws.mint.com/'
+        self.token = None
+        self.session = requests.Session()
+        self.headers = {"accept": "application/json"}
+        self.rnd="1325289755805"
     
     def login(self, username, password):
         import pdb; pdb.set_trace()
