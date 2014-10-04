@@ -1,5 +1,5 @@
 from django.template import Context, loader, RequestContext
-from budgetapp.models import Purchases, Category, Paychecks, Budget
+from budgetapp.models import Purchases, Category, Paychecks
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect
 from budgetapp.forms import AddCategoryForm, AddPaycheckForm, AddPurchaseForm, NavigationForm
@@ -110,15 +110,76 @@ def index(request):
 
     for i in range(2010,today.year+1):
         years_choices.append(i)
+  
 
-    budgetlist = Budget.objects.all()
-    budget_map = {}
-    for budget_item in budgetlist:
-        budget_item_categories = budget_item.categories.all()
+    budgetmap = {}
 
-        #add to budget_map
-        budget_map_string = budget_item.name
-        budget_map[budget_map_string] = budget_item.max
+     
+    #create budgetlist = {
+                          #SuperCategoryName : :(total, [{'subcategory': sucategoryName, 'budgeted': budgeted, 'spent':spent}, etc]),
+                          #etcc
+                         #} 
+    #use mcc to get spendingbudgetslist
+    #spend budgetslist should be based on last item in spending
+    #income budgetslist should be based on last item in income
+    #set if month complete flag
+
+    #for each budgetitem in spendinbbudgetslisti
+       #get the budgeted amount
+       #get the SubCategory whose subcategory.mintid matches budgetitem.catid
+
+       #if SubCategory does not exist, this is probably a problem, do a look up for the category name, and add this budget to the that list to display
+
+       #get the Transactions matching that SubCategory and sum them to get spent
+       #create budgetitem: {'subcategory': SubCategory, 'budgeted' : budgeted, 'spent': spent, 'original_budget':budgeted}        
+       #if month is incomplete
+           # if spent =< budgeted leave original_budget unchanged. 
+           # if spent > budgeted, update 'budgeted' to 'spent' leave original budget
+       #if month is complete or spent > budgeted
+           # leave original budget, and replace budgeted with spent
+
+       #if the supercategory does not exist in budgetdict, create it, and use tuple of (spent, [budgetitem]) for value
+       #if it doe exist in the budget dict, update total with spent, and append budgetitem to value
+  
+       #update spent income: just add budgeted to it. 
+    #now for the unaccounted spending
+    #for each item in unaccounted spending:
+       #get the SubCategory whose subcategory.mintid matches unaccounteditem.catid
+       
+       #if SubCategory does not exist, this is probably a problem, do a look up for the category name, and add this budget to the that list to display
+       #get the Transactions matching that SubCategory and sum them to get spent
+       #create budgetitem: {'subcategory': SubCategory, 'budgeted' : spent, 'spent': spent, 'original_budget':0}
+       #if the supercategory does not exist in budgetdict, create it, and use tuple of (spent, [budgetitem]) for value
+       #update spent income: just add budgeted to it        
+    
+    #do something similar for paychecks
+       #paycheckItem = {'budgeted':budgeted, 'actual':actual, 'original_estimate' original_estimate} 
+       #get budgeted amount as 'budgeted'
+       #original estimate is set as budgeted
+       # get the paycheck category sum as 'income'
+       #if month is complete
+          #budgeted is equal to actual
+       # if month is not cmplete
+          # if income < budgeted, leave budgeted alone
+          # if income > budgeted, budgeted is equal actual
+    
+
+    
+   #on the template side:
+   
+   #for paychecks, create a budget html of budgeted/actual
+
+   #for each budget in each supercategory
+       #go through each budget
+       #create lineitem for budget
+       #use spent/budgeted
+       #if month is not complete and budgeted is over original budget, mark category as overspent
+
+   #add savings as final line item
+       #savings is budgeted - spent
+
+   #for categories that did not map, show the category name (from mint) and the amount, fix it in mint, you dope
+       
 
     transaction_list = Purchases.objects.all().order_by('-date')
     addCategoryForm = AddCategoryForm()
@@ -135,7 +196,6 @@ def index(request):
         'months': months_choices,
         'years' : years_choices,
         'navigation_form': navForm,
-        'budget_list': budget_map
         })
     return HttpResponse(t.render(c))
 
@@ -328,7 +388,7 @@ def getsubchart(request):
 
 def get_budget_status(request):
     #do the purchase table template stuff
-    purchases_template = "budget_status.html"
+    budget_template = "budget_status.html"
     if request.is_ajax():
     #if True:
         from_date = request.POST.get('from')
@@ -336,32 +396,21 @@ def get_budget_status(request):
 
         start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
         end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
-
-        #get the budgetlist
-        budgetlist = Budget.objects.all()
-        #create a budget_map of budget_item to amount spent
-        budget_map = {}
-        #for each item in budget_list
-        for budget_item in budgetlist:
-            #fetch a list of transactions from purchase objects whith date range, and subcategories
-            budget_item_categories = budget_item.categories.all()
-            transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter( category__in=(budget_item_categories)).order_by('-date')
-
-            #sum them up
-            sum = 0
-            #get the sum:
-            for transaction in transaction_list:
-                sum+= transaction.cost
-            #add to budget_map
-            budget_map_string = budget_item.name
-            budget_map[budget_map_string] = int(sum/budget_item.max*100)
-
+        if start_date.year != end_date.year or start_date.month != end_date.month:
+           message = "budgets can only be calculated for a single calendar month"
+         else:
+           days_in_month = calendar.monthrange(start_date.year,start_date.month)
+           if days_in_month == end_date.day:
+              complete_month = True
+           else:
+              complete_month = False
+           
         #include total spent from budget
         #
 
         data = {
             'success':True,
-            'budget_map': budget_map,
+            'budget_map': {},
         }
 
         jsonResult = json.dumps(data, cls=DjangoJSONEncoder)
@@ -373,7 +422,6 @@ def get_budget_status(request):
 
 def excludepaycheck(request):
     if request.is_ajax():
-        import pdb; pdb.set_trace()
         paycheck_id =  request.POST.get('paycheck_id', None)
         value = json.loads(request.POST.get('enabled', False))
 

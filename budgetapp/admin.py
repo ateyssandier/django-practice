@@ -1,10 +1,21 @@
 from django.contrib import admin
 from django.db import models
 from django.forms import CheckboxSelectMultiple
-from budgetapp.models import Category, Purchases, Paychecks, Budget
+from budgetapp.models import SuperCategory,  SubCategory, Purchases, Paychecks
 
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('superCategory', 'subCategory')
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = ('superCategory', 'subCategory', 'mint_id')
+
+class SuperCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name')
+
+class PurchaseAdmin(admin.ModelAdmin):
+    list_display = ('date', 'mint_id', 'item_desc', 'cost', 'category')
+    search_fields = ('item_desc',)
+
+class PaycheckAdmin(admin.ModelAdmin):
+    list_display = ('date', 'mint_id', 'net')
+    search_fields = ('date',)
 
 class BudgetAdmin(admin.ModelAdmin):
     list_display = ('name', 'max')
@@ -13,7 +24,7 @@ class BudgetAdmin(admin.ModelAdmin):
     }
 
 
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Paychecks)
-admin.site.register(Purchases)
-admin.site.register(Budget, BudgetAdmin)
+admin.site.register(SubCategory, SubCategoryAdmin)
+admin.site.register(SuperCategory, SuperCategoryAdmin)
+admin.site.register(Paychecks, PaycheckAdmin)
+admin.site.register(Purchases, PurchaseAdmin)
