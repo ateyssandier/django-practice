@@ -1,483 +1,472 @@
 [
   {
-    "model": "budgetapp.category",
     "pk": 1,
+    "model": "budgetapp.SuperCategory",
     "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "misc fee"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 2,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "books"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 3,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "home furnishings"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 4,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "home improvements"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 5,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "miscellaneous"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 6,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "electronics"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 7,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "gifts"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 8,
-    "fields": {
-      "superCategory": "Unknown",
-      "subCategory": "unknown"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 9,
-    "fields": {
-      "superCategory": "Travel",
-      "subCategory": "air travel"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 10,
-    "fields": {
-      "superCategory": "Travel",
-      "subCategory": "hotel"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 11,
-    "fields": {
-      "superCategory": "Travel",
-      "subCategory": "vacation"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 12,
-    "fields": {
-      "superCategory": "Taxes",
-      "subCategory": "taxes"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 13,
-    "fields": {
-      "superCategory": "Student Loans",
-      "subCategory": "student loan"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 14,
-    "fields": {
-      "superCategory": "Rent",
-      "subCategory": "rent"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 15,
-    "fields": {
-      "superCategory": "Personal Care",
-      "subCategory": "hair"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 16,
-    "fields": {
-      "superCategory": "Personal Care",
-      "subCategory": "makeup"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 17,
-    "fields": {
-      "superCategory": "Personal Care",
-      "subCategory": "skincare"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 18,
-    "fields": {
-      "superCategory": "Personal Care",
-      "subCategory": "personal care"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 19,
-    "fields": {
-      "superCategory": "Personal Care",
-      "subCategory": "gym"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 20,
-    "fields": {
-      "superCategory": "Health",
-      "subCategory": "eyecare"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 21,
-    "fields": {
-      "superCategory": "Health",
-      "subCategory": "doctor"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 22,
-    "fields": {
-      "superCategory": "Food",
-      "subCategory": "coffee"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 23,
-    "fields": {
-      "superCategory": "Food",
-      "subCategory": "restaurants"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 24,
-    "fields": {
-      "superCategory": "Food",
-      "subCategory": "groceries"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 25,
-    "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "internet"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 26,
-    "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "home insurance"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 27,
-    "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "mobile phone"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 28,
-    "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "electric"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 29,
-    "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "heat"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 30,
-    "fields": {
-      "superCategory": "Entertainment",
-      "subCategory": "alcohol and bars"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 31,
-    "fields": {
-      "superCategory": "Entertainment",
-      "subCategory": "entertainment"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 32,
-    "fields": {
-      "superCategory": "Clothing",
-      "subCategory": "clothing"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 33,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "gas"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 34,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "auto insurance"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 35,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "maintenance"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 36,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "auto payment"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 37,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "tolls"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 38,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "parking"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 39,
-    "fields": {
-      "superCategory": "Car",
-      "subCategory": "public transportation"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 40,
-    "fields": {
-      "superCategory": "Bills and Utilities",
-      "subCategory": "finance charge"
-    }
-  },
-  {
-    "model": "budgetapp.category",
-    "pk": 41,
-    "fields": {
-      "superCategory": "Shopping",
-      "subCategory": "sewing"
-    }
-  },
-  {
-    "pk": 1,
-    "model": "budgetapp.budget",
-    "fields": {
-        "categories": [30],
-        "max": 200,
-        "name": "alcohol"
+        "name": "Auto and Transport",
       }
   },
   {
     "pk": 2,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [23],
-        "max": 100,
-        "name": "restaurants"
-    }
+        "name": "Bills and Utilities",
+      }
   },
   {
     "pk": 3,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [15, 16, 17, 18],
-        "max": 80,
-        "name": "personal_care"
-    }
+        "name": "Clothing",
+      }
   },
   {
     "pk": 4,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [19],
-        "max": 29,
-        "name": "gym"
-    }
+        "name": "Entertainment",
+      }
   },
   {
     "pk": 5,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [22],
-        "max": 50,
-        "name": "coffee"
-    }
+        "name": ""superCategory": 5,",
+      }
   },
   {
     "pk": 6,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [28, 29],
-        "max": 100,
-        "name": "electric_heat"
-    }
+        "name": "Health",
+      }
   },
   {
     "pk": 7,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [14],
-        "max": 1736,
-        "name": "mortgage"
-    }
+        "name": "Personal Care",
+      }
   },
   {
     "pk": 8,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [24],
-        "max": 400,
-        "name": "groceries"
-    }
+        "name": "Mortgage",
+      }
   },
   {
     "pk": 9,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [13],
-        "max": 267,
-        "name": "student_loan"
-    }
+        "name": "Shopping",
+      }
   },
   {
     "pk": 10,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [36],
-        "max": 222,
-        "name": "autopayment"
-    }
+        "name": "Student Loans",
+      }
   },
   {
     "pk": 11,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [32],
-        "max": 200,
-        "name": "clothing"
-    }
+        "name": "Taxes",
+      }
   },
   {
     "pk": 12,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [33],
-        "max": 120,
-        "name": "gas"
-    }
+        "name": "Travel",
+      }
   },
   {
     "pk": 13,
-    "model": "budgetapp.budget",
+    "model": "budgetapp.SuperCategory",
     "fields": {
-        "categories": [34],
-        "max": 84,
-        "name": "autoinsurance"
+        "name": "Unknown",
+      }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 1,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "miscellaneous fee",
+      "mint_id": 1307277
     }
   },
   {
+    "model": "budgetapp.SubCategory",
+    "pk": 2,
+    "fields": {
+      "superCategory": 9,
+      "subCategory": "books",
+      "mint_id": 202
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 3,
+    "fields": {
+      "superCategory": 9,
+      "subCategory": "home furnishings",
+      "mint_id": 1316331
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 4,
+    "fields": {
+      "superCategory":  9,
+      "subCategory": "home improvements",
+      "mint_id": 1316332
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 5,
+    "fields": {
+      "superCategory":  9,
+      "subCategory": "miscellaneous",
+      "mint_id": 1315395
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 6,
+    "fields": {
+      "superCategory":  9,
+      "subCategory": "electronics",
+      "mint_id": 204
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 7,
+    "fields": {
+      "superCategory":  9,
+      "subCategory": "gifts",
+      "mint_id": 1315552
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 8,
+    "fields": {
+      "superCategory": 13,
+      "subCategory": "unknown",
+      "mint_id": 0
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 9,
+    "fields": {
+      "superCategory": 12,
+      "subCategory": "air travel",
+      "mint_id": 1501
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 10,
+    "fields": {
+      "superCategory": 12,
+      "subCategory": "hotel",
+      "mint_id": 1502
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 11,
+    "fields": {
+      "superCategory": 12,
+      "subCategory": "vacation",
+      "mint_id":1504
+
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 12,
+    "fields": {
+      "superCategory": 11,
+      "subCategory": "taxes",
+      "mint_id": 1402
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 13,
+    "fields": {
+      "superCategory": 10,
+      "subCategory": "student loan",
+      "mint_id": 19
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
     "pk": 14,
-    "model": "budgetapp.budget",
     "fields": {
-        "categories": [25],
-        "max": 46,
-        "name": "internet"
+      "superCategory": 8,
+      "subCategory": "Mortgage",
+      "mint_id": 1207
     }
   },
   {
+    "model": "budgetapp.SubCategory",
     "pk": 15,
-    "model": "budgetapp.budget",
     "fields": {
-        "categories": [27],
-        "max": 45,
-        "name": "mobile_phone"
+      "superCategory": 7,
+      "subCategory": "hair",
+      "mint_id": 403
     }
   },
   {
+    "model": "budgetapp.SubCategory",
     "pk": 16,
-    "model": "budgetapp.budget",
     "fields": {
-        "categories": [26],
-        "max": 10,
-        "name": "homeinsurance"
+      "superCategory": 7,
+      "subCategory": "makeup",
+      "mint_id": 1071388
     }
   },
   {
+    "model": "budgetapp.SubCategory",
     "pk": 17,
-    "model": "budgetapp.budget",
     "fields": {
-        "categories": [1, 2, 3, 4, 5, 5, 7, 8, 9, 10, 11, 12, 20, 21, 31, 35, 37, 38, 39, 40, 41],
-        "max": 150,
-        "name": "everythingelse"
+      "superCategory": 7,
+      "subCategory": "skincare",
+      "mint_id": 1071345
     }
-  }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 18,
+    "fields": {
+      "superCategory": 7,
+      "subCategory": "personal care",
+      "mint_id": 4
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 19,
+    "fields": {
+      "superCategory": 7,
+      "subCategory": "gym",
+      "mint_id": 1315553
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 20,
+    "fields": {
+      "superCategory": 6,
+      "subCategory": "eyecare",
+      "mint_id": 503
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 21,
+    "fields": {
+      "superCategory": 6,
+      "subCategory": "doctor",
+      "mint_id": 502
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 22,
+    "fields": {
+      "superCategory": 6,
+      "subCategory": "dentist",
+      "mint_id": 501
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 23,
+    "fields": {
+      "superCategory": 5,
+      "subCategory": "coffee shops",
+      "mint_id": 704
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 24,
+    "fields": {
+      "superCategory": 5,
+      "subCategory": "restaurants",
+      "mint_id": 707
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 25,
+    "fields": {
+      "superCategory": 5,
+      "subCategory": "groceries",
+      "mint_id": 701
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 26,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "internet",
+      "mint_id": 1303
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 27,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "home insurance",
+      "mint_id": 1315390
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 28,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "mobile phone",
+      "mint_id": 1304
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 29,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "electric",
+      "mint_id": 1315391
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 30,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "heat",
+      "mint_id": 1315392
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 31,
+    "fields": {
+      "superCategory": 4,
+      "subCategory": "alcohol and bars",
+      "mint_id": 1315389
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 32,
+    "fields": {
+      "superCategory": 4,
+      "subCategory": "entertainment",
+      "mint_id": 1
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 33,
+    "fields": {
+      "superCategory": 3,
+      "subCategory": "clothing",
+      "mint_id": 201
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 34,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "gas and fuel",
+      "mint_id": 1401
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 35,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "auto insurance",
+      "mint_id": 1405
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 36,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "maintenance",
+      "mint_id": 1315393
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 37,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "auto payment",
+      "mint_id": 1404
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 38,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "tolls",
+      "mint_id": 1042632
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 39,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "parking",
+      "mint_id": 1402
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 40,
+    "fields": {
+      "superCategory": 1,
+      "subCategory": "public transportation",
+      "mint_id": 1406
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 41,
+    "fields": {
+      "superCategory": 2,
+      "subCategory": "finance charges",
+      "mint_id": 1315550
+    }
+  },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 42,
+    "fields": {
+      "superCategory":  9,
+      "subCategory": "sewing",
+      "mint_id": 1041711
+    }
+  },
 ]
