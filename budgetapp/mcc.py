@@ -4,6 +4,12 @@ import urllib
 import json
 import getpass
 
+import requests
+import ssl
+
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.poolmanager import PoolManager
+
 import mechanize
 
 log = logging.getLogger(__name__)
@@ -63,14 +69,41 @@ def flatten(arr, o):
         o.write(json.dumps(item))
     o.write(']')
 
+class MintHTTPSAdapter(HTTPAdapter):
+    def init_poolmanager(self, connections, maxsize, **kwargs):
+        self.poolmanager = PoolManager(num_pools=connections, maxsize=maxsize, ssl_version=ssl.PROTOCOL_SSLv3, **kwargs)
 
 class MintCloudClient(mechanize.Browser):
     '''
     .. todo:: figure out how rnd works, i.e. whether it's required etc.
     '''
     base = 'https://wwws.mint.com/'
+    token = None
+    session = requests.Session()
+    headers = {"accept": "application/json"}
+    
+    def login(self, username, password):
+        # 1: Login.
+        session.mount('https://', MintHTTPSAdapter())
+        
+        if session.get("https://wwws.mint.com/login.event?task=L").status_code != requests.codes.ok:
+            raise Exception("Failed to load Mint login page")
+    
+        data = {"username": email, "password": password, "task": "L", "browser": "firefox", "browserVersion": "27", "os": "linux"}
+        
+        response = session.post(base+"loginUserSubmit.xevent", data=data, headers=headers).text
+        if "token" not in response:
+            raise Exception("Mint.com login failed[1]")
+    
+        response = json.loads(response)
+        if not response["sUser"]["token"]:
+            raise Exception("Mint.com login failed[2]")
+    
+        # 2: Grab token.
+        token = response["sUser"]["token"] 
+    
 
-    def login(self, username, password, pg='login.event'):
+    def login_2(self, username, password, pg='login.event'):
         log.debug('login: open(%s)', self.base + pg)
         self.set_handle_robots(False)
         self.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
@@ -79,14 +112,18 @@ class MintCloudClient(mechanize.Browser):
         def has_validation(f):
             return len([c for c in f.controls
                         if c.name == 'validation' and c.value]) > 0
-        import pdb; pdb.set_trace()
         self.select_form(predicate=has_validation)
         self['username'] = username
         self['password'] = password
         log.debug('login: submit creds.')
         return self.submit()
+    
+    def getJsonData(self, path='getJsonData.xevent', **urlparams)
+        log.debug('get JSON data: %s %s', path, urlparams)
+        response = session.get(url=base+path, params=urlparams, headers=headers).text
+        return json.loads(response)
 
-    def getJsonData(self, path='getJsonData.xevent',
+    def getJsonData_old(self, ,
                     **urlparams):
         log.debug('get JSON data: %s %s', path, urlparams)
         ans = self.open('%s%s?%s' % (
@@ -102,9 +139,9 @@ class MintCloudClient(mechanize.Browser):
 
 
     def getCategories(self):
-        return self.getJsonData(task='categories', rnd='1325289755805')
+        return self.getJsonData()
 
-    def allTransactions(self, rnd='1325292983069'):
+    def allTransactions(self):
         alltx = []
         offset = 0
         while 1:
@@ -113,7 +150,7 @@ class MintCloudClient(mechanize.Browser):
                 filterType='cash',  # monkey see...
                 comparableType=0,
                 task='transactions',
-                rnd=rnd)
+                rnd=self.rnd)
             txns = data['set'][0].get('data', [])
             if not txns:
                 break
@@ -133,13 +170,13 @@ class MintCloudClient(mechanize.Browser):
 
         return alltx
 
-    def parent(self, id, rnd='1325341961533',
+    def parent(self, id,
                path='listSplitTransactions.xevent'):
         data = self.getJsonData(path=path, txnId='%s:0' % id, rnd=rnd)
         return data['parent'][0]
 
     def listTransaction(self, queryNew='', offset=0, filterType='cash',
-                        comparableType=3, rnd='1325292983068',
+                        comparableType=3, rnd=rnd,
                         path='listTransaction.xevent'):
         return self.getJsonData(path='listTransaction.xevent',
             queryNew=queryNew,
