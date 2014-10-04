@@ -77,12 +77,14 @@ class MintCloudClient(mechanize.Browser):
     '''
     .. todo:: figure out how rnd works, i.e. whether it's required etc.
     '''
-    base = 'https://wwws.mint.com/'
-    token = None
-    session = requests.Session()
-    headers = {"accept": "application/json"}
+    self.base = 'https://wwws.mint.com/'
+    self.token = None
+    self.session = requests.Session()
+    self.headers = {"accept": "application/json"}
+    self.rnd="1325289755805"
     
     def login(self, username, password):
+        import pdb; pdb.set_trace()
         # 1: Login.
         session.mount('https://', MintHTTPSAdapter())
         
@@ -118,12 +120,12 @@ class MintCloudClient(mechanize.Browser):
         log.debug('login: submit creds.')
         return self.submit()
     
-    def getJsonData(self, path='getJsonData.xevent', **urlparams)
+    def getJsonData(self, path='getJsonData.xevent', **urlparams):
         log.debug('get JSON data: %s %s', path, urlparams)
         response = session.get(url=base+path, params=urlparams, headers=headers).text
         return json.loads(response)
 
-    def getJsonData_old(self, ,
+    def getJsonData_old(self, path='getJsonData.xevent',
                     **urlparams):
         log.debug('get JSON data: %s %s', path, urlparams)
         ans = self.open('%s%s?%s' % (
@@ -150,7 +152,7 @@ class MintCloudClient(mechanize.Browser):
                 filterType='cash',  # monkey see...
                 comparableType=0,
                 task='transactions',
-                rnd=self.rnd)
+                rnd=rnd)
             txns = data['set'][0].get('data', [])
             if not txns:
                 break
@@ -175,9 +177,7 @@ class MintCloudClient(mechanize.Browser):
         data = self.getJsonData(path=path, txnId='%s:0' % id, rnd=rnd)
         return data['parent'][0]
 
-    def listTransaction(self, queryNew='', offset=0, filterType='cash',
-                        comparableType=3, rnd=rnd,
-                        path='listTransaction.xevent'):
+    def listTransaction(self, queryNew='', offset=0, filterType='cash', comparableType=3, rnd=rnd, path='listTransaction.xevent'):
         return self.getJsonData(path='listTransaction.xevent',
             queryNew=queryNew,
             offset=offset,
