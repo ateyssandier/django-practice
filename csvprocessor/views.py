@@ -99,10 +99,34 @@ def start_connection():
     return c
 
 
-def fetch_budget():
+def fetch_budget_for_month(month):
     c = start_connection()
-    categories = c.getBudget()
-    categories = categories["set"][0]["data"]
+    
+    
+    budget = c.getBudget()
+    minmonth =  budget["data"]["minmonth"]+1
+    
+    spending = budget["data"]["spending"][minmonth]
+    income = budget["data"]["income"][minmonth]
+    
+    income = income["tot"]["bu"]
+    
+    #categories = fetch_categories()
+    
+    unbudgeted_list = []
+    for unbudgeted_item in spending["ub"]:
+        category_id = unbudgeted_item["cat"]
+        #category_name = categories[category_id]
+        #unbudgeted_item.add(category_name)
+        
+    spending_budget = []
+    for budgeted_item in spending["bu"]
+        budget_item = {'category':budget_item["cat"], 'amount_budgeted':budget_item["bgt"]}
+    
+    return {'income': income, 'unbudgeted_ids':unbudgeted_list, 'spending_budget':spending_budget}
+        
+    
+    
     category_dict = {}
     for category in categories:
        category_id = category["id"]

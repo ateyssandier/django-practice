@@ -138,7 +138,9 @@ class MintCloudClient():
             task='transactionDownload'
             )
         return data
-
+    
+    def getBudgets(self, start_date, end_date):
+        return self.getJsonData(path="getBudget.xevent?", startDate=start_date, endDate=end_date)
 
     def getCategories(self):
         return self.getJsonData(task="categories")
