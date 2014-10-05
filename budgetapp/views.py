@@ -1,5 +1,5 @@
 from django.template import Context, loader, RequestContext
-from budgetapp.models import Purchases, Category, Paychecks
+from budgetapp.models import Purchases, SubCategory, Paychecks
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect
 from budgetapp.forms import AddCategoryForm, AddPaycheckForm, AddPurchaseForm, NavigationForm
@@ -9,6 +9,7 @@ import json
 import calendar
 import datetime
 from decimal import *
+from csvprocessor.views import fetch_budget_for_month, fetch_categories
 
 
 
@@ -39,13 +40,15 @@ def addcategory(request):
         else:
             return HttpResponse("nonajax")
 
-def _addCategory(supercategory, subcategory):
-    category = Category()
-
-    category.superCategory = supercategory
+def _addCategory(supercategory, subcategory, mint_id=2):
+    supercategory_object = SuperCategory()
+    supercategory_object.name = supercategory
+    supercategory_object.save()
+    
+    category = SubCategory()
+    category.superCategory = supercategory_object
     category.subCategory = subcategory
-
-
+    category.mint_id = mint_id
     category.save()
 
 
@@ -112,10 +115,7 @@ def index(request):
         years_choices.append(i)
   
 
-    budgetmap = {}
-
-     
-    #create budgetlist = {
+   #create budgetlist = {
                           #SuperCategoryName : :(total, [{'subcategory': sucategoryName, 'budgeted': budgeted, 'spent':spent}, etc]),
                           #etcc
                          #} 
@@ -202,12 +202,12 @@ def index(request):
 
 def getCategories():
     new_dict = {}
-    all_categories = Category.objects.values_list('superCategory', 'subCategory')
+    all_categories = SubCategory.objects.values_list('superCategory__name', 'subCategory')
 
     #create array of super
     for super, sub in all_categories:
         if(super not in new_dict):
-            subcategories = Category.objects.filter(superCategory=super).values_list('subCategory', flat=True).order_by('subCategory')
+            subcategories = SubCategory.objects.filter(superCategory__name=super).values_list('subCategory', flat=True).order_by('subCategory')
             new_dict[super] = subcategories
 
     return new_dict
@@ -240,7 +240,7 @@ def getreport(request):
 
                 for transaction in transaction_list:
                     #here we will need to pass in all the data that the template and the javascript will need
-                    category = transaction.category.superCategory
+                    category = transaction.category.superCategory.name
                     cost = transaction.cost
 
                     total_expenses = total_expenses + cost
@@ -359,7 +359,7 @@ def getsubchart(request):
         start_date = datetime.datetime.strptime(from_date, '%Y-%m-%d')
         end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
 
-        category_list = Category.objects.filter(superCategory =super_category)
+        category_list = SubCategory.objects.filter(superCategory__name=super_category)
         transaction_list = Purchases.objects.all().filter(date__range=(start_date, end_date)).filter(category__in=category_list).order_by('-date')
 
         sub_transaction_array =  {}
@@ -387,7 +387,6 @@ def getsubchart(request):
         return HttpResponse("nonajax")
 
 def get_budget_status(request):
-    #do the purchase table template stuff
     budget_template = "budget_status.html"
     if request.is_ajax():
     #if True:
@@ -398,27 +397,86 @@ def get_budget_status(request):
         end_date = datetime.datetime.strptime(to_date, '%Y-%m-%d')
         if start_date.year != end_date.year or start_date.month != end_date.month:
            message = "budgets can only be calculated for a single calendar month"
-         else:
-           days_in_month = calendar.monthrange(start_date.year,start_date.month)
-           if days_in_month == end_date.day:
-              complete_month = True
-           else:
-              complete_month = False
+        
+        total_spent = 0
+        days_in_month = calendar.monthrange(start_date.year,start_date.month)
+        if days_in_month == end_date.day:
+            complete_month = True
+        else:
+            complete_month = False
+        
+        budget_map = {}
+                
+        categories = fetch_categories()
+        mint_categories = []
+               
+        budget_list = fetch_budget_for_month()
+               
+        for budgetitem in budget_list['spending_budget']:
+            amount_budgeted = budgetitem['amount_budgeted']
+            cat_id = budgetitem['category']
+            category = SubCategory.objects.filter(mint_id=cat_id)
+            if len(category) == 0:
+                mint_categories.append((cat_id, categories[cat_id])
+                break
+                                       
+            category = category[0]
+            spent = Purchases.objects.all().filter(date__range=(start_date, end_date), category=category).aggregate(Sum('cost'))
+            budget_item = {'subcategory':category, 'budgeted':amount_budgeted, 'spent':spent, 'original_budget': amount_budgeted}
+                
+            #set your budget equal to what you spent at the end of the month, otherwise,later we will check if you're overbudget, so we can fix it in mint
+            if spent > budgeted or complete_month:
+                budget_item['budgeted']=spent
+            
+            if category.superCategory.name not in budget_map:
+                budget_map[category.superCategory.name] = [budget_item]
+            else:
+                budget_map[category.superCategory.name].append(budget_item]
+                                                            
+            total_spent = total_spent+budget_item['budgeted']
+                                            
+                                                               
+        for cat_id in budget_list['unbudgeted_ids']:
+           category = SubCategory.objects.filter(mint_id=cat_id)
+           if len(category) == 0:
+              mint_categories.append((cat_id, categories[cat_id])
+              break
+                                                                                      
+            category = category[0]
+            spent = Purchases.objects.all().filter(date__range=(start_date, end_date), category=category).aggregate(Sum('cost'))
+                                     
+            budget_item = {'subcategory':category, 'budgeted':spent, 'spent':spent, 'original_budget': 0}
+                                     
+            if category.superCategory.name not in budget_map:
+                budget_map[category.superCategory.name] = [budget_item]
+            else:
+                budget_map[category.superCategory.name].append(budget_item]
+                                                                                    
+            total_spent = total_spent+budget_item['budgeted']
+        
+                                                               
+        income = Paychecks.objects.all().filter(date__range=(start_date, end_date)).exclude(excluded=True).aggregate(Sum('cost'))
+        income_estimate = budget_list['income']
+        paycheck_item = {'budgeted': income_estimate, 'actual': income, 'original_estimate':budgeted}
+        
+        if income > budgeted or complete_month:
+           paycheck_item['budgeted']=income
+        budget_map['Income'] = [paycheck_item]
+        
            
         #include total spent from budget
         #
 
         data = {
             'success':True,
-            'budget_map': {},
+            'budget_map': budget_map,
         }
 
-        jsonResult = json.dumps(data, cls=DjangoJSONEncoder)
-
-        return HttpResponse(jsonResult, mimetype='application/json')
+        return render_to_response(budget_template, data, context_instance = RequestContext(request))
 
     else:
         return HttpResponse("nonajax")
+                                                        
 
 def excludepaycheck(request):
     if request.is_ajax():
