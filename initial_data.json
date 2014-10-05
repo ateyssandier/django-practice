@@ -3,91 +3,91 @@
     "pk": 1,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Auto and Transport",
+        "name": "Auto and Transport"
       }
   },
   {
     "pk": 2,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Bills and Utilities",
+        "name": "Bills and Utilities"
       }
   },
   {
     "pk": 3,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Clothing",
+        "name": "Clothing"
       }
   },
   {
     "pk": 4,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Entertainment",
+        "name": "Entertainment"
       }
   },
   {
     "pk": 5,
     "model": "budgetapp.SuperCategory",
-    "fields": {
-        "name": ""superCategory": 5,",
+    "fields": 
+        "name": "Coffee"
       }
   },
   {
     "pk": 6,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Health",
+        "name": "Health"
       }
   },
   {
     "pk": 7,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Personal Care",
+        "name": "Personal Care"
       }
   },
   {
     "pk": 8,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Mortgage",
+        "name": "Mortgage"
       }
   },
   {
     "pk": 9,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Shopping",
+        "name": "Shopping"
       }
   },
   {
     "pk": 10,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Student Loans",
+        "name": "Student Loans"
       }
   },
   {
     "pk": 11,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Taxes",
+        "name": "Taxes"
       }
   },
   {
     "pk": 12,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Travel",
+        "name": "Travel"
       }
   },
   {
     "pk": 13,
     "model": "budgetapp.SuperCategory",
     "fields": {
-        "name": "Unknown",
+        "name": "Unknown"
       }
   },
   {
