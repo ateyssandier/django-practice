@@ -9,6 +9,29 @@ var transaction_list;
 google.load('visualization', '1.0', {'packages':['corechart']});
 google.load('visualization', '1', {packages:['table']});
 
+//function to exclude a paycheck
+function excludePaycheck(cb){
+    var exclude = cb.checked;
+    var newurl = $(cb).data('action');
+    var paycheckId = $(cb).data('pk');
+    var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value')
+    var data = {paycheck_id: paycheckId, enabled: exclude };
+
+    $.ajax({
+        type: "POST",
+        url: newurl,
+        data: data,
+        success: function(data){
+            var response = data;
+            getReport("unchanged");
+        },
+        dataType: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+}
+
 //not done, might not ever finish
 function addReceipt(){
 
@@ -247,19 +270,12 @@ function getTransactions(){
          $('.result').html(data);
          $('#spinner_button').hide()
          $('#fetch_button').show()
-         getReport("current");
+         getReport("custom");
       }, 
       error: function(jqXHR, textStatus, errorThrown) {
          console.log(err); 
       }
     });
-
-    /*$.get('/fetch_transactions_ajax/', function(data) {
-       $('.result').html(data);
-       $('#spinner_button').hide()
-       $('#fetch_button').show()
-       getReport("current");
-    });*/
 
 
 }
@@ -331,13 +347,26 @@ function getReport(str){
         to = "2015-04-15";
     }
 
+    //don't change, just use the global ones
+    if (str == "unchanged"){
+        from = from;
+        to = to;
+    }
+
+    getReportWithDates(from, to)
+
+}
+
+function getReportWithDates(from, to){
+
     var newurl = $("#report_form").attr( 'action' );
     var csrftoken =  $('[name="csrfmiddlewaretoken"]').attr('value');
+
 
     $.ajax({
         type: "POST",
         url: newurl,
-        data: { from: from, to: to },
+        data: { from: from, to: to},
         success: function(data){
             var response = data;
 
@@ -588,20 +617,6 @@ $(document).ready( function(){
             1
         );
     });
-
-    //this might not be needed
-    $("#report_form").submit(function(event) {
-        event.preventDefault();
-        alert("hello");
-        setTimeout(
-            function() {
-                getReport();
-            },
-            1
-        );
-    });
-
-
 
     var currentTime = new Date();
     var monthname = currentTime.getMonth();

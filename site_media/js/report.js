@@ -143,7 +143,7 @@ function drawChartSummary(summary_data){
      ]
      */
 
-    var formatter = new google.visualization.TableNumberFormat({prefix: '$', negativeColor: 'red', negativeParens: true});
+    var formatter = new google.visualization.NumberFormat({prefix: '$', negativeColor: 'red', negativeParens: true});
     var sumData = new google.visualization.DataTable();
     sumData.addColumn('string', '');
     sumData.addColumn('number', 'Total');

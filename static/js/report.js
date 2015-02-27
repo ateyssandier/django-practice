@@ -143,7 +143,7 @@ function drawChartSummary(summary_data){
      ]
      */
 
-    var formatter = new google.visualization.TableNumberFormat({prefix: '$', negativeColor: 'red', negativeParens: true});
+    var formatter = new google.visualization.NumberFormat({prefix: '$', negativeColor: 'red', negativeParens: true});
     var sumData = new google.visualization.DataTable();
     sumData.addColumn('string', '');
     sumData.addColumn('number', 'Total');
@@ -305,15 +305,15 @@ function drawBudget(){
              }
                            
             $('.progressLabel').each(function(i, obj) {
-                 var subcategory = obj.attr("data-subcategory");
+                 var subcategory = $(obj).data("subcategory");
    
                  var div_name = '#'+subcategory+'_progressbar';
                                      
-                 var original = obj.find(div_name).attr("data-original");
-                 var budgeted = obj.find(div_name).attr("data-max");
+                 var original = $(obj).find(div_name).data("original");
+                 var budgeted = $(obj).find(div_name).data("max");
                  var spent = $('#'+subcategory+'_currentval').html()      
                                      
-                 var percentage = spent/budgeted;
+                 var percentage = (spent/budgeted)*100;
                  animated_progress(percentage, $(div_name));    
             });
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from models import Category, MyModelChoiceField
+from models import SuperCategory, SubCategory, MyModelChoiceField
 from django.forms import ModelChoiceField
 from django.forms import widgets
 import calendar
@@ -39,7 +39,7 @@ class AddPurchaseForm(forms.Form):
     day  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': ('dd'), 'maxlength':2, 'class':'day'}),)
     year  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': ('yyyy'), 'maxlength':4, 'class':'year'}),)
     description  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': ('Description'), 'maxlength':'8', 'class':'description'}),)
-    category  = forms.ModelChoiceField(queryset=Category.objects.order_by('superCategory'), empty_label="Select SubCategory")
+    category  = forms.ModelChoiceField(queryset=SubCategory.objects.order_by('superCategory__name'), empty_label="Select SubCategory")
     cost  = forms.CharField(widget=forms.TextInput(attrs={'placeholder': (''), 'maxlength':'8', 'class': 'cost'}),)
 
 

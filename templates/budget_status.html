@@ -1,13 +1,13 @@
 {% for key,value in budget_map.items %}
 <div class="supercategory"><span id="{{ key }}">{{ key }}</span>
-	{% for budget in value}
+	{% for budget in value %}
    <div data-subcategory="{{budget.subcategory}}" class="progressLabel">
       <div class="title">{{ budget.subcategory }}</div>
-      <div class="total">$<span id="{{ budget.subcategory }}_currentval">{{budget.spent}}</span> of <span id="{{ budget.subcategory }}_maxval">${{ budget.budgeted }}</span></div>
-   </div>
-   <div data-original="{{budget.original_estimate}}" data-max="{{ budget.budgeted }}" id="{{ budget.subcategory }}_progressbar" class="progressBar"></div>
+      <div class="total">$<span id="{{ budget.subcategory }}_currentval">{{budget.spent}}</span> of $<span id="{{ budget.subcategory }}_maxval">{{ budget.budgeted }}</span></div>
+   <div data-original="{{budget.original_estimate}}" data-max="{{ budget.budgeted }}" id="{{ budget.subcategory}}_progressbar" class="progressBar"><div></div></div>
    	
    </div>
+   {% endfor %}
 </div>
 {% endfor %}
 

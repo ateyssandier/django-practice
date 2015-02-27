@@ -7,7 +7,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ('superCategory', 'subCategory', 'mint_id')
 
 class SuperCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name')
+    pass
 
 class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('date', 'mint_id', 'item_desc', 'cost', 'category')

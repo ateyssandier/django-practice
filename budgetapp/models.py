@@ -56,7 +56,7 @@ class Purchases(models.Model):
     mint_id = models.IntegerField(unique=False)
     item_desc = models.TextField()
     cost = models.DecimalField(max_digits=6, decimal_places=2)
-    category = models.ForeignKey('Category')
+    category = models.ForeignKey('SubCategory')
 
 
     def to_dict(self):
@@ -65,7 +65,7 @@ class Purchases(models.Model):
         purchase_dict['item_desc'] = self.item_desc
         purchase_dict['cost'] = self.cost
         purchase_dict['sub_category'] = self.category.__unicode__()
-        purchase_dict['super_category'] = self.category.superCategory
+        purchase_dict['super_category'] = self.category.superCategory.__unicode__()
         return purchase_dict
 
 class MyModelChoiceField(ModelChoiceField):

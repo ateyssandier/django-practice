@@ -30,7 +30,7 @@
   {
     "pk": 5,
     "model": "budgetapp.SuperCategory",
-    "fields": 
+    "fields": { 
         "name": "Coffee"
       }
   },
@@ -213,7 +213,7 @@
     "pk": 14,
     "fields": {
       "superCategory": 8,
-      "subCategory": "Mortgage",
+      "subCategory": "mortgage and rent",
       "mint_id": 1207
     }
   },
@@ -469,4 +469,13 @@
       "mint_id": 1041711
     }
   },
+  {
+    "model": "budgetapp.SubCategory",
+    "pk": 43,
+    "fields": {
+      "superCategory": 8,
+      "subCategory": "condo fee",
+      "mint_id": 1351249
+    }
+  }
 ]

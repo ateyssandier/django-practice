@@ -14,8 +14,8 @@ from csvprocessor.forms import UploadFileForm
 
 CATEGORY_MAP = {
     "electronics & software"  : "electronics",
-    "gas & fuel" : "gas",
-    "mortgage & rent" : "rent",
+    "gas & fuel" : "gas and fuel",
+    "mortgage & rent" : "mortgage and rent",
     "shopping" : "miscellaneous",
     "pharmacy" : "personal care",
     "gym membership" : "gym",
@@ -30,7 +30,9 @@ SKIP_MAP = ["credit card payment",
             "interest income", 
             "loan payment", 
             "transfer", 
+            "late fee",
             "cash & atm",
+            "auto down payment",
             "home down payment"]
 
 def uploadcsv(request):
@@ -99,12 +101,13 @@ def start_connection():
     return c
 
 
-def fetch_budget_for_month(month):
+def fetch_budget_for_month(start_date, end_date):
     c = start_connection()
     
-    
-    budget = c.getBudget()
-    minmonth =  budget["data"]["minmonth"]+1
+    start_date_string = str(start_date.month) +'/'+str(start_date.day)+'/'+str(start_date.year)
+    end_date_string = str(end_date.month) +'/'+str(end_date.day)+'/'+str(end_date.year)
+    budget = c.getBudgets(start_date_string, end_date_string)
+    minmonth = str(int(budget["data"]["minMonth"])+1)
     
     spending = budget["data"]["spending"][minmonth]
     income = budget["data"]["income"][minmonth]
@@ -118,23 +121,15 @@ def fetch_budget_for_month(month):
         category_id = unbudgeted_item["cat"]
         #category_name = categories[category_id]
         #unbudgeted_item.add(category_name)
+        unbudgeted_list.append(category_id)
         
     spending_budget = []
-    for budgeted_item in spending["bu"]
-        budget_item = {'category':budget_item["cat"], 'amount_budgeted':budget_item["bgt"]}
+    for budgeted_item in spending["bu"]:
+        budget_item = {'category':budgeted_item["cat"], 'amount_budgeted':budgeted_item["bgt"]}
+        spending_budget.append(budget_item)
     
     return {'income': income, 'unbudgeted_ids':unbudgeted_list, 'spending_budget':spending_budget}
         
-    
-    
-    category_dict = {}
-    for category in categories:
-       category_id = category["id"]
-       category_value = category["value"]
-       category_dict[category_id] = category_value
-       for child_cat in category["children"]:
-          category_dict[child_cat["id"]] = child_cat["value"]
-    return category_dict       
      
 
 
@@ -173,10 +168,10 @@ def fetch_transactions(request):
 
         date = transaction["date"]
         mint_id = transaction["id"]
-
+        today = datetime.date.today()  
         if len(date.split("/")) <= 1:
             date = date.split(' ')
-            new_date = datetime.datetime.strptime(date[1]+date[0]+'2013', "%d%b%Y").date()
+            new_date = datetime.datetime.strptime(date[1]+date[0]+str(today.year), "%d%b%Y").date()
             date = new_date.strftime("%Y-%m-%d")
         else:
             new_date = datetime.datetime.strptime(date, "%m/%d/%y").date()
@@ -308,7 +303,7 @@ def save_transaction(transaction):
 
         try:
             category_object = SubCategory.objects.get(subCategory=category)
-        except Category.DoesNotExist:
+        except SubCategory.DoesNotExist:
             import pdb; pdb.set_trace()
             category_object = SubCategory.objects.get(subCategory="unknown")
 
