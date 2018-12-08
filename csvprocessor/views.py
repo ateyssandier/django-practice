@@ -94,8 +94,8 @@ def handle_uploaded_file(f):
             save_transaction(new_transaction)
 
 def start_connection():
-    u = "atey188@gmail.com"
-    p = "A131681012a"
+    u = ""
+    p = ""
     c = MintCloudClient()
     c.login(u, p)
     return c
